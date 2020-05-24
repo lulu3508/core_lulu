@@ -64,7 +64,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                     }
                 });
                 if (!(link != "")) return [3, 4];
-                return [4, libs.request_getcaptcha(link, {}, "cheerio")];
+                return [4, libs.request_getcaptcha(link, {}, "cheerio", "sources_clouflare")];
             case 2:
                 parseDetail_1 = _a.sent();
                 sources_1 = [];
