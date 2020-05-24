@@ -94,7 +94,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 host = libs.string_getHost(embed);
                 if (fileSize == 0) {
                     if (hosts[host]) {
-                        hosts[host](embed, movieInfo, config, callback);
+                        hosts[host](embed, movieInfo, _merge(config, { provider: "123MOVIES" }), callback);
                     }
                     return [3, 7];
                 }

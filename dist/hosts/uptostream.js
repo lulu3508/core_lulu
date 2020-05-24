@@ -49,7 +49,7 @@ hosts["uptostream"] = function (url, movieInfo, config, callback) { return __awa
                     }, "json")];
             case 1:
                 parse = _a.sent();
-                console.log(token, "------------ TOKEN uptostream -----------");
+                console.log(token, config, "------------ TOKEN uptostream -----------");
                 data = parse.data;
                 data = data.sources ? data.sources : "";
                 sources = [];

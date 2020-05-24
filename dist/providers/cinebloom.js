@@ -115,7 +115,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                                 iframeLoadSource = parseLoadSource("iframe").attr("src");
                                                 host = libs.string_getHost(iframeLoadSource);
                                                 if (hosts[host]) {
-                                                    hosts[host](iframeLoadSource, movieInfo, config, callback);
+                                                    hosts[host](iframeLoadSource, movieInfo, _merge(config, { provider: "CINEBLOOM" }), callback);
                                                 }
                                                 return [2];
                                         }
@@ -132,7 +132,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 console.log(embed, fileSize, host, "embed--------------------");
                                 if (fileSize == 0) {
                                     if (hosts[host]) {
-                                        hosts[host](embed, movieInfo, config, callback);
+                                        hosts[host](embed, movieInfo, _merge(config, { provider: "CINEBLOOM" }), callback);
                                     }
                                 }
                                 else {
@@ -212,7 +212,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                                 iframeLoadSource = parseLoadSource("iframe").attr("src");
                                                 host = libs.string_getHost(iframeLoadSource);
                                                 if (hosts[host]) {
-                                                    hosts[host](iframeLoadSource, movieInfo, config, callback);
+                                                    hosts[host](iframeLoadSource, movieInfo, _merge(config, { provider: "CINEBLOOM" }), callback);
                                                 }
                                                 return [2];
                                         }
@@ -229,7 +229,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 console.log(embed, fileSize, host, "embed--------------------");
                                 if (fileSize == 0) {
                                     if (hosts[host]) {
-                                        hosts[host](url, movieInfo, config, callback);
+                                        hosts[host](url, movieInfo, _merge(config, { provider: "CINEBLOOM" }), callback);
                                     }
                                 }
                                 else {
