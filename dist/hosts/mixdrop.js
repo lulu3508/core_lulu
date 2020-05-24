@@ -35,70 +35,66 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-hosts["vidcloud9"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var vidCloudAjax, urlMatch, headers, json, _a, _b, _i, item, file, fileSize, _c, _d, _e, item, file, fileSize;
-    return __generator(this, function (_f) {
-        switch (_f.label) {
+hosts["mixdrop"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
+    var as, html, decrypt, token, number1, number2, decrypt2, iframe, embed, file, fileSize;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
-                vidCloudAjax = "https://vidcloud9.com/ajax.php";
-                urlMatch = url.replace("https://vidcloud9.com/load.php", vidCloudAjax);
-                urlMatch = url.replace("https://vidcloud9.com/streaming.php", vidCloudAjax);
-                headers = {
-                    "x-requested-with": "XMLHttpRequest"
+                as = function (p, a, c, k, e, d) {
+                    e = function (c) {
+                        return c.toString(36);
+                    };
+                    if (!''.replace(/^/, String)) {
+                        while (c--) {
+                            d[c.toString(a)] = k[c] || c.toString(a);
+                        }
+                        k = [function (e) {
+                                return d[e];
+                            }];
+                        e = function () {
+                            return '\\w+';
+                        };
+                        c = 1;
+                    }
+                    ;
+                    while (c--) {
+                        if (k[c]) {
+                            p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c]);
+                        }
+                    }
+                    return p;
                 };
-                return [4, libs.request_get(urlMatch, headers, "json")];
+                return [4, libs.request_get(url.replace("/f/", "/e/"), {})];
             case 1:
-                json = _f.sent();
-                _a = [];
-                for (_b in json.source)
-                    _a.push(_b);
-                _i = 0;
-                _f.label = 2;
+                html = _a.sent();
+                decrypt = html.match(/\) *\} *\} *return *p\} *\( *\'([^\']+) *\' *\, *([0-9]+) *\, *([0-9]+) *\, *\'([^\']+)/i);
+                token = decrypt ? decrypt[1] : "";
+                number1 = decrypt ? decrypt[2] : 0;
+                number2 = decrypt ? decrypt[3] : 0;
+                decrypt2 = decrypt ? decrypt[4] : "";
+                iframe = as(token, number1, number2, decrypt2.split('|'), 0, {});
+                console.log(token, number1, number2, "--------- MIDROP iframe ----------");
+                embed = iframe.match(/MDCore.wurl="([^\"]+)/i);
+                embed = embed ? embed[1].trim() : "";
+                console.log(embed, "--------- MIDROP EMBED ----------");
+                if (!embed) return [3, 3];
+                if (embed.indexOf("https://") == -1 && embed.indexOf("http://") == -1) {
+                    embed = embed.replace("//", "https://");
+                }
+                file = embed;
+                return [4, libs.request_getFileSize(file)];
             case 2:
-                if (!(_i < _a.length)) return [3, 5];
-                item = _a[_i];
-                file = json.source[item].file;
-                return [4, libs.request_getFileSize(file)];
-            case 3:
-                fileSize = _f.sent();
+                fileSize = _a.sent();
                 if (fileSize > 0) {
                     callback({
                         file: file,
                         size: fileSize,
-                        host: "VIDCLOUD9",
+                        host: "MIXDROP CDN",
                         provider: config.provider
                     });
                 }
-                _f.label = 4;
-            case 4:
-                _i++;
-                return [3, 2];
-            case 5:
-                _c = [];
-                for (_d in json.source_bk)
-                    _c.push(_d);
-                _e = 0;
-                _f.label = 6;
-            case 6:
-                if (!(_e < _c.length)) return [3, 9];
-                item = _c[_e];
-                file = json.source_bk[item].file;
-                return [4, libs.request_getFileSize(file)];
-            case 7:
-                fileSize = _f.sent();
-                if (fileSize > 0) {
-                    callback({
-                        file: file,
-                        size: fileSize,
-                        host: "VIDCLOUD9",
-                        provider: config.provider
-                    });
-                }
-                _f.label = 8;
-            case 8:
-                _e++;
-                return [3, 6];
-            case 9: return [2];
+                _a.label = 3;
+            case 3: return [2];
         }
     });
 }); };

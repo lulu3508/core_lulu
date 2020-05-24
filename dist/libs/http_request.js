@@ -120,16 +120,42 @@ libs.request_getRandomUserAgent = function () {
     var random = _.random(0, userAgent.length - 1);
     return userAgent[random];
 };
+libs.request_head = function (url, headers) {
+    if (url === void 0) { url = ""; }
+    if (headers === void 0) { headers = {}; }
+    return __awaiter(_this, void 0, void 0, function () {
+        var res, headerResponse, e_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4, fetch(url, {
+                            headers: headers,
+                            method: "HEAD"
+                        })];
+                case 1:
+                    res = _a.sent();
+                    headerResponse = res.headers.map;
+                    return [2, headerResponse];
+                case 2:
+                    e_1 = _a.sent();
+                    console.log("error_request_head", e_1);
+                    return [2, 0];
+                case 3: return [2];
+            }
+        });
+    });
+};
 libs.request_get = function (url, headers, type) {
     if (headers === void 0) { headers = {}; }
     if (type === void 0) { type = ""; }
     return __awaiter(_this, void 0, void 0, function () {
-        var res, e_1;
+        var res, e_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 5, , 6]);
-                    return [4, fetch(url, { headers: headers })];
+                    return [4, fetch(url, { headers: headers, "redirect": "follow" })];
                 case 1:
                     res = _a.sent();
                     if (!(type === "" || type === "html")) return [3, 3];
@@ -138,8 +164,8 @@ libs.request_get = function (url, headers, type) {
                 case 3: return [4, res.json()];
                 case 4: return [2, _a.sent()];
                 case 5:
-                    e_1 = _a.sent();
-                    console.log("error_request_get", e_1);
+                    e_2 = _a.sent();
+                    console.log("error_request_get", e_2);
                     return [2, ""];
                 case 6: return [2];
             }
@@ -151,7 +177,7 @@ libs.request_post = function (url, headers, body, type) {
     if (body === void 0) { body = {}; }
     if (type === void 0) { type = ""; }
     return __awaiter(_this, void 0, void 0, function () {
-        var res, e_2;
+        var res, e_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -169,22 +195,22 @@ libs.request_post = function (url, headers, body, type) {
                 case 3: return [4, res.json()];
                 case 4: return [2, _a.sent()];
                 case 5:
-                    e_2 = _a.sent();
-                    console.log("error_request_post", e_2);
+                    e_3 = _a.sent();
+                    console.log("error_request_post", e_3);
                     return [2, ""];
                 case 6: return [2];
             }
         });
     });
 };
-libs.request_detect = function (url, headers) {
+libs.request_detect = function (url, headers, key) {
     if (headers === void 0) { headers = {}; }
+    if (key === void 0) { key = "sources_captcha"; }
     return __awaiter(_this, void 0, void 0, function () {
-        var key, host, headersSetup, db, save, parse, headersConfig, mergeHeaders, html;
+        var host, headersSetup, db, save, parse, headersConfig, mergeHeaders, html;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    key = "sources_captcha";
                     host = libs.string_getHost(url);
                     headersSetup = _.merge({
                         "Connection": "keep-alive",
@@ -248,9 +274,33 @@ libs.request_detect = function (url, headers) {
         });
     });
 };
-libs.request_getcaptcha = function (url, headers, type) {
+libs.request_getcaptcha = function (url, headers, type, key) {
     if (headers === void 0) { headers = {}; }
     if (type === void 0) { type = ""; }
+    if (key === void 0) { key = "sources_captcha"; }
+    return __awaiter(_this, void 0, void 0, function () {
+        var detect, html;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4, libs.request_detect(url, headers, key)];
+                case 1:
+                    detect = _a.sent();
+                    return [4, libs.request_get(url, detect)];
+                case 2:
+                    html = _a.sent();
+                    if (type === "" || type === "html") {
+                        return [2, html];
+                    }
+                    return [2, cheerio.load(html)];
+            }
+        });
+    });
+};
+libs.request_postcaptcha = function (url, body, headers, type, key) {
+    if (body === void 0) { body = {}; }
+    if (headers === void 0) { headers = {}; }
+    if (type === void 0) { type = ""; }
+    if (key === void 0) { key = "sources_captcha"; }
     return __awaiter(_this, void 0, void 0, function () {
         var detect, html;
         return __generator(this, function (_a) {
@@ -258,7 +308,7 @@ libs.request_getcaptcha = function (url, headers, type) {
                 case 0: return [4, libs.request_detect(url, headers)];
                 case 1:
                     detect = _a.sent();
-                    return [4, libs.request_get(url, detect)];
+                    return [4, libs.request_post(url, body, detect)];
                 case 2:
                     html = _a.sent();
                     if (type === "" || type === "html") {
@@ -273,7 +323,7 @@ libs.request_getFileSize = function (url, headers) {
     if (url === void 0) { url = ""; }
     if (headers === void 0) { headers = {}; }
     return __awaiter(_this, void 0, void 0, function () {
-        var res, headerResponse, contentLength, e_3;
+        var res, headerResponse, contentLength, e_4;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -284,12 +334,12 @@ libs.request_getFileSize = function (url, headers) {
                         })];
                 case 1:
                     res = _a.sent();
-                    headerResponse = response.headers.map;
+                    headerResponse = res.headers.map;
                     contentLength = headerResponse["Content-Length"] || headerResponse["content-length"];
                     return [2, contentLength || 0];
                 case 2:
-                    e_3 = _a.sent();
-                    console.log("error_request_head", e_3);
+                    e_4 = _a.sent();
+                    console.log("error_request_head", e_4);
                     return [2, 0];
                 case 3: return [2];
             }

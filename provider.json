@@ -1,5 +1,13 @@
 {
 	"providers": [
-		"dist/providers/123movies.js"
+		"dist/providers/novamovie.js",
+		"dist/providers/123movies.js",
+		"dist/providers/cinebloom.js",
+		"dist/providers/cinewhale.js",
+		"dist/providers/extramovies.js",
+		"dist/providers/novamovie.js",
+		"dist/providers/seehd.js",
+		"dist/providers/series9.js",
+		"dist/providers/soap2day.js"
 	]
 }

@@ -35,8 +35,49 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        return [2];
+hosts["fembed"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
+    var vidCloudAjax, urlMatch, headers, body, json, _a, _b, _i, item, file, fileSize;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0:
+                vidCloudAjax = "https://feurl.com/api/source/";
+                urlMatch = url.replace("https://www.fembed.com/v/", vidCloudAjax);
+                urlMatch = urlMatch.replace(/\#.*/i, "");
+                headers = {
+                    "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                };
+                body = {
+                    r: "",
+                    d: "feurl.com"
+                };
+                return [4, libs.request_post(urlMatch, body, headers, "json")];
+            case 1:
+                json = _c.sent();
+                _a = [];
+                for (_b in json.data)
+                    _a.push(_b);
+                _i = 0;
+                _c.label = 2;
+            case 2:
+                if (!(_i < _a.length)) return [3, 5];
+                item = _a[_i];
+                file = json.data[item].file;
+                return [4, libs.request_getFileSize(file)];
+            case 3:
+                fileSize = _c.sent();
+                if (fileSize > 0) {
+                    callback({
+                        file: file,
+                        size: fileSize,
+                        host: "FEMBED CDN",
+                        provider: config.provider
+                    });
+                }
+                _c.label = 4;
+            case 4:
+                _i++;
+                return [3, 2];
+            case 5: return [2];
+        }
     });
 }); };

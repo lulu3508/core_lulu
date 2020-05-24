@@ -1,3 +1,15 @@
 {
-	"hosts": []
+	"hosts": [
+		"dist/hosts/vidcloud9.js",
+		"dist/hosts/fembed.js",
+		"dist/hosts/vidlox.js",
+		"dist/hosts/mixdrop.js",
+		"dist/hosts/clipwatching.js",
+		"dist/hosts/videobin.js",
+		"dist/hosts/vidoza.js",
+		"dist/hosts/vid215.js",
+		"dist/hosts/testaway.js",
+		"dist/hosts/uptostream.js",
+		"dist/hosts/vup.js"
+	]
 }

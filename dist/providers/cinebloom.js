@@ -36,15 +36,220 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var url, html;
+    var url, link, parse, parseDetail_1, sources_1, arrMap, linkTv_1, arrMap;
+    var _this = this;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                url = "https://www.cinebloom.org/searched?q=" + slugify(movieInfo.title, { lower: true, replacement: '+' });
-                return [4, libs.request_getcaptcha(url)];
+                url = "";
+                if (movieInfo.type == "movie") {
+                    url = "https://www.cinebloom.org/searched/movies?q=" + slugify(movieInfo.title, { lower: true, replacement: '+' });
+                }
+                else {
+                    url = "https://www.cinebloom.org/searched/tvshows?q=" + slugify(movieInfo.title, { lower: true, replacement: '+' });
+                }
+                link = "";
+                return [4, libs.request_getcaptcha(url, {}, "cheerio")];
             case 1:
-                html = _a.sent();
-                return [2];
+                parse = _a.sent();
+                console.log(parse(".grid-view.clearfix li").length, '--------- CINEBLOOM SEARCH PARSE ------');
+                parse(".grid-view.clearfix li").each(function (key, item) {
+                    var href = parse(item).find("a").first().attr("href");
+                    var title = parse(item).find(".information .title strong").text();
+                    var year = title.match(/\(([0-9]+)/i);
+                    year = year ? year[1] : 0;
+                    title = title.replace(/\( *[0-9]+ *\)/i, "").trim();
+                    console.log(href, title, year, slugify(movieInfo.title, { lower: true }), slugify(title.trim(), { lower: true }), "---------- CINEBLOOM INFO MOVIE -----------");
+                    if (slugify(movieInfo.title, { lower: true }) == slugify(title.trim(), { lower: true })) {
+                        if (movieInfo.type == "movie" && year == movieInfo.year) {
+                            link = href;
+                        }
+                        if (movieInfo.type == "tv") {
+                            link = href;
+                        }
+                    }
+                });
+                console.log(link, "--------------- CINEBLOOM LINK -----------");
+                if (!(link != "")) return [3, 6];
+                return [4, libs.request_getcaptcha(link, {}, "cheerio")];
+            case 2:
+                parseDetail_1 = _a.sent();
+                if (!(movieInfo.type == "movie")) return [3, 4];
+                sources_1 = [];
+                console.log(parseDetail_1(".embed-details").length, "--------------- CINEBLOOM EMBED -----------");
+                parseDetail_1(".embed-details").each(function (key, item) {
+                    var href = parseDetail_1(item).find("a").attr("href");
+                    sources_1.push(href);
+                });
+                console.log(sources_1, "--------------- CINEBLOOM EMBED -----------");
+                arrMap = sources_1.map(function (embed) { return __awaiter(_this, void 0, void 0, function () {
+                    var loadSource_1, htmlCinema, token_1, parseCinema_1, sourceCinema_1, arrCinema, fileSize, host;
+                    var _this = this;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                if (!embed) return [3, 5];
+                                if (!(embed.toLowerCase().trim().indexOf("cinebloom") != -1)) return [3, 3];
+                                loadSource_1 = "https://oload.party/loadsource.php";
+                                return [4, libs.request_getcaptcha(embed, {})];
+                            case 1:
+                                htmlCinema = _a.sent();
+                                token_1 = htmlCinema.match(/token *\= *\"([^\"]+)/i);
+                                token_1 = token_1 ? token_1[1] : "";
+                                parseCinema_1 = cheerio.load(htmlCinema);
+                                sourceCinema_1 = [];
+                                console.log(htmlCinema, parseCinema_1(".item").length, embed, "--------- CINEBLOOM ITEM EMBED ---------");
+                                parseCinema_1(".item").each(function (keyCinema, itemCinema) {
+                                    var server = parseCinema_1(itemCinema).attr("data-server");
+                                    sourceCinema_1.push(loadSource_1 + "?server=" + server + "&token=" + token_1);
+                                });
+                                console.log(sourceCinema_1, "------------- CINEBLOOM SOURCE CINEMA EMBED ---------");
+                                arrCinema = sourceCinema_1.map(function (itemCinema) { return __awaiter(_this, void 0, void 0, function () {
+                                    var htmlLoadSource, parseLoadSource, iframeLoadSource, host;
+                                    return __generator(this, function (_a) {
+                                        switch (_a.label) {
+                                            case 0: return [4, libs.request_get(itemCinema, {})];
+                                            case 1:
+                                                htmlLoadSource = _a.sent();
+                                                parseLoadSource = cheerio.load(htmlLoadSource);
+                                                iframeLoadSource = parseLoadSource("iframe").attr("src");
+                                                host = libs.string_getHost(iframeLoadSource);
+                                                if (hosts[host]) {
+                                                    hosts[host](iframeLoadSource, movieInfo, config, callback);
+                                                }
+                                                return [2];
+                                        }
+                                    });
+                                }); });
+                                return [4, Promise.all(arrCinema)];
+                            case 2:
+                                _a.sent();
+                                return [3, 5];
+                            case 3: return [4, libs.request_getFileSize(embed)];
+                            case 4:
+                                fileSize = _a.sent();
+                                host = libs.string_getHost(embed);
+                                console.log(embed, fileSize, host, "embed--------------------");
+                                if (fileSize == 0) {
+                                    if (hosts[host]) {
+                                        hosts[host](embed, movieInfo, config, callback);
+                                    }
+                                }
+                                else {
+                                    callback({
+                                        file: embed,
+                                        size: fileSize,
+                                        host: host.toUpperCase(),
+                                        provider: "CINEBLOOM"
+                                    });
+                                }
+                                _a.label = 5;
+                            case 5: return [2];
+                        }
+                    });
+                }); });
+                return [4, Promise.all(arrMap)];
+            case 3:
+                _a.sent();
+                _a.label = 4;
+            case 4:
+                if (!(movieInfo.type == "tv")) return [3, 6];
+                linkTv_1 = [];
+                console.log(parseDetail_1(".season").length, "--------------- CINEBLOOM SEASON -----------");
+                parseDetail_1(".season").each(function (keySeason, itemSeason) {
+                    var season = parseDetail_1(itemSeason).find(".title").text();
+                    season = season.toLowerCase().match(/season *([0-9]+)/i);
+                    season = season ? season[1] : 0;
+                    console.log(season, movieInfo.season, "--------------- CINEBLOOM SEASON INFO -----------");
+                    if (season == movieInfo.season) {
+                        console.log(parseDetail_1(itemSeason).length, "--------------- CINEBLOOM episode -----------");
+                        parseDetail_1(itemSeason).find(".episodes li").each(function (keyEpisode, itemEpisode) {
+                            var episode = parseDetail_1(itemEpisode).find("h5").text();
+                            episode = episode.toLowerCase().match(/ep *([0-9]+)/i);
+                            episode = episode ? episode[1] : 0;
+                            console.log(episode, movieInfo.episode, "--------------- CINEBLOOM episode info -----------");
+                            if (episode == movieInfo.episode) {
+                                parseDetail_1(itemEpisode).find(".streams-list li").each(function (keyS, itemS) {
+                                    var hrefTv = parseDetail_1(itemS).find("a").attr("href");
+                                    linkTv_1.push(hrefTv);
+                                });
+                            }
+                        });
+                    }
+                });
+                console.log(linkTv_1, "--------------- CINEBLOOM episode embed link -----------");
+                arrMap = linkTv_1.map(function (embed) { return __awaiter(_this, void 0, void 0, function () {
+                    var loadSource_2, htmlCinema, token_2, parseCinema_2, sourceCinema_2, arrCinema, fileSize, host;
+                    var _this = this;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                if (!embed) return [3, 5];
+                                console.log(embed, embed.toLowerCase().trim().indexOf("cinebloom") != -1, "--------- CINEBLOOM ITEM OLOAD ---------");
+                                if (!(embed.toLowerCase().trim().indexOf("cinebloom") != -1)) return [3, 3];
+                                loadSource_2 = "https://oload.party/loadsource.php";
+                                return [4, libs.request_getcaptcha(embed, {})];
+                            case 1:
+                                htmlCinema = _a.sent();
+                                token_2 = htmlCinema.match(/token *\= *\"([^\"]+)/i);
+                                token_2 = token_2 ? token_2[1] : "";
+                                parseCinema_2 = cheerio.load(htmlCinema);
+                                sourceCinema_2 = [];
+                                console.log(parseCinema_2(".item").length, "--------- CINEBLOOM ITEM EMBED ---------");
+                                parseCinema_2(".item").each(function (keyCinema, itemCinema) {
+                                    var server = parseCinema_2(itemCinema).attr("data-server");
+                                    sourceCinema_2.push(loadSource_2 + "?server=" + server + "&token=" + token_2);
+                                });
+                                console.log(sourceCinema_2, "------------- CINEBLOOM SOURCE CINEMA EMBED ---------");
+                                arrCinema = sourceCinema_2.map(function (itemCinema) { return __awaiter(_this, void 0, void 0, function () {
+                                    var htmlLoadSource, parseLoadSource, iframeLoadSource, host;
+                                    return __generator(this, function (_a) {
+                                        switch (_a.label) {
+                                            case 0: return [4, libs.request_get(itemCinema, {})];
+                                            case 1:
+                                                htmlLoadSource = _a.sent();
+                                                parseLoadSource = cheerio.load(htmlLoadSource);
+                                                iframeLoadSource = parseLoadSource("iframe").attr("src");
+                                                host = libs.string_getHost(iframeLoadSource);
+                                                if (hosts[host]) {
+                                                    hosts[host](iframeLoadSource, movieInfo, config, callback);
+                                                }
+                                                return [2];
+                                        }
+                                    });
+                                }); });
+                                return [4, Promise.all(arrCinema)];
+                            case 2:
+                                _a.sent();
+                                return [3, 5];
+                            case 3: return [4, libs.request_getFileSize(embed)];
+                            case 4:
+                                fileSize = _a.sent();
+                                host = libs.string_getHost(embed);
+                                console.log(embed, fileSize, host, "embed--------------------");
+                                if (fileSize == 0) {
+                                    if (hosts[host]) {
+                                        hosts[host](url, movieInfo, config, callback);
+                                    }
+                                }
+                                else {
+                                    callback({
+                                        file: embed,
+                                        size: fileSize,
+                                        host: host.toUpperCase(),
+                                        provider: "CINEBLOOM"
+                                    });
+                                }
+                                _a.label = 5;
+                            case 5: return [2];
+                        }
+                    });
+                }); });
+                return [4, Promise.all(arrMap)];
+            case 5:
+                _a.sent();
+                _a.label = 6;
+            case 6: return [2];
         }
     });
 }); };

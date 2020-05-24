@@ -35,77 +35,51 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var url, searchResult, parse, link, parseDetail_1, sources_1, arrMap;
+hosts["uptostream"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
+    var token, urlApi, parse, data, sources, arrMap;
     var _this = this;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                url = "https://api.ocloud.stream/series/ajax/suggest_search?keyword=" + slugify(movieInfo.title, { lower: true, replacement: "+" }) + "&img=%2F%2Fcdn.themovieseries.net%2F&link_web=https%3A%2F%2Fwww8.series9.to%2F";
-                return [4, libs.request_get(url, {}, "json")];
+                token = url.match(/\/iframe\/(.*)/i);
+                token = token ? token[1] : "";
+                urlApi = "https://uptostream.com/api/streaming/source/get?token=null&file_code=" + token;
+                return [4, libs.request_get(urlApi, {
+                        "user-agent": libs.request_getRandomUserAgent()
+                    }, "json")];
             case 1:
-                searchResult = _a.sent();
-                searchResult = searchResult.content;
-                parse = cheerio.load(searchResult);
-                link = "";
-                parse("a").each(function (key, item) {
-                    var title = parse(item).text();
-                    var href = parse(item).attr("href");
-                    var season = title.toLowerCase().match(/season *([0-9]+)/i);
-                    season = season ? season[1] : 0;
-                    title = title.toLowerCase().replace(/\- *season *[0-9]+/i, "").trim();
-                    if (slugify(movieInfo.title, { lower: true }) == slugify(title.trim(), { lower: true })) {
-                        if (movieInfo.type == "movie") {
-                            link = href;
-                        }
-                        if (movieInfo.type == "tv" && season == movieInfo.season) {
-                            link = href;
-                        }
-                    }
-                });
-                if (!(link != "")) return [3, 4];
-                return [4, libs.request_getcaptcha(link, {}, "cheerio")];
-            case 2:
-                parseDetail_1 = _a.sent();
-                sources_1 = [];
-                parseDetail_1("a.btn-eps").each(function (key, item) {
-                    var href = parseDetail_1(item).attr("href");
-                    sources_1.push(href);
-                });
-                arrMap = sources_1.map(function (embed) { return __awaiter(_this, void 0, void 0, function () {
-                    var fileSize, host;
+                parse = _a.sent();
+                console.log(token, "------------ TOKEN uptostream -----------");
+                data = parse.data;
+                data = data.sources ? data.sources : "";
+                sources = [];
+                data = data.replace(/var *sources *\= *\[ *\] *\;*\;*/im, "");
+                eval(data);
+                console.log(sources, "------------ DIRECT uptostream -----------");
+                arrMap = sources.map(function (file) { return __awaiter(_this, void 0, void 0, function () {
+                    var fileSize;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
-                            case 0:
-                                if (!embed) return [3, 2];
-                                return [4, libs.request_getFileSize(embed)];
+                            case 0: return [4, libs.request_getFileSize(file.src)];
                             case 1:
                                 fileSize = _a.sent();
-                                host = libs.string_getHost(embed);
-                                console.log(embed, fileSize, host, "embed--------------------");
-                                if (fileSize == 0) {
-                                    if (hosts[host]) {
-                                        hosts[host](embed, movieInfo, config, callback);
-                                    }
-                                }
-                                else {
+                                if (fileSize > 0) {
                                     callback({
-                                        file: embed,
+                                        file: file.src,
                                         size: fileSize,
-                                        host: host.toUpperCase(),
-                                        provider: "SERIES9"
+                                        host: "STREAMING",
+                                        quality: "" + file.res,
+                                        provider: config.provider
                                     });
                                 }
-                                _a.label = 2;
-                            case 2: return [2];
+                                return [2];
                         }
                     });
                 }); });
                 return [4, Promise.all(arrMap)];
-            case 3:
+            case 2:
                 _a.sent();
-                _a.label = 4;
-            case 4: return [2];
+                return [2];
         }
     });
 }); };

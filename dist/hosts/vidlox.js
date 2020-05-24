@@ -35,8 +35,40 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
+hosts["vidlox"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
+    var html, source, _i, source_1, item, file, fileSize;
     return __generator(this, function (_a) {
-        return [2];
+        switch (_a.label) {
+            case 0: return [4, libs.request_get(url, {
+                    "user-agent": libs.request_getRandomUserAgent()
+                }, "html")];
+            case 1:
+                html = _a.sent();
+                source = html.match(/sources *\: *([^\]]+)/i);
+                source = source ? source[1] + "]" : "[]";
+                source = JSON.parse(source);
+                _i = 0, source_1 = source;
+                _a.label = 2;
+            case 2:
+                if (!(_i < source_1.length)) return [3, 5];
+                item = source_1[_i];
+                file = item;
+                return [4, libs.request_getFileSize(file)];
+            case 3:
+                fileSize = _a.sent();
+                if (fileSize > 0) {
+                    callback({
+                        file: file,
+                        size: fileSize,
+                        host: "VIDLOX",
+                        provider: config.provider
+                    });
+                }
+                _a.label = 4;
+            case 4:
+                _i++;
+                return [3, 2];
+            case 5: return [2];
+        }
     });
 }); };

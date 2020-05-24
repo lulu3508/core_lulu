@@ -36,20 +36,57 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var url, html, _a, _b, _c;
-    return __generator(this, function (_d) {
-        switch (_d.label) {
+    var url, parse, link, matchTv, replaceEpisode, sources, parseDetail_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
                 url = "http://www.seehd.pl/?s=" + slugify(movieInfo.title, { lower: true, replacement: "+" });
-                return [4, libs.request_getcaptcha(url)];
+                return [4, libs.request_getcaptcha(url, {}, "cheerio")];
             case 1:
-                html = _d.sent();
-                _b = (_a = console).log;
-                _c = [html];
-                return [4, libs.db_get("sources_captcha")];
+                parse = _a.sent();
+                link = "";
+                parse(".movie.big").each(function (key, item) {
+                    var title = parse(item).find(".thumb_title").text();
+                    var href = parse(item).find(".post_thumb a").attr("href");
+                    var slugTitle = slugify(title, { lower: true, replacement: "-" });
+                    var slugTileInfo = slugify(movieInfo.title, { lower: true, replacement: "-" });
+                    if (slugTitle.indexOf(slugTileInfo) !== -1) {
+                        link = href;
+                    }
+                });
+                if (!(link != "")) return [3, 3];
+                matchTv = link.match(/\-season\-[0-9]+\-episode\-[0-9]+/i);
+                if (movieInfo.type == "tv" && matchTv) {
+                    replaceEpisode = "-season-" + movieInfo.season + "-episode-" + movieInfo.episode;
+                    link = link.replace(/\-season\-[0-9]+\-episode\-[0-9]+/i, replaceEpisode);
+                }
+                sources = [];
+                return [4, libs.request_getcaptcha(link, {}, "cheerio")];
             case 2:
-                _b.apply(_a, _c.concat([_d.sent(), "hahaha"]));
-                return [2];
+                parseDetail_1 = _a.sent();
+                parseDetail_1(".tabcontent iframe").each(function (keyDetail, itemDetail) {
+                    var embed = parseDetail_1(itemDetail).attr("src") || parseDetail_1(itemDetail).attr("SRC");
+                    if (embed) {
+                        var fileSize = yield libs.request_getFileSize(embed);
+                        var host = libs.string_getHost(embed);
+                        console.log(embed, fileSize, host, "embed--------------------");
+                        if (fileSize == 0) {
+                            if (hosts[host]) {
+                                hosts[host](embed, movieInfo, config, callback);
+                            }
+                        }
+                        else {
+                            callback({
+                                file: embed,
+                                size: fileSize,
+                                host: host.toUpperCase(),
+                                provider: "SEEHD"
+                            });
+                        }
+                    }
+                });
+                _a.label = 3;
+            case 3: return [2];
         }
     });
 }); };

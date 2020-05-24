@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var url, parse, link, parseDetail, matchUrl, _i, matchUrl_1, item, url_1, fileSize, host;
+    var url, parse, link, parseDetail, matchUrl, _i, matchUrl_1, item, embed, fileSize, host, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -59,15 +59,13 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                         }
                         else if (!quanlity && movieInfo.type == "tv") {
                             var episode = parse(item).find(".eps div").text();
-                            console.log(movieInfo, season, episode, 'debuggggggggggg---------');
                             if (season == movieInfo.season && episode == movieInfo.episode) {
                                 link = href;
                             }
                         }
                     }
                 });
-                console.log(link, "link-----------------");
-                if (!(link != "")) return [3, 6];
+                if (!(link != "")) return [3, 8];
                 link = "https://123movieshub.vip" + link;
                 return [4, libs.request_getcaptcha(link, {}, 'html')];
             case 2:
@@ -80,34 +78,41 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 _i = 0, matchUrl_1 = matchUrl;
                 _a.label = 3;
             case 3:
-                if (!(_i < matchUrl_1.length)) return [3, 6];
+                if (!(_i < matchUrl_1.length)) return [3, 8];
                 item = matchUrl_1[_i];
-                url_1 = item.replace(/link_server_[A-z0-9_-]+ *\= *\"/i, "").trim();
-                if (url_1.indexOf("https://") == -1 || url_1.indexOf("http://") == -1) {
-                    url_1 = url_1.replace("//", "https://");
-                }
-                return [4, libs.request_getFileSize(url_1)];
+                _a.label = 4;
             case 4:
+                _a.trys.push([4, 6, , 7]);
+                embed = item.replace(/link_server_[A-z0-9_-]+ *\= *\"/i, "").trim();
+                console.log(embed, "embed--------------------");
+                if (embed.indexOf("https://") == -1 && embed.indexOf("http://") == -1) {
+                    embed = embed.replace("//", "https://");
+                }
+                return [4, libs.request_getFileSize(embed)];
+            case 5:
                 fileSize = _a.sent();
-                host = libs.string_getHost(url_1);
-                console.log(url_1, fileSize, host, "embed--------------------");
+                host = libs.string_getHost(embed);
                 if (fileSize == 0) {
                     if (hosts[host]) {
-                        hosts[host](url_1, movieInfo, config, callback);
-                        return [2];
+                        hosts[host](embed, movieInfo, config, callback);
                     }
+                    return [3, 7];
                 }
                 callback({
-                    file: url_1,
+                    file: embed,
                     size: fileSize,
                     host: host.toUpperCase(),
                     provider: "123MOVIES"
                 });
-                _a.label = 5;
-            case 5:
+                return [3, 7];
+            case 6:
+                e_1 = _a.sent();
+                console.log(e_1, "error 123movies");
+                return [3, 7];
+            case 7:
                 _i++;
                 return [3, 3];
-            case 6: return [2];
+            case 8: return [2];
         }
     });
 }); };
