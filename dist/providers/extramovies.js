@@ -146,7 +146,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                                 if (resultMirror.msg) {
                                                     hostMirror = libs.string_getHost(resultMirror.msg);
                                                     if (hosts[hostMirror]) {
-                                                        hosts[hostMirror](resultMirror.msg, movieInfo, _merge(config, { provider: "EXTRAMOVIE" }), callback);
+                                                        hosts[hostMirror](resultMirror.msg, movieInfo, _.merge(config, { provider: "EXTRAMOVIE" }), callback);
                                                     }
                                                 }
                                                 return [2];
@@ -159,8 +159,8 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 return [3, 6];
                             case 5:
                                 if (hosts[host]) {
-                                    console.log(_merge(config, { provider: "EXTRAMOVIE" }), "---------- config extra movies---------");
-                                    hosts[host](iframe, movieInfo, _merge(config, { provider: "EXTRAMOVIE" }), callback);
+                                    console.log(_.merge(config, { provider: "EXTRAMOVIE" }), "---------- config extra movies---------");
+                                    hosts[host](iframe, movieInfo, _.merge(config, { provider: "EXTRAMOVIE" }), callback);
                                 }
                                 _a.label = 6;
                             case 6: return [3, 8];

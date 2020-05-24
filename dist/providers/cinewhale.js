@@ -102,7 +102,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 console.log(embed, fileSize, host, "embed--------------------");
                                 if (fileSize == 0) {
                                     if (hosts[host]) {
-                                        hosts[host](embed, movieInfo, _merge(config, { provider: "CINEWHALE" }), callback);
+                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "CINEWHALE" }), callback);
                                     }
                                 }
                                 else {
@@ -158,7 +158,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 console.log(embed, fileSize, host, "embed--------------------");
                                 if (fileSize == 0) {
                                     if (hosts[host]) {
-                                        hosts[host](embed, movieInfo, _merge(config, { provider: "CINEWHALE" }), callback);
+                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "CINEWHALE" }), callback);
                                     }
                                 }
                                 else {
