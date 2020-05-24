@@ -1,6 +1,5 @@
 {
 	"providers": [
-		"dist/providers/novamovie.js",
 		"dist/providers/123movies.js",
 		"dist/providers/cinebloom.js",
 		"dist/providers/cinewhale.js",
