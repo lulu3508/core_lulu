@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var url, parse, links, parseDetail, id, urlPostAjax, postRequest, parseRequest, source, arrMap, linkTv_1, id, postEpisode, parseRequestEpisode, source, arrMap;
+    var url, parse, link, parseDetail, id, urlPostAjax, postRequest, parseRequest, source, arrMap, linkTv_1, id, postEpisode, parseRequestEpisode, source, arrMap;
     var _this = this;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -45,7 +45,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 return [4, libs.request_getcaptcha(url, {}, "cheerio", "sources_clouflare")];
             case 1:
                 parse = _a.sent();
-                links = "";
+                link = "";
                 parse(".col-lg-2.col-md-3.col-sm-4.col-xs-6.no-padding").each(function (key, item) {
                     var href = parse(item).find("h5 a").first().attr("href");
                     var title = parse(item).find("h5 a").first().text();
@@ -66,7 +66,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 id = parseDetail("#hId").attr("value");
                 urlPostAjax = "https://soap2day.to/home/index/GetMInfoAjax";
                 if (!(movieInfo.type == "movie")) return [3, 5];
-                return [4, libs.request_postcaptcha(urlPostAjax, { pass: id }, {})];
+                return [4, libs.request_postcaptcha(urlPostAjax, { pass: id }, {}, "sources_clouflare")];
             case 3:
                 postRequest = _a.sent();
                 parseRequest = JSON.parse(postRequest);
