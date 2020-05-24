@@ -243,7 +243,7 @@ libs.request_detect = function (url, headers, key) {
                     return [4, libs.db_remove(key)];
                 case 4:
                     _a.sent();
-                    return [4, libs.db_store(key, parse)];
+                    return [4, libs.db_store(key, JSON.stringify(parse))];
                 case 5:
                     _a.sent();
                     return [2, headersSetup];
@@ -265,7 +265,7 @@ libs.request_detect = function (url, headers, key) {
                     return [4, libs.db_remove(key)];
                 case 8:
                     _a.sent();
-                    return [4, libs.db_store(key, parse)];
+                    return [4, libs.db_store(key, JSON.stringify(parse))];
                 case 9:
                     _a.sent();
                     return [2, headersSetup];
