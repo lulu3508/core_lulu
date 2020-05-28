@@ -155,7 +155,7 @@ libs.request_get = function (url, headers, type) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 5, , 6]);
-                    return [4, fetch(url, { headers: headers, "redirect": "follow" })];
+                    return [4, fetch(url, { headers: headers })];
                 case 1:
                     res = _a.sent();
                     if (!(type === "" || type === "html")) return [3, 3];
@@ -207,7 +207,7 @@ libs.request_detect = function (url, headers, key) {
     if (headers === void 0) { headers = {}; }
     if (key === void 0) { key = "sources_captcha"; }
     return __awaiter(_this, void 0, void 0, function () {
-        var host, headersSetup, db, save, parse, headersConfig, mergeHeaders, html;
+        var host, headersSetup, headersConfig, mergeHeaders, html;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -218,58 +218,32 @@ libs.request_detect = function (url, headers, key) {
                         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
                         "Accept-Language": "en-US,en;q=0.8",
                     }, headers);
-                    return [4, libs.db_get(key)];
-                case 1:
-                    db = _a.sent();
-                    if (!!db) return [3, 3];
-                    save = {};
-                    save[host] = {
-                        is_verify: false,
-                        url: url,
-                        headers: {}
-                    };
-                    return [4, libs.db_store(key, save)];
-                case 2:
-                    _a.sent();
-                    return [2, headersSetup];
-                case 3:
-                    parse = JSON.parse(db);
-                    if (!!parse[host]) return [3, 6];
-                    parse[host] = {
-                        is_verify: false,
-                        url: url,
-                        headers: {}
-                    };
-                    return [4, libs.db_remove(key)];
-                case 4:
-                    _a.sent();
-                    return [4, libs.db_store(key, parse)];
-                case 5:
-                    _a.sent();
-                    return [2, headersSetup];
-                case 6:
-                    if (parse[host]["is_verify"] === false) {
+                    if (!sourceCaptcha[host]) {
+                        console.log(host, "----------sourceCaptcha-----------");
+                        sourceCaptcha[host] = {
+                            is_verify: false,
+                            url: url,
+                            headers: {}
+                        };
                         return [2, headersSetup];
                     }
-                    headersConfig = parse[host]["headers"];
+                    if (sourceCaptcha[host]["is_verify"] === false) {
+                        return [2, headersSetup];
+                    }
+                    headersConfig = sourceCaptcha[host]["headers"];
                     mergeHeaders = _.merge(headersSetup, headersConfig);
                     return [4, libs.request_get(url, mergeHeaders)];
-                case 7:
+                case 1:
                     html = _a.sent();
-                    if (!(!html || html.indexOf("captcha-bypass") !== -1)) return [3, 10];
-                    parse[host] = {
-                        is_verify: false,
-                        url: url,
-                        headers: {}
-                    };
-                    return [4, libs.db_remove(key)];
-                case 8:
-                    _a.sent();
-                    return [4, libs.db_store(key, parse)];
-                case 9:
-                    _a.sent();
-                    return [2, headersSetup];
-                case 10: return [2, mergeHeaders];
+                    if (!html || html.indexOf("captcha-bypass") !== -1) {
+                        sourceCaptcha[host] = {
+                            is_verify: false,
+                            url: url,
+                            headers: {}
+                        };
+                        return [2, headersSetup];
+                    }
+                    return [2, mergeHeaders];
             }
         });
     });
