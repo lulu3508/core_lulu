@@ -259,6 +259,7 @@ libs.request_getcaptcha = function (url, headers, type, key) {
                 case 0: return [4, libs.request_detect(url, headers, key)];
                 case 1:
                     detect = _a.sent();
+                    console.log(detect, "---------------- HEADER GET CAPTCHA --------------");
                     return [4, libs.request_get(url, detect)];
                 case 2:
                     html = _a.sent();
