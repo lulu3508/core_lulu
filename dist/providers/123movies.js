@@ -59,6 +59,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                         }
                         else if (!quanlity && movieInfo.type == "tv") {
                             var episode = parse(item).find(".eps div").text();
+                            console.log(title, href, season, episode, "------------ 123MOVIES SEASON EPISODE ------------");
                             if (season == movieInfo.season && episode == movieInfo.episode) {
                                 link = href;
                             }
