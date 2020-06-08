@@ -7,6 +7,8 @@
 		"dist/providers/novamovie.js",
 		"dist/providers/seehd.js",
 		"dist/providers/series9.js",
-		"dist/providers/soap2day.js"
+		"dist/providers/soap2day.js",
+		"dist/providers/topnow.js",
+		"dist/providers/xmovies8.js"
 	]
 }

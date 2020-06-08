@@ -45,7 +45,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
             case 1:
                 parse = _a.sent();
                 link = "";
-                console.log(parse(".wrapper .col2 ul li").length, parse.html(), '------- LENGTH SEARCH 123movies ------');
+                console.log(parse(".wrapper .col2 ul li").length, '------- LENGTH SEARCH 123movies ------');
                 parse(".wrapper .col2 ul li").each(function (key, item) {
                     var title = parse(item).find("figure a").first().find("h3").text();
                     var season = title.toLowerCase().match(/\- *season *([0-9]+)/i);

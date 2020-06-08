@@ -36,70 +36,67 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var url, parseSearch, link, parseDetail_1, linkServers_1, episodeId_1, arrMap;
+    var urlSearch, htmlSearch, parseSearch, link, htmlDetail, parseDetail_1, sources_1, urlAjax_1, maps;
     var _this = this;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                url = "https://xmovies8.si/movie/search/" + slugify(movieInfo.title, { lower: true, replacement: "+" });
-                return [4, libs.request_getcaptcha(url, {}, "cheerio", "sources_clouflare")];
+                if (movieInfo.type == "tv") {
+                    return [2];
+                }
+                urlSearch = "https://openloadmovies.ch/?s=" + slugify(movieInfo.title, { lower: true, replacement: '+' });
+                return [4, libs.request_get(url)];
             case 1:
-                parseSearch = _a.sent();
+                htmlSearch = _a.sent();
+                parseSearch = cheerio.load(htmlSearch);
                 link = "";
-                console.log(parseSearch(".ml-item").length, '---------- XMOVIES8 LENGTH SEARCH ----------');
-                parseSearch(".ml-item").each(function (keySearch, itemSearch) {
-                    var title = parseSearch(itemSearch).find(".movie_item_title").text();
-                    var href = parseSearch(itemSearch).find(".ml-mask.jt").attr("href");
+                parseSearch(".result-item").each(function (keySearch, itemSearch) {
+                    var title = parseSearch(itemSearch).find('.title a').text();
+                    var href = parseSearch(itemSearch).find('.title a').attr('href');
                     var year = title.match(/\( *([0-9]+)/i);
                     year = year ? year[1] : 0;
                     title = title.replace(/\( *[0-9]+ *\)/i, "").trim();
-                    var season = title.toLowerCase().match(/\- *season *([0-9]+)/i);
-                    season = season ? season[1] : 0;
-                    title = title.replacement().replace(/\- *season *[0-9]+/i, "").trim();
-                    var episode = parseSearch(itemSearch).find(".mli-eps i").text();
-                    console.log(title, href, year, season, episode, "----------- XMOVIES8 INFO SEARCH -----------");
                     if (slugify(movieInfo.title, { lower: true }) == slugify(title.trim(), { lower: true })) {
-                        if (movieInfo.type == "movie" && year == movieInfo.year) {
-                            link = href;
-                        }
-                        if (movieInfo.type == "tv" && season == movieInfo.season && episode == movieInfo.episode) {
+                        if (year == movieInfo.year) {
                             link = href;
                         }
                     }
                 });
-                console.log(link, "--------------- XMOVIES8 LINK ----------");
                 if (!(link != "")) return [3, 4];
-                link = link.replace(".html", "/watching.html");
-                return [4, libs.request_getcaptcha(link, {}, "cheerio", "sources_clouflare")];
+                return [4, libs.request_get(link)];
             case 2:
-                parseDetail_1 = _a.sent();
-                linkServers_1 = [];
-                episodeId_1 = parseDetail_1("input[name=episode_id]").val();
-                console.log(episodeId_1, parseDetail_1(".player_option_container select option").length, "--------- XMOVIES8 LENGTH EMBED ----------");
-                parseDetail_1(".player_option_container select option").each(function (keyDetail, itemDetail) {
-                    var nameServer = parseDetail_1(itemDetail).text();
-                    if (nameServer) {
-                        linkServers_1.push(nameServer.toLowerCase());
+                htmlDetail = _a.sent();
+                parseDetail_1 = cheerio.load(htmlDetail);
+                sources_1 = [];
+                parseDetail_1('.dooplay_player_option').each(function (keyDetail, itemDetail) {
+                    var type = parseDetail_1(itemDetail).attr("data-type");
+                    var post = parseDetail_1(itemDetail).attr('data-post');
+                    var nume = parseDetail_1(itemDetail).attr("data-nume");
+                    if (nume.toLowerCase() != "trailer") {
+                        sources_1.push({
+                            type: type,
+                            post: post,
+                            nume: nume
+                        });
                     }
                 });
-                console.log(linkServers_1, "--------- XMOVIES8 LINK SERVER ----------");
-                arrMap = linkServers_1.map(function (server) { return __awaiter(_this, void 0, void 0, function () {
-                    var urlAjax, result, embed, fileSize, host;
+                urlAjax_1 = "https://openloadmovies.ch/wp-admin/admin-ajax.php";
+                maps = sources_1.map(function (item) { return __awaiter(_this, void 0, void 0, function () {
+                    var body, result, parseIframe, embed, fileSize, host;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
-                                urlAjax = "https://xmovies8.si/ajax/v4_get_sources?s=" + server + "&id=" + episodeId_1;
-                                return [4, libs.request_get(urlAjax, {
-                                        referer: link,
-                                        "user-agent": libs.request_getRandomUserAgent()
-                                    }, "json")];
+                                body = {
+                                    action: "doo_player_ajax",
+                                    post: item.post,
+                                    nume: item.nume,
+                                    type: item.type
+                                };
+                                return [4, libs.request_post(urlAjax_1, {}, body)];
                             case 1:
                                 result = _a.sent();
-                                embed = result.value;
-                                if (!embed) return [3, 3];
-                                if (embed.indexOf("https://") == -1 && embed.indexOf("http://") == -1) {
-                                    embed = embed.replace("//", "https://");
-                                }
+                                parseIframe = cheerio.load(result);
+                                embed = parseIframe("iframe").attr("src");
                                 return [4, libs.request_getFileSize(embed)];
                             case 2:
                                 fileSize = _a.sent();
@@ -107,7 +104,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 console.log(embed, fileSize, host, "embed--------------------");
                                 if (fileSize == 0) {
                                     if (hosts[host]) {
-                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "XMOVIES", urlDetail: link }), callback);
+                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "OMOVIES", urlDetail: link }), callback);
                                     }
                                 }
                                 else {
@@ -115,15 +112,14 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                         file: embed,
                                         size: fileSize,
                                         host: host.toUpperCase(),
-                                        provider: "XMOVIES"
+                                        provider: "OMOVIES"
                                     });
                                 }
-                                _a.label = 3;
-                            case 3: return [2];
+                                return [2];
                         }
                     });
                 }); });
-                return [4, Promise.all(arrMap)];
+                return [4, Promise.all(maps)];
             case 3:
                 _a.sent();
                 _a.label = 4;

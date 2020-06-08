@@ -283,11 +283,17 @@ source.topnow_getLink = function (linkIframe1, urlSearch) { return __awaiter(_th
     });
 }); };
 source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var urlSearch, headers, htmlSearch, parseSearch, urlWaiting, link, quality, htmlDetail, linkDownload, param1, param2, param3, linkIframe1, iframe, fileSize, host;
+    var urlSearch, headers, htmlSearch, parseSearch, urlWaiting, link, quality, htmlDetail, linkDownload, param1, param2, param3, linkIframe1, embed, fileSize, host;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                urlSearch = "https://topnow.se/index.php?search=" + slugify(movieInfo.title, { lower: true, replacement: '+' });
+                urlSearch = "";
+                if (movieInfo.type == "movie") {
+                    urlSearch = "https://topnow.se/index.php?search=" + slugify(movieInfo.title, { lower: true, replacement: '+' });
+                }
+                else {
+                    urlSearch = "https://topnow.se/index.php?show=" + slugify(movieInfo.title, { lower: true, replacement: '-' });
+                }
                 headers = {
                     authority: "topnow.se",
                     "upgrade-insecure-requests": 1,
@@ -305,21 +311,23 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 urlWaiting = "https://topnow.se/please_wait.php?IIlIllI=IlllIIIIIllllIIIIlI&title=";
                 link = "";
                 quality = "";
-                parseSearch(".grid-item titles").each(function (keySearch, itemSearch) {
+                console.log(parseSearch(".grid-item .titles").length, "---------------- TOPNOW LENGTH ----------------");
+                parseSearch(".grid-item .titles").each(function (keySearch, itemSearch) {
                     var title = parseSearch(itemSearch).find("a").text().replace("&nbsp;", "");
                     var cloneUrl = title;
                     var href = parseSearch(itemSearch).find("a").attr("href");
-                    quality = parse(itemSearch).find(".card_overlay").text();
+                    quality = parseSearch(itemSearch).find(".card_overlay").text();
                     quality = quality.match(/Quality *\: *([^\(]+)/i);
                     quality = quality ? quality[1].trim() : "";
                     var year = title.match(/\( *([0-9]+)/i);
-                    year = year ? year[0] : 0;
+                    year = year ? year[1] : 0;
                     title = title.replace(/\( *[0-9]+ *\)/i, "").trim();
                     var season = title.match(/ *S *([0-9]+) *E[0-9]+/i);
                     season = season ? season[1] : 0;
                     var episode = title.match(/ *S *[0-9]+ *E([0-9]+)/i);
                     episode = episode ? episode[1] : 0;
                     title = title.replace(/S[0-9]+E[0-9]+/i, "").trim();
+                    console.log(title, cloneUrl, href, quality, year, season, episode, "---------------- TOPNOW FILM INFO ----------------");
                     if (slugify(movieInfo.title, { lower: true }) == slugify(title.trim(), { lower: true })) {
                         if (movieInfo.type == "movie") {
                             if (year == movieInfo.year) {
@@ -333,6 +341,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                         }
                     }
                 });
+                console.log(link, "------------ TOPNOW LINK -----------");
                 if (!(link != "")) return [3, 5];
                 return [4, libs.request_get(link, { referer: urlSearch })];
             case 2:
@@ -345,18 +354,20 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 param3 = htmlDetail.match(/lIlllIlllllIIlIllI *\= *\"([^\"]+)/i);
                 param3 = param3 ? param3[1] : "";
                 linkIframe1 = linkDownload + "/" + param1 + param2 + param3;
+                console.log(linkIframe1, "------------ TOPNOW SEARCH IFRAME -----------");
                 return [4, source.topnow_getLink(linkIframe1, urlSearch)];
             case 3:
-                iframe = _a.sent();
-                if (!(iframe != "")) return [3, 5];
+                embed = _a.sent();
+                console.log(embed, "------------ TOPNOW RESULT EMBED -----------");
+                if (!(embed != "")) return [3, 5];
                 return [4, libs.request_getFileSize(embed)];
             case 4:
                 fileSize = _a.sent();
                 host = libs.string_getHost(embed);
                 console.log(embed, fileSize, host, "embed--------------------");
-                if (fileSize == 0) {
+                if (fileSize == 0 || host.indexOf("docs.google") != -1) {
                     if (hosts[host]) {
-                        hosts[host](embed, movieInfo, _.merge(config, { provider: "NOWTOP" }), callback);
+                        hosts[host](embed, movieInfo, _.merge(config, { provider: "TOPNOW" }), callback);
                     }
                 }
                 else {

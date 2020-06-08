@@ -46,10 +46,12 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
             case 1:
                 parse = _a.sent();
                 link = "";
+                console.log(parse(".col-lg-2.col-md-3.col-sm-4.col-xs-6.no-padding").length, "------------ SOAP SEARCH INFO ------------");
                 parse(".col-lg-2.col-md-3.col-sm-4.col-xs-6.no-padding").each(function (key, item) {
                     var href = parse(item).find("h5 a").first().attr("href");
                     var title = parse(item).find("h5 a").first().text();
                     var year = parse(item).find(".label.label-info").text();
+                    console.log(href, title, year, "------------- SOAP INFO FILM ---------------");
                     if (slugify(movieInfo.title, { lower: true }) == slugify(title.trim(), { lower: true })) {
                         if (movieInfo.type == "movie" && year == movieInfo.year) {
                             link = href;
@@ -59,6 +61,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                         }
                     }
                 });
+                console.log(link, "-------------- SOAP LINK FILM ---------------");
                 if (!(link != "")) return [3, 5];
                 return [4, libs.request_getcaptcha(link, {}, "cheerio", "sources_clouflare")];
             case 2:

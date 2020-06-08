@@ -36,22 +36,27 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 hosts["docs.google"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var html, parse, fmt_stream_map, status, listLink, i, file;
+    var id, urlEmbed, html, parse, fmt_stream_map, status, listLink, i, file;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4, libs.request_get(url, {
-                    "User-Agent": libs.request_getRandomUserAgent(),
-                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-                    'Accept-Language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
-                    'Cache-Control': 'max-age=0',
-                    'Connection': 'keep-alive',
-                    'Host': 'docs.google.com',
-                    'Upgrade-Insecure-Requests': 1,
-                }, "html")];
+            case 0:
+                id = url.match(/\/d\/([^\/]+)/i);
+                id = id ? id[1] : '';
+                urlEmbed = "https://docs.google.com/get_video_info?docid=" + id + "&authuser=0";
+                return [4, libs.request_get(urlEmbed, {
+                        "User-Agent": libs.request_getRandomUserAgent(),
+                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+                        'Accept-Language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
+                        'Cache-Control': 'max-age=0',
+                        'Connection': 'keep-alive',
+                        'Host': 'docs.google.com',
+                        'Upgrade-Insecure-Requests': 1,
+                    }, "html")];
             case 1:
                 html = _a.sent();
                 parse = qs.parse(html);
-                fmt_stream_map = resultText.fmt_stream_map, status = resultText.status;
+                fmt_stream_map = parse.fmt_stream_map, status = parse.status;
+                console.log(fmt_stream_map, status, parse, "-------- GOOGLE DOCS STREAM --------");
                 listLink = fmt_stream_map.split(",");
                 for (i = 0; i < listLink.length; i++) {
                     file = decodeURIComponent(listLink[i].substring(3));
