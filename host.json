@@ -11,9 +11,11 @@
 		"dist/hosts/testaway.js",
 		"dist/hosts/uptostream.js",
 		"dist/hosts/vup.js",
-		"dist/hosts/database.gdriveplayer.js",
 		"dist/hosts/docs.google.js",
 		"dist/hosts/embed.streamx.js",
-		"dist/hosts/vup.js"
+		"dist/hosts/vidnode.js",
+		"dist/hosts/movcloud.js",
+		"dist/hosts/gcloud.js",
+		"dist/hosts/streamhoe.js"
 	]
 }

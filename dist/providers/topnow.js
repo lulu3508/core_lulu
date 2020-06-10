@@ -331,12 +331,12 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                     if (slugify(movieInfo.title, { lower: true }) == slugify(title.trim(), { lower: true })) {
                         if (movieInfo.type == "movie") {
                             if (year == movieInfo.year) {
-                                link = urlWaiting + slugify(cloneUrl, { replacement: "%20" });
+                                link = "https://topnow.se" + href;
                             }
                         }
                         if (movieInfo.type == "tv") {
                             if (season == movieInfo.season && episode == movieInfo.episode) {
-                                link = urlWaiting + slugify(cloneUrl, { replacement: "%20" });
+                                link = "https://topnow.se" + href;
                             }
                         }
                     }

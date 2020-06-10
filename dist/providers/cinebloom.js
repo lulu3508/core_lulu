@@ -234,7 +234,10 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 sourceCinema_2 = [];
                                 parseCinema_2(".item").each(function (keyCinema, itemCinema) {
                                     var server = parseCinema_2(itemCinema).attr("data-server");
-                                    sourceCinema_2.push(loadSource_2 + "?server=" + server + "&token=" + token_2);
+                                    var serverId = parseCinema_2(itemCinema).attr("data-server-id");
+                                    if (server && serverId) {
+                                        sourceCinema_2.push(loadSource_2 + "?server=" + server + "&id=" + serverId + "&token=" + token_2);
+                                    }
                                 });
                                 console.log(sourceCinema_2, "------------- CINEBLOOM SOURCE CINEMA EMBED ---------");
                                 arrCinema = sourceCinema_2.map(function (itemCinema) { return __awaiter(_this, void 0, void 0, function () {
