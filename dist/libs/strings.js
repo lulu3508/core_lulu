@@ -1,4 +1,7 @@
 libs.string_getHost = function (url) {
+    if (url.toLowerCase().indexOf('google') != -1) {
+        return "Google Video";
+    }
     var hostName = url.match(/^:?\/\/|https?:\/\/([^/]*@)?(.+?)(:\d{2,5})?([/?].*)?$/i);
     if (!hostName || hostName.length == 0) {
         return "";

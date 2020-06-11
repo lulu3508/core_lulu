@@ -16,6 +16,8 @@
 		"dist/hosts/vidnode.js",
 		"dist/hosts/movcloud.js",
 		"dist/hosts/gcloud.js",
-		"dist/hosts/streamhoe.js"
+		"dist/hosts/streamhoe.js",
+		"dist/hosts/bmoviesfree.js",
+		"dist/hosts/streamapi.js"
 	]
 }

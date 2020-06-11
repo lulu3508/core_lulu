@@ -13,6 +13,7 @@
 		"dist/providers/123moviesfull.js",
 		"dist/providers/ezwatchfree.js",
 		"dist/providers/openloadmovies.js",
-		"dist/providers/top123movieslive.js"
+		"dist/providers/top123movieslive.js",
+		"dist/providers/123moviesV2.js"
 	]
 }
