@@ -2,6 +2,9 @@ libs.string_getHost = function (url) {
     if (url.toLowerCase().indexOf('google') != -1) {
         return "Google Video";
     }
+    if (url.toLowerCase().indexOf('schoolbalebale') != -1) {
+        return "FAST CDN";
+    }
     var hostName = url.match(/^:?\/\/|https?:\/\/([^/]*@)?(.+?)(:\d{2,5})?([/?].*)?$/i);
     if (!hostName || hostName.length == 0) {
         return "";

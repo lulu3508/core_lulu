@@ -18,6 +18,7 @@
 		"dist/hosts/gcloud.js",
 		"dist/hosts/streamhoe.js",
 		"dist/hosts/bmoviesfree.js",
-		"dist/hosts/streamapi.js"
+		"dist/hosts/streamapi.js",
+		"dist/hosts/video.moviedata.js"
 	]
 }
