@@ -85,15 +85,16 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 console.log(parseDetail_1(".episode").length, "--------- M4uFREE SEARCH EPISODE TV ---------");
                 parseDetail_1(".episode").each(function (keyTv, itemTv) {
                     var textTv = parseDetail_1(itemTv).text();
-                    var matchTv = textTv.toLowerCase().match(/s *([0-9]+ *\- *e([0-9]+))/i);
+                    var matchTv = textTv.toLowerCase().match(/s *([0-9]+) *\- *e([0-9]+)/i);
                     var season = matchTv ? matchTv[1] : 0;
                     var episode = matchTv ? matchTv[2] : 0;
+                    var idEpisode = parseDetail_1(itemTv).attr("idepisode");
                     console.log(season, episode, "--------- M4uFREE SEASON, EPISODE ---------");
                     if (season == movieInfo.season && episode == movieInfo.episode) {
-                        idTv_1 = parseDetail_1(itemTv).attr("idepisode");
+                        idTv_1 = idEpisode;
                     }
                 });
-                if (!idepisode) return [3, 4];
+                if (!idTv_1) return [3, 4];
                 bodyTv = qs.stringify({
                     idepisode: idTv_1,
                     _token: token_1
@@ -118,7 +119,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 _a.label = 6;
             case 6:
                 arrMap = tokens_1.map(function (idFilm) { return __awaiter(_this, void 0, void 0, function () {
-                    var body, htmlEmbed, parseEmbed, iframe, host, source, parse, arrSource;
+                    var body, htmlEmbed, parseEmbed, iframe, host, source, source2, parse, arrSource, arrSource;
                     var _this = this;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
@@ -140,6 +141,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 }
                                 console.log(htmlEmbed, headers_1, body, ajaxUrl_1, "--------- M4uFREE htmlEmbed parse ---------");
                                 source = htmlEmbed.match(/sources *\: *([^\]]+)/i);
+                                source2 = source && source[2] ? source[2] + "]" : "[]";
                                 source = source ? source[1] + "]" : "[]";
                                 parse = [];
                                 source = "parse = " + source;
@@ -169,6 +171,35 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 }); });
                                 return [4, Promise.all(arrSource)];
                             case 2:
+                                _a.sent();
+                                parse = [];
+                                source = "parse = " + source2;
+                                eval(source);
+                                console.log(parse, "--------- M4uFREE PARSE ---------");
+                                arrSource = parse.map(function (direct) { return __awaiter(_this, void 0, void 0, function () {
+                                    var file, fileSize, host;
+                                    return __generator(this, function (_a) {
+                                        switch (_a.label) {
+                                            case 0:
+                                                file = direct.file;
+                                                return [4, libs.request_getFileSize(file)];
+                                            case 1:
+                                                fileSize = _a.sent();
+                                                host = libs.string_getHost(file);
+                                                if (fileSize > 0) {
+                                                    callback({
+                                                        file: file,
+                                                        size: fileSize,
+                                                        host: host,
+                                                        provider: "MOVIESTREAM"
+                                                    });
+                                                }
+                                                return [2];
+                                        }
+                                    });
+                                }); });
+                                return [4, Promise.all(arrSource)];
+                            case 3:
                                 _a.sent();
                                 return [2];
                         }

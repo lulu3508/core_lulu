@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var urlSearch, htmlSearch, parseSearch, link, htmlDetail, parseDetail_1, headers, urlEmbed, body_1, htmlEmbed, sources, dataEmbed, arrMap;
+    var urlSearch, htmlSearch, parseSearch, link, htmlDetail, parseDetail_1, headers, nonce, urlEmbed, body_1, htmlEmbed, sources, dataEmbed, arrMap;
     var _this = this;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -50,9 +50,9 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 console.log(parseSearch(".ml-item").length, "-------- TOP123 SEARCH INFO -------");
                 parseSearch(".ml-item").each(function (keySearch, itemSearch) {
                     var title = parseSearch(itemSearch).find(".mli-info h2").text();
-                    var season = title.toLowerCase().match(/\- *season *([0-9]+)/i);
+                    var season = title.toLowerCase().match(/\– *season *([0-9]+)/i);
                     season = season ? season[1] : 0;
-                    title = title.toLowerCase().replace(/\- *season [0-9]+/i, "").trim();
+                    title = title.toLowerCase().replace(/\– *season [0-9]+/i, "").trim();
                     var href = parseSearch(itemSearch).find(".ml-mask.jt").attr("href");
                     console.log(title, season, href, "-------- TOP123 DETAIL INFO -------");
                     if (slugify(movieInfo.title, { lower: true }) == slugify(title.trim(), { lower: true })) {
@@ -73,10 +73,12 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 headers = {
                     "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
                 };
+                nonce = htmlDetail.match(/nonce\s*\:\s*\'([^'^]+)/i);
+                nonce = nonce ? nonce[1] : "";
                 urlEmbed = "https://ww1.top123movieslive.com/wp-admin/admin-ajax.php";
                 body_1 = {
                     action: "halim_ajax_player",
-                    nonce: "32232c41d7",
+                    nonce: nonce,
                     episode: 0,
                     server: 0,
                     postid: 0
@@ -89,12 +91,15 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 }
                 else {
                     parseDetail_1(".idTabs li").each(function (keyEpisode, itemEpisode) {
-                        var episode = parseDetail_1(".idTabs li").first().find("a span").text();
-                        if (episode == movieInfo.episode) {
-                            body_1.postid = parseDetail_1(".idTabs li").first().find("a span").attr("data-post-id");
-                            body_1.server = parseDetail_1(".idTabs li").first().find("a span").attr("data-server");
-                            body_1.episode = parseDetail_1(".idTabs li").first().find("a span").attr("data-episode");
-                        }
+                        parseDetail_1(itemEpisode).find("a").each(function (keyId, itemId) {
+                            var episode = parseDetail_1(itemId).find("span").text();
+                            console.log(episode, movieInfo.episode, "-------- TOPMOVIES EPISODE ID --------");
+                            if (episode == movieInfo.episode) {
+                                body_1.postid = parseDetail_1(itemId).find("span").attr("data-post-id");
+                                body_1.server = parseDetail_1(itemId).find("span").attr("data-server");
+                                body_1.episode = parseDetail_1(itemId).find("span").attr("data-episode");
+                            }
+                        });
                     });
                 }
                 return [4, libs.request_post(urlEmbed, headers, qs.stringify(body_1))];

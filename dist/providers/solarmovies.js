@@ -99,18 +99,26 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 console.log(ids_1, '------------- SOLAR  ID --------------');
                 urlAjaxEmbed_1 = "https://solarmovie.mom/ajax/load_embed/";
                 arrMap = ids_1.map(function (eId) { return __awaiter(_this, void 0, void 0, function () {
-                    var res, embed, fileSize, host;
+                    var res, embed, getEmbedSolar, fileSize, host;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0: return [4, libs.request_get(urlAjaxEmbed_1 + "mov" + eId, {}, 'json')];
                             case 1:
                                 res = _a.sent();
                                 console.log(res, urlAjaxEmbed_1 + "mov" + eId, '----------------- SOLAR EMBED -----------');
-                                if (!(res.status == 1)) return [3, 3];
+                                if (!(res.status == 1)) return [3, 5];
                                 embed = res.embed_url;
-                                if (!embed) return [3, 3];
-                                return [4, libs.request_getFileSize(embed)];
+                                if (!embed) return [3, 5];
+                                if (!(embed.indexOf("solarmovie") != -1)) return [3, 3];
+                                return [4, libs.request_get(embed, {}, 'json')];
                             case 2:
+                                getEmbedSolar = _a.sent();
+                                if (getEmbedSolar.embed_url) {
+                                    embed = getEmbedSolar.embed_url;
+                                }
+                                _a.label = 3;
+                            case 3: return [4, libs.request_getFileSize(embed)];
+                            case 4:
                                 fileSize = _a.sent();
                                 host = libs.string_getHost(embed);
                                 console.log(embed, fileSize, host, "embed--------------------");
@@ -127,8 +135,8 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                         provider: "SOLAR"
                                     });
                                 }
-                                _a.label = 3;
-                            case 3: return [2];
+                                _a.label = 5;
+                            case 5: return [2];
                         }
                     });
                 }); });
