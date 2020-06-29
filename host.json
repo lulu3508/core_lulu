@@ -10,6 +10,7 @@
 		"dist/hosts/vid215.js",
 		"dist/hosts/testaway.js",
 		"dist/hosts/uptostream.js",
+		"dist/hosts/upstream.js",
 		"dist/hosts/vup.js",
 		"dist/hosts/docs.google.js",
 		"dist/hosts/embed.streamx.js",
