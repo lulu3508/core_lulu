@@ -135,9 +135,11 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 console.log(parseEpisode_1(".watchlink").length, "--------- WATCHSERIES WATCH LINK");
                 sources_1 = [];
                 parseEpisode_1(".watchlink").each(function (keyEpisode, itemEpisode) {
-                    var href = parseEpisode_1(itemEpisode).attr("href");
-                    if (href && sources_1.length <= 100) {
-                        sources_1.push(href);
+                    if (sources_1.length <= 60) {
+                        var href = parseEpisode_1(itemEpisode).attr("href");
+                        if (href) {
+                            sources_1.push(href);
+                        }
                     }
                 });
                 console.log(sources_1, "--------- WATCHSERIES SOURCES");
