@@ -19,6 +19,7 @@
 		"dist/providers/solarmovies.js",
 		"dist/providers/srsone.js",
 		"dist/providers/miradetodo.js",
-		"dist/providers/hd15s.js"
+		"dist/providers/hd15s.js",
+		"dist/providers/swatchseries.js"
 	]
 }
