@@ -19,6 +19,8 @@
 		"dist/hosts/streamhoe.js",
 		"dist/hosts/bmoviesfree.js",
 		"dist/hosts/streamapi.js",
-		"dist/hosts/video.moviedata.js"
+		"dist/hosts/video.moviedata.js",
+		"dist/hosts/fastplay.js",
+		"dist/hosts/jawcloud.js"
 	]
 }

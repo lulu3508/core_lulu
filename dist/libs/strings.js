@@ -10,6 +10,7 @@ libs.string_getHost = function (url) {
         return "";
     }
     hostName = hostName[2].replace("www.", "");
+    hostName = hostName.replace("\r", "");
     return hostName.replace(/\.[A-z]+$/, "");
 };
 libs.string_btoa = function (input) {

@@ -130,6 +130,7 @@ libs.request_head = function (url, headers) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
                     return [4, fetch(url, {
+                            credentials: 'same-origin',
                             headers: headers,
                             method: "HEAD"
                         })];
@@ -248,6 +249,23 @@ libs.request_detect = function (url, headers, key) {
         });
     });
 };
+libs.request_getCookie = function (url) { return __awaiter(_this, void 0, void 0, function () {
+    var cookies, cookieS, item;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4, cookieM.get(url)];
+            case 1:
+                cookies = _a.sent();
+                cookieS = "";
+                for (item in cookies) {
+                    if (cookies[item].name && cookies[item].value) {
+                        cookieS += cookies[item].name + "=" + cookies[item].value + "; ";
+                    }
+                }
+                return [2, cookieS];
+        }
+    });
+}); };
 libs.request_getcaptcha = function (url, headers, type, key) {
     if (headers === void 0) { headers = {}; }
     if (type === void 0) { type = ""; }

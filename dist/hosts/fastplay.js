@@ -35,68 +35,44 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-hosts["streamapi"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    function encode(p, a, c, k, e, d) {
-        e = function (c) {
-            return (c < a ? '' : e(parseInt(c / a))) + ((c = c % a) > 35 ? String.fromCharCode(c + 29) : c.toString(36));
-        };
-        if (!''.replace(/^/, String)) {
-            while (c--) {
-                d[e(c)] = k[c] || e(c);
-            }
-            k = [function (e) {
-                    return d[e];
-                }];
-            e = function () {
-                return '\\w+';
-            };
-            c = 1;
-        }
-        ;
-        while (c--) {
-            if (k[c]) {
-                p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c]);
-            }
-        }
-        return p;
-    }
-    var htmlEmbed, parseEmbed, script, htmlEncode, embed, fileSize, host;
+hosts["fastplay"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
+    var html, source, parse, length, i, file, fileSize;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4, libs.request_get(url)];
+            case 0: return [4, libs.request_get(url, {
+                    "user-agent": libs.request_getRandomUserAgent()
+                }, "html")];
             case 1:
-                htmlEmbed = _a.sent();
-                parseEmbed = cheerio.load(htmlEmbed);
-                script = parseEmbed("script").first().next().text();
-                script = script.match(/return *p\}(.+)/i);
-                script = script ? script[1].trim().replace(/.$/, "") : "()";
-                htmlEncode = "";
-                console.log(script, "script streamapi--------------------");
-                eval("htmlEncode = encode" + script);
-                embed = htmlEncode.match(/var *link *= *\"([^\"]+)/i);
-                embed = embed ? embed[1] : "";
-                if (embed.indexOf("vidcloud9") != -1) {
-                    embed = "https:" + embed;
-                }
-                return [4, libs.request_getFileSize(embed)];
+                html = _a.sent();
+                source = html.match(/sources *\: *([^\]]+)/i);
+                source = source ? source[1] + "]" : "[]";
+                parse = [];
+                source = "parse = " + source;
+                eval(source);
+                console.log(parse, "------------ SOURCES fastplay -------------");
+                length = parse.length;
+                i = 0;
+                _a.label = 2;
             case 2:
+                if (!(i < length)) return [3, 5];
+                file = parse[i].file;
+                console.log(parse[i], "------------ SOURCE DETAIL fastplay -------------");
+                return [4, libs.request_getFileSize(file)];
+            case 3:
                 fileSize = _a.sent();
-                host = libs.string_getHost(embed);
-                console.log(embed, fileSize, host, "embed streamapi--------------------");
-                if (fileSize == 0) {
-                    if (hosts[host]) {
-                        hosts[host](embed, movieInfo, config, callback);
-                    }
-                }
-                else {
+                if (fileSize > 0) {
                     callback({
-                        file: embed,
+                        file: file,
                         size: fileSize,
-                        host: host.toUpperCase(),
+                        host: "FASTPLAY",
                         provider: config.provider
                     });
                 }
-                return [2];
+                _a.label = 4;
+            case 4:
+                i++;
+                return [3, 2];
+            case 5: return [2];
         }
     });
 }); };

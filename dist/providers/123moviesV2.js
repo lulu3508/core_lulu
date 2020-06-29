@@ -36,25 +36,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var headers, urlSearch, htmlSearch, parseSearch, link, ids_1, htmlDetail, parseDetail_1, idEmbed, urlGetEpisode, urlAjax_1, arrMap;
+    var headers, urlSearch, htmlSearch, parseSearch, link, _a, ids_1, htmlDetail, parseDetail_1, idEmbed, urlGetEpisode, urlAjax_1, arrMap;
     var _this = this;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
                 headers = {
-                    authority: 'ww2.123movies.la',
-                    accept: "application/json, text/javascript, */*; q=0.01",
-                    "user-agent": libs.request_getRandomUserAgent(),
                     "x-requested-with": "XMLHttpRequest",
                     "sec-fetch-site": "same-origin",
-                    "sec-fetch-mode": "cors",
-                    "sec-fetch-dest": "empty",
-                    referer: ""
+                    referer: "",
+                    cookie: ""
                 };
-                urlSearch = "https://ww2.123movies.la/search/" + slugify(movieInfo.title, { lower: true, replacement: '+' });
+                urlSearch = "https://ww3.123movies.la/search/" + slugify(movieInfo.title, { lower: true, replacement: '+' });
                 return [4, libs.request_get(urlSearch)];
             case 1:
-                htmlSearch = _a.sent();
+                htmlSearch = _b.sent();
                 parseSearch = cheerio.load(htmlSearch);
                 link = "";
                 console.log(parseSearch(".ml-item").length, "-------- 123MOVIESV2 SEARCH --------");
@@ -68,7 +64,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                     }
                 });
                 console.log(link, "-------- 123MOVIESV2 LINK --------");
-                if (!(link != "")) return [3, 5];
+                if (!(link != "")) return [3, 6];
                 if (movieInfo.type == "tv") {
                     link += "/s" + movieInfo.season + "/watching.html";
                 }
@@ -76,19 +72,23 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                     link += "/watching.html";
                 }
                 headers.referer = link;
+                _a = headers;
+                return [4, libs.request_getCookie(headers.referer)];
+            case 2:
+                _a.cookie = _b.sent();
                 ids_1 = [];
                 console.log(link, "-------- 123MOVIESV2 LINK WATCHING --------");
                 return [4, libs.request_get(link)];
-            case 2:
-                htmlDetail = _a.sent();
+            case 3:
+                htmlDetail = _b.sent();
                 parseDetail_1 = cheerio.load(htmlDetail);
                 idEmbed = htmlDetail.match(/id *: *\"([^\"]+)/i);
                 idEmbed = idEmbed ? idEmbed[1].trim() : "";
                 console.log(idEmbed, "-------- 123MOVIESV2 ID EMBED --------");
-                urlGetEpisode = "https://ww2.123movies.la/ajax/v2_get_episodes/" + idEmbed;
+                urlGetEpisode = "https://ww3.123movies.la/ajax/v2_get_episodes/" + idEmbed;
                 return [4, libs.request_get(urlGetEpisode, headers)];
-            case 3:
-                htmlDetail = _a.sent();
+            case 4:
+                htmlDetail = _b.sent();
                 parseDetail_1 = cheerio.load(htmlDetail);
                 if (movieInfo.type == "movie") {
                     console.log(parseDetail_1(".btn-eps.first-ep.last-ep").length, "-------- 123MOVIESV2 DETAIL LENGTH --------");
@@ -114,7 +114,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                     });
                 }
                 console.log(ids_1, "-------- 123MOVIESV2 IDS --------");
-                urlAjax_1 = "https://ww2.123movies.la/ajax/load_embed/";
+                urlAjax_1 = "https://ww3.123movies.la/ajax/load_embed/";
                 arrMap = ids_1.map(function (id) { return __awaiter(_this, void 0, void 0, function () {
                     var result, embed, fileSize, host;
                     return __generator(this, function (_a) {
@@ -122,6 +122,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                             case 0: return [4, libs.request_get("" + urlAjax_1 + id, headers, 'json')];
                             case 1:
                                 result = _a.sent();
+                                console.log(result, headers, "" + urlAjax_1 + id, "--------------- 123MOVIESV2 URLAJAX EmBED--------");
                                 if (!(result.status == 1)) return [3, 3];
                                 embed = result.embed_url;
                                 if (!embed) return [3, 3];
@@ -149,10 +150,10 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                     });
                 }); });
                 return [4, Promise.all(arrMap)];
-            case 4:
-                _a.sent();
-                _a.label = 5;
-            case 5: return [2];
+            case 5:
+                _b.sent();
+                _b.label = 6;
+            case 6: return [2];
         }
     });
 }); };

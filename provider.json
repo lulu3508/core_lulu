@@ -16,6 +16,9 @@
 		"dist/providers/top123movieslive.js",
 		"dist/providers/123moviesV2.js",
 		"dist/providers/m4ufree.js",
-		"dist/providers/solarmovies.js"
+		"dist/providers/solarmovies.js",
+		"dist/providers/srsone.js",
+		"dist/providers/miradetodo.js",
+		"dist/providers/hd15s.js"
 	]
 }
