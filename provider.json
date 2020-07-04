@@ -20,6 +20,7 @@
 		"dist/providers/srsone.js",
 		"dist/providers/miradetodo.js",
 		"dist/providers/hd15s.js",
-		"dist/providers/swatchseries.js"
+		"dist/providers/swatchseries.js",
+		"dist/providers/flixianity.js"
 	]
 }
