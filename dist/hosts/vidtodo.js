@@ -35,11 +35,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-hosts["cloudvideo"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var decode, html, parseHtml, scripts, matching, decodeScript, source, parse, length_1, i, file, fileSize;
+hosts["vidtodo"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
+    var decode, html, parseHtml, scripts, matching, decodeScript, source, parse, length_1, i, file, fileSize, quality;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                url = url.replace("vidtodo", "playtovid");
                 decode = function (p, a, c, k, e, d) {
                     while (c--) {
                         if (k[c]) {
@@ -59,37 +60,39 @@ hosts["cloudvideo"] = function (url, movieInfo, config, callback) { return __awa
                         scripts = script;
                     }
                 });
-                console.log(scripts, "--------------- cloudvideo SCRIPTs ---------");
+                console.log(scripts, "--------------- Playtovid SCRIPTs ---------");
                 if (!(scripts != "")) return [3, 5];
                 matching = scripts.match(/return *p *\} *(.*)/i);
                 matching = matching ? matching[1].replace(/.$/, "") : "";
-                console.log(matching, "--------------- cloudvideo MATCHING ---------");
+                console.log(matching, "--------------- Playtovid MATCHING ---------");
                 if (!(matching != "")) return [3, 5];
                 decodeScript = "";
                 eval("decodeScript = decode" + matching);
-                console.log(decodeScript, "--------------- cloudvideo decodeScript ---------");
+                console.log(decodeScript, "--------------- Playtovid decodeScript ---------");
                 if (!(decodeScript != "")) return [3, 5];
                 source = decodeScript.match(/sources *\: *([^\]]+)/i);
                 source = source ? source[1] + "]" : "[]";
                 parse = [];
                 source = "parse = " + source;
                 eval(source);
-                console.log(parse, "--------------- cloudvideo parse ---------");
+                console.log(parse, "--------------- Playtovid parse ---------");
                 length_1 = parse.length;
                 i = 0;
                 _a.label = 2;
             case 2:
                 if (!(i < length_1)) return [3, 5];
-                file = parse[i].src;
-                console.log(parse[i], "------------ SOURCE DETAIL cloudvideo -------------");
+                file = parse[i].file;
+                console.log(parse[i], "------------ SOURCE DETAIL Playtovid -------------");
                 return [4, libs.request_getFileSize(file)];
             case 3:
                 fileSize = _a.sent();
+                quality = parse[i].label;
                 if (fileSize > 0) {
                     callback({
                         file: file,
                         size: fileSize,
-                        host: "CLOUDVIDEO",
+                        host: "VIDTODO FAST",
+                        quality: quality,
                         provider: config.provider
                     });
                 }

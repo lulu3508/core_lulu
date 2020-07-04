@@ -135,7 +135,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 console.log(parseEpisode_1(".watchlink").length, "--------- WATCHSERIES WATCH LINK");
                 sources_1 = [];
                 parseEpisode_1(".watchlink").each(function (keyEpisode, itemEpisode) {
-                    if (sources_1.length <= 60) {
+                    if (sources_1.length <= 150) {
                         var href = parseEpisode_1(itemEpisode).attr("href");
                         if (href) {
                             sources_1.push(href);
@@ -144,36 +144,20 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 });
                 console.log(sources_1, "--------- WATCHSERIES SOURCES");
                 arrMap = sources_1.map(function (href) { return __awaiter(_this, void 0, void 0, function () {
-                    var token, embed, fileSize, host;
+                    var token, embed, host;
                     return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0:
-                                token = href.match(/r\=(.*)/i);
-                                token = token ? token[1] : "";
-                                if (!token) return [3, 2];
-                                embed = JSON.parse(crypto.AES.decrypt(token, secretKey, { format: CryptoJSAesJson }).toString(crypto.enc.Utf8));
-                                console.log(token, embed, "--------- WATCHSERIES TOKEN");
-                                return [4, libs.request_getFileSize(embed)];
-                            case 1:
-                                fileSize = _a.sent();
-                                host = libs.string_getHost(embed);
-                                console.log(embed, fileSize, host, "embed--------------------");
-                                if (fileSize == 0) {
-                                    if (hosts[host]) {
-                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "WATCHSERIES" }), callback);
-                                    }
-                                }
-                                else {
-                                    callback({
-                                        file: embed,
-                                        size: fileSize,
-                                        host: host.toUpperCase(),
-                                        provider: "WATCHSERIES"
-                                    });
-                                }
-                                _a.label = 2;
-                            case 2: return [2];
+                        token = href.match(/r\=(.*)/i);
+                        token = token ? token[1] : "";
+                        if (token) {
+                            embed = JSON.parse(crypto.AES.decrypt(token, secretKey, { format: CryptoJSAesJson }).toString(crypto.enc.Utf8));
+                            console.log(token, embed, "--------- WATCHSERIES TOKEN");
+                            host = libs.string_getHost(embed);
+                            console.log(embed, host, "embed--------------------");
+                            if (hosts[host]) {
+                                hosts[host](embed, movieInfo, _.merge(config, { provider: "WATCHSERIES" }), callback);
+                            }
                         }
+                        return [2];
                     });
                 }); });
                 return [4, Promise.all(arrMap)];

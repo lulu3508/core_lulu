@@ -22,6 +22,8 @@
 		"dist/hosts/streamapi.js",
 		"dist/hosts/video.moviedata.js",
 		"dist/hosts/fastplay.js",
-		"dist/hosts/jawcloud.js"
+		"dist/hosts/jawcloud.js",
+		"dist/hosts/gounlimited.js",
+		"dist/hosts/vidtodo.js",
 	]
 }
