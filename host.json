@@ -24,6 +24,6 @@
 		"dist/hosts/fastplay.js",
 		"dist/hosts/jawcloud.js",
 		"dist/hosts/gounlimited.js",
-		"dist/hosts/vidtodo.js",
+		"dist/hosts/vidtodo.js"
 	]
 }
