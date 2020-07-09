@@ -5,6 +5,12 @@ libs.string_getHost = function (url) {
     if (url.toLowerCase().indexOf('schoolbalebale') != -1) {
         return "FAST CDN";
     }
+    if (url.toLowerCase().indexOf('loadshare') != -1) {
+        return "LOADSHARE CDN";
+    }
+    if (url.toLowerCase().indexOf('dropbox') != -1) {
+        return "DROPBOX";
+    }
     var hostName = url.match(/^:?\/\/|https?:\/\/([^/]*@)?(.+?)(:\d{2,5})?([/?].*)?$/i);
     if (!hostName || hostName.length == 0) {
         return "";
