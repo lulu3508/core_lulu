@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 hosts["vidnode"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var htmlVidcloud, parseVidcloud, sources, arrMap;
+    var htmlVidcloud, parseVidcloud, sources, arrMap, arrMap;
     var _this = this;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -45,6 +45,43 @@ hosts["vidnode"] = function (url, movieInfo, config, callback) { return __awaite
                 htmlVidcloud = _a.sent();
                 parseVidcloud = cheerio.load(htmlVidcloud);
                 sources = [];
+                console.log(parseVidcloud(".linkserver").length, "----------- VIDNODE SEARCH EMBED ----------");
+                parseVidcloud(".linkserver").each(function (keyLink, itemLink) {
+                    var embed = parseVidcloud(itemLink).attr("data-video");
+                    if (embed) {
+                        sources.push(embed);
+                    }
+                });
+                console.log(sources, "----------- VIDNODE SOURCES EMBED ----------");
+                arrMap = sources.map(function (embed) { return __awaiter(_this, void 0, void 0, function () {
+                    var fileSize, host;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4, libs.request_getFileSize(embed)];
+                            case 1:
+                                fileSize = _a.sent();
+                                host = libs.string_getHost(embed);
+                                console.log(embed, fileSize, host, "vidnode embed--------------------");
+                                if (fileSize == 0) {
+                                    if (hosts[host]) {
+                                        hosts[host](embed, movieInfo, config, callback);
+                                    }
+                                }
+                                else {
+                                    callback({
+                                        file: embed,
+                                        size: fileSize,
+                                        host: host.toUpperCase(),
+                                        provider: config.provider
+                                    });
+                                }
+                                return [2];
+                        }
+                    });
+                }); });
+                return [4, Promise.all(arrMap)];
+            case 2:
+                _a.sent();
                 console.log(parseVidcloud(".linkserver").length, "----------- VIDNODE SEARCH EMBED ----------");
                 parseVidcloud(".linkserver").each(function (keyLink, itemLink) {
                     var embed = parseVidcloud(itemLink).attr("data-video");
@@ -80,7 +117,7 @@ hosts["vidnode"] = function (url, movieInfo, config, callback) { return __awaite
                     });
                 }); });
                 return [4, Promise.all(arrMap)];
-            case 2:
+            case 3:
                 _a.sent();
                 return [2];
         }

@@ -22,6 +22,7 @@
 		"dist/providers/hd15s.js",
 		"dist/providers/swatchseries.js",
 		"dist/providers/flixianity.js",
-		"dist/providers/couchtuner.js"
+		"dist/providers/couchtuner.js",
+		"dist/providers/watchepisodes4.js"
 	]
 }
