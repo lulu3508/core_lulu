@@ -41,7 +41,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                urlSearch = "http://them4ufree.info/tag/" + slugify(movieInfo.title, { lower: true, replacement: '-', remove: /[*+~.()'"!:@]/g }) + ".html";
+                urlSearch = "http://them4ufree.info/tag/" + slugify(movieInfo.title, { lower: true, replacement: '-', remove: /[*+~.()'"!:@]/g });
                 return [4, libs.request_get(urlSearch, {})];
             case 1:
                 resultSearch = _a.sent();
