@@ -147,22 +147,27 @@ libs.request_head = function (url, headers) {
         });
     });
 };
-libs.request_get = function (url, headers, type) {
+libs.request_get = function (url, headers, type, redirect) {
     if (headers === void 0) { headers = {}; }
     if (type === void 0) { type = ""; }
+    if (redirect === void 0) { redirect = "follow"; }
     return __awaiter(_this, void 0, void 0, function () {
         var res, e_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 5, , 6]);
-                    return [4, fetch(url, { headers: headers })];
+                    return [4, fetch(url, { headers: headers, redirect: redirect })];
                 case 1:
                     res = _a.sent();
                     if (!(type === "" || type === "html")) return [3, 3];
                     return [4, res.text()];
                 case 2: return [2, _a.sent()];
-                case 3: return [4, res.json()];
+                case 3:
+                    if (type === "url") {
+                        return [2, res.url];
+                    }
+                    return [4, res.json()];
                 case 4: return [2, _a.sent()];
                 case 5:
                     e_2 = _a.sent();

@@ -24,6 +24,7 @@
 		"dist/providers/flixianity.js",
 		"dist/providers/couchtuner.js",
 		"dist/providers/watchepisodes4.js",
-		"dist/providers/them4ufree.js"
+		"dist/providers/them4ufree.js",
+		"dist/providers/primewire.js"
 	]
 }
