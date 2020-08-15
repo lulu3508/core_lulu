@@ -45,33 +45,38 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                     return [2];
                 }
                 urlSearch = "https://openloadmovies.ch/?s=" + slugify(movieInfo.title, { lower: true, replacement: '+' });
-                return [4, libs.request_get(url)];
+                return [4, libs.request_get(urlSearch)];
             case 1:
                 htmlSearch = _a.sent();
                 parseSearch = cheerio.load(htmlSearch);
                 link = "";
+                console.log(parseSearch(".result-item").length, urlSearch, '------------ OPENLOAD MOVIE SEARCH LENGTH --------');
                 parseSearch(".result-item").each(function (keySearch, itemSearch) {
                     var title = parseSearch(itemSearch).find('.title a').text();
                     var href = parseSearch(itemSearch).find('.title a').attr('href');
                     var year = title.match(/\( *([0-9]+)/i);
                     year = year ? year[1] : 0;
                     title = title.replace(/\( *[0-9]+ *\)/i, "").trim();
+                    console.log(title, href, year, "-------------- OPENLOAD MOVIE SEARCH INFO -----------");
                     if (slugify(movieInfo.title, { lower: true }) == slugify(title.trim(), { lower: true })) {
                         if (year == movieInfo.year) {
                             link = href;
                         }
                     }
                 });
+                console.log(link, '--------------- OPENLOAD MOVIE LINK ----------');
                 if (!(link != "")) return [3, 4];
                 return [4, libs.request_get(link)];
             case 2:
                 htmlDetail = _a.sent();
                 parseDetail_1 = cheerio.load(htmlDetail);
                 sources_1 = [];
+                console.log(parseDetail_1('.dooplay_player_option').length, "---------------- OPENLOAD LENGTH DETAIL -----------");
                 parseDetail_1('.dooplay_player_option').each(function (keyDetail, itemDetail) {
                     var type = parseDetail_1(itemDetail).attr("data-type");
                     var post = parseDetail_1(itemDetail).attr('data-post');
                     var nume = parseDetail_1(itemDetail).attr("data-nume");
+                    console.log(type, post, nume, "---------------- OPENLOAD TYPE POST NUME ");
                     if (nume.toLowerCase() != "trailer") {
                         sources_1.push({
                             type: type,
@@ -82,7 +87,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 });
                 urlAjax_1 = "https://openloadmovies.ch/wp-admin/admin-ajax.php";
                 maps = sources_1.map(function (item) { return __awaiter(_this, void 0, void 0, function () {
-                    var body, result, parseIframe, embed, fileSize, host;
+                    var body, result, embed, fileSize, host;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
@@ -92,11 +97,15 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                     nume: item.nume,
                                     type: item.type
                                 };
-                                return [4, libs.request_post(urlAjax_1, {}, body)];
+                                console.log(urlAjax_1, body, "------------- OPENLOAD MOVIE request POST");
+                                return [4, libs.request_post(urlAjax_1, {
+                                        "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                                    }, qs.stringify(body), 'json')];
                             case 1:
                                 result = _a.sent();
-                                parseIframe = cheerio.load(result);
-                                embed = parseIframe("iframe").attr("src");
+                                embed = result.embed_url;
+                                console.log(embed, result, "embed xxxxxxxxx--------------------");
+                                if (!embed) return [3, 3];
                                 return [4, libs.request_getFileSize(embed)];
                             case 2:
                                 fileSize = _a.sent();
@@ -115,7 +124,8 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                         provider: "OMOVIES"
                                     });
                                 }
-                                return [2];
+                                _a.label = 3;
+                            case 3: return [2];
                         }
                     });
                 }); });

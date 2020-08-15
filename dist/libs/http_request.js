@@ -178,11 +178,41 @@ libs.request_get = function (url, headers, type, redirect) {
         });
     });
 };
-libs.request_post = function (url, headers, body, type) {
+libs.request_put = function (url, headers, body, type) {
     if (headers === void 0) { headers = {}; }
     if (type === void 0) { type = ""; }
     return __awaiter(_this, void 0, void 0, function () {
         var res, e_3;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 5, , 6]);
+                    return [4, fetch(url, {
+                            headers: headers,
+                            method: "PUT",
+                            body: body
+                        })];
+                case 1:
+                    res = _a.sent();
+                    if (!(type === "" || type === "html")) return [3, 3];
+                    return [4, res.text()];
+                case 2: return [2, _a.sent()];
+                case 3: return [4, res.json()];
+                case 4: return [2, _a.sent()];
+                case 5:
+                    e_3 = _a.sent();
+                    console.log("error_request_post", e_3);
+                    return [2, ""];
+                case 6: return [2];
+            }
+        });
+    });
+};
+libs.request_post = function (url, headers, body, type) {
+    if (headers === void 0) { headers = {}; }
+    if (type === void 0) { type = ""; }
+    return __awaiter(_this, void 0, void 0, function () {
+        var res, e_4;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -200,8 +230,8 @@ libs.request_post = function (url, headers, body, type) {
                 case 3: return [4, res.json()];
                 case 4: return [2, _a.sent()];
                 case 5:
-                    e_3 = _a.sent();
-                    console.log("error_request_post", e_3);
+                    e_4 = _a.sent();
+                    console.log("error_request_post", e_4);
                     return [2, ""];
                 case 6: return [2];
             }
@@ -321,7 +351,7 @@ libs.request_getFileSize = function (url, headers) {
     if (url === void 0) { url = ""; }
     if (headers === void 0) { headers = {}; }
     return __awaiter(_this, void 0, void 0, function () {
-        var res, headerResponse, contentLength, e_4;
+        var res, headerResponse, contentLength, e_5;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -336,8 +366,8 @@ libs.request_getFileSize = function (url, headers) {
                     contentLength = headerResponse["Content-Length"] || headerResponse["content-length"];
                     return [2, contentLength || 0];
                 case 2:
-                    e_4 = _a.sent();
-                    console.log("error_request_head", e_4);
+                    e_5 = _a.sent();
+                    console.log("error_request_head", e_5);
                     return [2, 0];
                 case 3: return [2];
             }

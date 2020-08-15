@@ -298,7 +298,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                         decode.pArray = [608135816, 2242054355, 320440878, 57701188, 2752067618, 698298832, 137296536, 3964562569, 1160258022, 953160567, 3193202383, 887688300, 3232508343, 3380367581, 1065670069, 3041331479, 2450970073, 2306472731].slice(),
                         decode.gsk(e);
                 };
-                urlSearch = "https://www.primewire.li/?s=" + slugify(movieInfo.title, { lower: true, replacement: '+' }) + "&t=y&ts=y&c=e";
+                urlSearch = "https://www.primewire.li/?s=" + slugify(movieInfo.title, { lower: true, replacement: '+' }) + "&t=y&m=e";
                 return [4, libs.request_get(urlSearch)];
             case 1:
                 htmlSearch = _a.sent();

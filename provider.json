@@ -25,6 +25,8 @@
 		"dist/providers/couchtuner.js",
 		"dist/providers/watchepisodes4.js",
 		"dist/providers/them4ufree.js",
-		"dist/providers/primewire.js"
+		"dist/providers/primewire.js",
+		"dist/providers/vikv.js",
+		"dist/providers/simplestream.js"
 	]
 }
