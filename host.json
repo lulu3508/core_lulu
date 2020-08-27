@@ -25,6 +25,9 @@
 		"dist/hosts/jawcloud.js",
 		"dist/hosts/gounlimited.js",
 		"dist/hosts/vidtodo.js",
-		"dist/hosts/vidmoly.js"
+		"dist/hosts/vidmoly.js",
+		"dist/hosts/gomostream.js",
+		"dist/hosts/mightyupload.js",
+		"dist/hosts/vidsrc.js"
 	]
 }

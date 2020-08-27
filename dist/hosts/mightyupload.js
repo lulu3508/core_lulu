@@ -35,45 +35,46 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-hosts["upstream"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var html, source, parse, length, i, file, fileSize;
+hosts["mightyupload"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
+    function decode(p, a, c, k, e, d) { while (c--)
+        if (k[c])
+            p = p.replace(new RegExp('\\b' + c.toString(a) + '\\b', 'g'), k[c]); return p; }
+    var html, parseDetail, script, result, source, fileSize;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4, libs.request_get(url, {
-                    "user-agent": libs.request_getRandomUserAgent()
-                }, "html")];
+            case 0: return [4, libs.request_get(url)];
             case 1:
                 html = _a.sent();
-                source = html.match(/sources *\: *([^\]]+)/i);
-                source = source ? source[1] + "]" : "[]";
-                parse = [];
-                source = "parse = " + source;
-                eval(source);
-                console.log(parse, "------------ SOURCES UPSTREAM -------------");
-                length = parse.length;
-                i = 0;
-                _a.label = 2;
+                parseDetail = cheerio.load(html);
+                script = "";
+                console.log(parseDetail("script").length, "------------------ mightyupload LENGTH SCRIPT ----------");
+                parseDetail("script").each(function (key, item) {
+                    var text = parseDetail(item).text();
+                    if (text.indexOf("eval") != -1) {
+                        script = text;
+                    }
+                });
+                script = script.match(/\; *return *p *\} *(.*)/i);
+                script = script ? script[1].replace(/.$/, "") : '()';
+                console.log(script, "------------------ mightyupload  SCRIPT ----------");
+                result = "";
+                eval("result = decode" + script);
+                console.log(result, "------------------ mightyupload RESULT ----------");
+                source = result.match(/file *\: *\"([^\"]+)/i);
+                source = source ? source[1] : '';
+                console.log(source, "------------------ mightyupload source ----------");
+                return [4, libs.request_getFileSize(source)];
             case 2:
-                if (!(i < length)) return [3, 5];
-                file = parse[i].file;
-                console.log(parse[i], "------------ SOURCE DETAIL UPSTREAM -------------");
-                return [4, libs.request_getFileSize(file)];
-            case 3:
                 fileSize = _a.sent();
                 if (fileSize > 0) {
                     callback({
-                        file: file,
+                        file: source,
                         size: fileSize,
-                        host: "UPSTREAM",
-                        quality: "" + parse[i].label,
+                        host: "MIGHTYUPLOAD",
                         provider: config.provider
                     });
                 }
-                _a.label = 4;
-            case 4:
-                i++;
-                return [3, 2];
-            case 5: return [2];
+                return [2];
         }
     });
 }); };

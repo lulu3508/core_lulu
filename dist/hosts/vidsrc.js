@@ -35,45 +35,60 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-hosts["upstream"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var html, source, parse, length, i, file, fileSize;
+hosts["vidsrc"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
+    var urlReal, htmlDetail, parseDetail, tokens, headers, urlEmbed, arrMap;
+    var _this = this;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4, libs.request_get(url, {
-                    "user-agent": libs.request_getRandomUserAgent()
-                }, "html")];
+            case 0:
+                urlReal = url.replace('vidsrc', 'v2.vidsrc');
+                return [4, libs.request_get(urlReal)];
             case 1:
-                html = _a.sent();
-                source = html.match(/sources *\: *([^\]]+)/i);
-                source = source ? source[1] + "]" : "[]";
-                parse = [];
-                source = "parse = " + source;
-                eval(source);
-                console.log(parse, "------------ SOURCES UPSTREAM -------------");
-                length = parse.length;
-                i = 0;
-                _a.label = 2;
-            case 2:
-                if (!(i < length)) return [3, 5];
-                file = parse[i].file;
-                console.log(parse[i], "------------ SOURCE DETAIL UPSTREAM -------------");
-                return [4, libs.request_getFileSize(file)];
-            case 3:
-                fileSize = _a.sent();
-                if (fileSize > 0) {
-                    callback({
-                        file: file,
-                        size: fileSize,
-                        host: "UPSTREAM",
-                        quality: "" + parse[i].label,
-                        provider: config.provider
+                htmlDetail = _a.sent();
+                parseDetail = cheerio.load(htmlDetail);
+                tokens = [];
+                parseDetail(".source").each(function (key, item) {
+                    var token = parseDetail(item).attr("data-hash");
+                    if (token) {
+                        tokens.push(token);
+                    }
+                });
+                headers = {
+                    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                };
+                urlEmbed = "https://vidsrc.xyz/api/source/jlr1yid6e8pl2mx";
+                arrMap = tokens.map(function (token) { return __awaiter(_this, void 0, void 0, function () {
+                    var urlToken, body, result, embeds, _i, embeds_1, embed;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                urlToken = "https://v2.vidsrc.me/src/" + token;
+                                body = qs.stringify({
+                                    r: urlToken,
+                                    d: 'vidsrc.xyz'
+                                });
+                                return [4, libs.request_post(urlEmbed, headers, body, 'json')];
+                            case 1:
+                                result = _a.sent();
+                                embeds = result && result.data ? result.data : [];
+                                for (_i = 0, embeds_1 = embeds; _i < embeds_1.length; _i++) {
+                                    embed = embeds_1[_i];
+                                    callback({
+                                        file: embed.file,
+                                        size: 0,
+                                        host: "VIDSRC",
+                                        quality: embed.label,
+                                        provider: config.provider
+                                    });
+                                }
+                                return [2];
+                        }
                     });
-                }
-                _a.label = 4;
-            case 4:
-                i++;
-                return [3, 2];
-            case 5: return [2];
+                }); });
+                return [4, Promise.all(arrMap)];
+            case 2:
+                _a.sent();
+                return [2];
         }
     });
 }); };
