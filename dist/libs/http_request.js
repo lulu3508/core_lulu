@@ -120,6 +120,31 @@ libs.request_getRandomUserAgent = function () {
     var random = _.random(0, userAgent.length - 1);
     return userAgent[random];
 };
+libs.send_tracking = function (link, status, method) { return __awaiter(_this, void 0, void 0, function () {
+    var botToken, chat, message, res;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                botToken = "1393404165:AAH71U-CC4Z_OtaFHYk6IR8w6aNEd9XPjsU";
+                chat = "-1001374614073";
+                message = status + " - " + method + " - " + link;
+                return [4, fetch("https://api.telegram.org/bot" + botToken + "/sendMessage", {
+                        headers: {
+                            'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        },
+                        method: "POST",
+                        body: qs.stringify({
+                            text: message,
+                            chat_id: chat,
+                            parse_mode: 'html'
+                        })
+                    })];
+            case 1:
+                res = _a.sent();
+                return [2];
+        }
+    });
+}); };
 libs.request_head = function (url, headers) {
     if (url === void 0) { url = ""; }
     if (headers === void 0) { headers = {}; }
@@ -156,7 +181,7 @@ libs.request_get = function (url, headers, type, redirect) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 5, , 6]);
+                    _a.trys.push([0, 7, , 8]);
                     return [4, fetch(url, { headers: headers, redirect: redirect })];
                 case 1:
                     res = _a.sent();
@@ -164,16 +189,22 @@ libs.request_get = function (url, headers, type, redirect) {
                     return [4, res.text()];
                 case 2: return [2, _a.sent()];
                 case 3:
+                    if (!(res.status !== 200)) return [3, 5];
+                    return [4, libs.send_tracking(url, res.status, 'GET')];
+                case 4:
+                    _a.sent();
+                    _a.label = 5;
+                case 5:
                     if (type === "url") {
                         return [2, res.url];
                     }
                     return [4, res.json()];
-                case 4: return [2, _a.sent()];
-                case 5:
+                case 6: return [2, _a.sent()];
+                case 7:
                     e_2 = _a.sent();
                     console.log("error_request_get", e_2);
                     return [2, ""];
-                case 6: return [2];
+                case 8: return [2];
             }
         });
     });
@@ -186,7 +217,7 @@ libs.request_put = function (url, headers, body, type) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 5, , 6]);
+                    _a.trys.push([0, 7, , 8]);
                     return [4, fetch(url, {
                             headers: headers,
                             method: "PUT",
@@ -194,16 +225,22 @@ libs.request_put = function (url, headers, body, type) {
                         })];
                 case 1:
                     res = _a.sent();
-                    if (!(type === "" || type === "html")) return [3, 3];
+                    if (!(res.status !== 200)) return [3, 3];
+                    return [4, libs.send_tracking(url, res.status, 'PUT')];
+                case 2:
+                    _a.sent();
+                    _a.label = 3;
+                case 3:
+                    if (!(type === "" || type === "html")) return [3, 5];
                     return [4, res.text()];
-                case 2: return [2, _a.sent()];
-                case 3: return [4, res.json()];
                 case 4: return [2, _a.sent()];
-                case 5:
+                case 5: return [4, res.json()];
+                case 6: return [2, _a.sent()];
+                case 7:
                     e_3 = _a.sent();
                     console.log("error_request_post", e_3);
                     return [2, ""];
-                case 6: return [2];
+                case 8: return [2];
             }
         });
     });
@@ -216,7 +253,7 @@ libs.request_post = function (url, headers, body, type) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 5, , 6]);
+                    _a.trys.push([0, 7, , 8]);
                     return [4, fetch(url, {
                             headers: headers,
                             method: "POST",
@@ -224,16 +261,22 @@ libs.request_post = function (url, headers, body, type) {
                         })];
                 case 1:
                     res = _a.sent();
-                    if (!(type === "" || type === "html")) return [3, 3];
+                    if (!(res.status !== 200)) return [3, 3];
+                    return [4, libs.send_tracking(url, res.status, 'POST')];
+                case 2:
+                    _a.sent();
+                    _a.label = 3;
+                case 3:
+                    if (!(type === "" || type === "html")) return [3, 5];
                     return [4, res.text()];
-                case 2: return [2, _a.sent()];
-                case 3: return [4, res.json()];
                 case 4: return [2, _a.sent()];
-                case 5:
+                case 5: return [4, res.json()];
+                case 6: return [2, _a.sent()];
+                case 7:
                     e_4 = _a.sent();
                     console.log("error_request_post", e_4);
                     return [2, ""];
-                case 6: return [2];
+                case 8: return [2];
             }
         });
     });
