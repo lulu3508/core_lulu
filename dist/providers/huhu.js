@@ -69,7 +69,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                     'content-type': 'application/json',
                     'Host': "huhu.to"
                 };
-                bodySource = JSON.stringify({ "language": "en", "type": movieInfo.type == 'tv' ? 'series' : 'movie', "ids": { "tmdb_id": 337401, imdb_id: 'tt4566758' }, "name": movieInfo.title });
+                bodySource = JSON.stringify({ "language": "en", "type": movieInfo.type == 'tv' ? 'series' : 'movie', "ids": { "tmdb_id": movieInfo.tmdb_id, imdb_id: movieInfo.imdb_id }, "name": movieInfo.title });
                 arrMap = urlSources.map(function (urlSource) { return __awaiter(_this, void 0, void 0, function () {
                     var resultSource, arrMapSource, sources, _i, _a, episodeInfo, season, episode, arrMapSource;
                     var _this = this;
