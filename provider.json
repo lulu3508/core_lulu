@@ -1,5 +1,6 @@
 {
 	"providers": [
+		"dist/providers/huhu.js",
 		"dist/providers/123movies.js",
 		"dist/providers/cinebloom.js",
 		"dist/providers/cinewhale.js",
