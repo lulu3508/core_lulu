@@ -1,14 +1,9 @@
 {
 	"providers": [
 		"dist/providers/huhu.js",
-		"dist/providers/123movies.js",
-		"dist/providers/cinebloom.js",
 		"dist/providers/cinewhale.js",
 		"dist/providers/extramovies.js",
 		"dist/providers/novamovie.js",
-		"dist/providers/seehd.js",
-		"dist/providers/series9.js",
-		"dist/providers/soap2day.js",
 		"dist/providers/topnow.js",
 		"dist/providers/xmovies8.js",
 		"dist/providers/123moviesfull.js",

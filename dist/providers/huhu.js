@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var pingSecretUrl, headerPing, bodyPing, resultPing, signed, urlSources, headerSource, bodySource, arrMap;
+    var pingSecretUrl, headerPing, bodyPing, resultPing, signed, urlSourcesTv, urlSourcesMovie, headerSource, sources, bodySourceMovie, bodySourceTv, bodySource, arrMap;
     var _this = this;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -51,16 +51,30 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 resultPing = _a.sent();
                 signed = resultPing ? resultPing.response.signed : '';
                 console.log(movieInfo, headerPing, bodyPing, pingSecretUrl, resultPing, signed, '------------------- HUHU PING INFO --------------');
-                urlSources = [
-                    "https://huhu.to/hot-series-de/item.watched",
-                    "https://huhu.to/hot-movies-de/source.watched",
-                    "https://huhu.to/filmstoon/source.watched",
-                    'https://huhu.to/english-hd-2/source.watched',
-                    'https://huhu.to/french--stream/source.watched',
-                    'https://huhu.to/kinox/source.watched',
-                    'https://huhu.to/hot-movies-de-2/source.watched',
+                urlSourcesTv = [
+                    'https://huhu.to/hot-series-de/item.watched',
+                    'https://huhu.to/hot-series-de-2/source.watched',
                     'https://huhu.to/hot/source.watched',
+                    'https://huhu.to/english-hd-2/source.watched',
+                    'https://huhu.to/kinox/source.watched',
+                    'https://huhu.to/seriestream-fr/source.watched',
                     'https://huhu.to/english-hd-3/source.watched',
+                    'https://huhu.to/all-french/source.watched',
+                    'https://huhu.to/english-hd-4/source.watched',
+                    'https://chilli.huhu.to/all-spain-1/source.watched',
+                    'https://chilli.huhu.to/great-spanish-movies/source.watched',
+                    'https://chilli.huhu.to/spanish-movies-3/source.watched',
+                    'https://chilli.huhu.to/german-club-2/source.watched'
+                ];
+                urlSourcesMovie = [
+                    'https://huhu.to/hot-movies-de/source.watched',
+                    'https://huhu.to/filmstoon/source.watched',
+                    'https://huhu.to/french--stream/source.watched',
+                    'https://huhu.to/english-hd-2/source.watched',
+                    'https://huhu.to/hot/source.watched',
+                    'https://huhu.to/kinox/source.watched',
+                    'https://huhu.to/english-hd-3/source.watched',
+                    'https://huhu.to/hot-movies-de-2/source.watched',
                     'https://huhu.to/all-french/source.watched',
                     'https://huhu.to/english-hd-4/source.watched'
                 ];
@@ -69,9 +83,12 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                     'content-type': 'application/json',
                     'Host': "huhu.to"
                 };
-                bodySource = JSON.stringify({ "language": "en", "type": movieInfo.type == 'tv' ? 'series' : 'movie', "ids": { "tmdb_id": movieInfo.tmdb_id, imdb_id: movieInfo.imdb_id }, "name": movieInfo.title });
-                arrMap = urlSources.map(function (urlSource) { return __awaiter(_this, void 0, void 0, function () {
-                    var resultSource, arrMapSource, sources, _i, _a, episodeInfo, season, episode, arrMapSource;
+                sources = movieInfo.type == 'tv' ? urlSourcesTv : urlSourcesMovie;
+                bodySourceMovie = JSON.stringify({ "language": "en", "type": movieInfo.type == 'tv' ? 'series' : 'movie', "ids": { "tmdb_id": movieInfo.tmdb_id, imdb_id: movieInfo.imdb_id }, "name": movieInfo.title });
+                bodySourceTv = JSON.stringify({ "language": "en", "type": movieInfo.type == 'tv' ? 'series' : 'movie', "ids": { "tmdb_id": movieInfo.tmdb_id }, "name": movieInfo.title });
+                bodySource = movieInfo.type == 'tv' ? bodySourceTv : bodySourceMovie;
+                arrMap = sources.map(function (urlSource) { return __awaiter(_this, void 0, void 0, function () {
+                    var resultSource, arrMapSource, sources_1, _i, _a, episodeInfo, season, episode, arrMapSource;
                     var _this = this;
                     return __generator(this, function (_b) {
                         switch (_b.label) {
@@ -117,16 +134,16 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 _b.label = 3;
                             case 3:
                                 if (!(movieInfo.type == 'tv' && resultSource.episodes && resultSource.episodes.length > 0)) return [3, 5];
-                                sources = [];
+                                sources_1 = [];
                                 for (_i = 0, _a = resultSource.episodes; _i < _a.length; _i++) {
                                     episodeInfo = _a[_i];
                                     season = episodeInfo.season;
                                     episode = episodeInfo.episode;
                                     if (season == movieInfo.season && episode == movieInfo.episode) {
-                                        sources = resultSource.sources ? resultSource.sources : [];
+                                        sources_1 = resultSource.sources ? resultSource.sources : [];
                                     }
                                 }
-                                arrMapSource = sources.map(function (source) { return __awaiter(_this, void 0, void 0, function () {
+                                arrMapSource = sources_1.map(function (source) { return __awaiter(_this, void 0, void 0, function () {
                                     var embed, fileSize, host;
                                     return __generator(this, function (_a) {
                                         switch (_a.label) {
