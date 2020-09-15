@@ -50,6 +50,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                     "content-type": "application/x-www-form-urlencoded",
                     referer: "https://flixanity.app/films",
                     authorization: "Bearer false",
+                    'user-agent': libs.request_getRandomUserAgent(),
                     "x-requested-with": "XMLHttpRequest"
                 };
                 return [4, libs.request_post(url, headers, body, "json")];
@@ -82,7 +83,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 if (movieInfo.type == "tv") {
                     link = link + "/season/" + movieInfo.season + "/episode/" + movieInfo.episode;
                 }
-                return [4, libs.request_get(link)];
+                return [4, libs.request_get(link, headers)];
             case 2:
                 htmlDetail = _a.sent();
                 id = htmlDetail.match(/elid *\= *\"([^\"]+)/i);
