@@ -1,7 +1,6 @@
 {
 	"providers": [
 		"dist/providers/huhu.js",
-		"dist/providers/cinewhale.js",
 		"dist/providers/extramovies.js",
 		"dist/providers/novamovie.js",
 		"dist/providers/topnow.js",
