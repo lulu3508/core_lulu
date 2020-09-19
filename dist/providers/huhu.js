@@ -36,21 +36,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var pingSecretUrl, headerPing, bodyPing, resultPing, signed, urlSourcesTv, urlSourcesMovie, headerSource, sources, bodySourceMovie, bodySourceTv, bodySource, arrMap;
+    var pingSecretUrl, headerPing, resultPing, signed, urlSourcesTv, urlSourcesMovie, headerSource, sources, bodySourceMovie, bodySourceTv, bodySource, arrMap;
     var _this = this;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 pingSecretUrl = "https://www.watched.com/api/box/ping";
                 headerPing = {
-                    "content-type": "application/json"
+                    "User-Agent": libs.request_getRandomUserAgent(),
                 };
-                bodyPing = JSON.stringify({ "x": "aW9zOoqT+nDRoFtDLTKobBLF5Ks5TTj1jUFi26KbRlkAZf7WUsAcue6zyBSyLcO7KgFyM/qAGONI065KTy+l5Z5VbPcA2kAIBaTog24Olg2j/5Q4JfreO4vvuCByQsEhiLpXA9h80itsQfRRmXnyPm8pMyVXBv9v+25KkXFBuhznnTILIHJuNWuQH2q85irTrG0FI38HjYZY+V8OXgKj2rWoVmCRe9bvCYcEm0S+VO1mTtNwnHROgZXfDc3bwvjL2b5qxNiVErwqEEL+9zrooFeXdw7vIGN6gVsXr5tczjpFfy1mhnyZx/4rv5iGx4yGixpESwU2HpVkvPpYcCaFIeISKd9lvv0eM4qUri6LeCV4gZxj91qub9cBdiU4B02D5P39b8QUf0tyqw1tlrMOpD9+hioa0vTxGTZcKIEaIRxt8aMfG//xpnNFMhHnt6rggJ9uYZLwd/Nnr+uvqWyjM7uLLyLi06VeIG3wyAanN3aI1ESD1XZSpQntWrMpHopMgPehLyn3uLPqeynzBUBaZZFbiHHTT4+XAj7pNEdtT3R9jXRw+Gh5CIcz/bq7KNoq8u7BvCfgY2RARR5tymqFeJ+AbyMSRIlQrnmwQvbwP4zweZfiXHihFaRuR63hUO4Ki4DC3gSKyOXVkQbuLIsqBJQW3Hvta6ARNuB6C6I/RNF5q+7r1lO4MfvJ3A+JUN3XC4OZsTO5jLiRLKtJYdXJVIk4q9QYFdBIy65xxUboTcnt4+0rOxAxJJg5HkMQKcQIdIFqnn/4QN8HdBPqJiQ6Fuv6mRePRSVedjtCW20q+pzuOc7h" });
-                return [4, libs.request_post(pingSecretUrl, headerPing, bodyPing, 'json')];
+                return [4, libs.request_get(pingSecretUrl, headerPing, 'json')];
             case 1:
                 resultPing = _a.sent();
                 signed = resultPing ? resultPing.response.signed : '';
-                console.log(movieInfo, headerPing, bodyPing, pingSecretUrl, resultPing, signed, '------------------- HUHU PING INFO --------------');
+                console.log(movieInfo, headerPing, pingSecretUrl, resultPing, signed, '------------------- HUHU PING INFO --------------');
                 urlSourcesTv = [
                     'https://huhu.to/hot-series-de/item.watched',
                     'https://huhu.to/hot-series-de-2/source.watched',
@@ -76,7 +75,8 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                     'https://huhu.to/english-hd-3/source.watched',
                     'https://huhu.to/hot-movies-de-2/source.watched',
                     'https://huhu.to/all-french/source.watched',
-                    'https://huhu.to/english-hd-4/source.watched'
+                    'https://huhu.to/english-hd-4/source.watched',
+                    'https://chilli.huhu.to/german-club-2/source.watched'
                 ];
                 headerSource = {
                     'watched-sig': signed,

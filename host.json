@@ -28,6 +28,7 @@
 		"dist/hosts/vidmoly.js",
 		"dist/hosts/gomostream.js",
 		"dist/hosts/mightyupload.js",
-		"dist/hosts/vidsrc.js"
+		"dist/hosts/vidsrc.js",
+		"dist/hosts/vivo.js"	
 	]
 }

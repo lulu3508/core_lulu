@@ -35,46 +35,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-hosts["streamhoe"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var id, urlAPI, headers, body, parse, sources, arrMap;
-    var _this = this;
+hosts["vivo"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
+    var decodeUrl, html, source, file, fileSize;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                id = url.match(/\/v\/([A-z0-9-_+]+)/i);
-                id = id ? id[1] : "";
-                urlAPI = "https://streamhoe.online/api/source/" + id;
-                headers = {
-                    "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                decodeUrl = function (a, b) {
+                    return ++b ? String.fromCharCode((a = a.charCodeAt() + 47, a > 126 ? a - 94 : a)) : decodeURIComponent(a).replace(/[^ ]/g, decodeUrl);
                 };
-                body = "r=&d=streamhoe.online";
-                return [4, libs.request_post(urlAPI, headers, body, 'json')];
+                return [4, libs.request_get(url)];
             case 1:
-                parse = _a.sent();
-                sources = parse.data ? parse.data : [];
-                arrMap = sources.map(function (embed) { return __awaiter(_this, void 0, void 0, function () {
-                    var fileSize;
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4, libs.request_getFileSize(embed.file)];
-                            case 1:
-                                fileSize = _a.sent();
-                                if (fileSize > 0) {
-                                    callback({
-                                        file: embed.file,
-                                        size: fileSize,
-                                        host: "STREAMHOE",
-                                        quality: embed.label,
-                                        provider: config.provider
-                                    });
-                                }
-                                return [2];
-                        }
-                    });
-                }); });
-                return [4, Promise.all(arrMap)];
+                html = _a.sent();
+                source = html.match(/source *\: *\'([^\']+)/i);
+                source = source ? source[1] : '';
+                if (!source) {
+                    return [2];
+                }
+                source = source.trim();
+                file = decodeUrl(source);
+                return [4, libs.request_getFileSize(file)];
             case 2:
-                _a.sent();
+                fileSize = _a.sent();
+                if (fileSize > 0) {
+                    callback({
+                        file: file,
+                        size: fileSize,
+                        host: "VIVO",
+                        provider: config.provider
+                    });
+                }
                 return [2];
         }
     });
