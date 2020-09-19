@@ -1,14 +1,15 @@
-libs.string_getHost = function (url) {
-    if (url.toLowerCase().indexOf('google') != -1) {
+libs.string_getHost = function (url, isReal) {
+    if (isReal === void 0) { isReal = false; }
+    if (url.toLowerCase().indexOf('google') != -1 && !isReal) {
         return "Google Video";
     }
-    if (url.toLowerCase().indexOf('schoolbalebale') != -1) {
+    if (url.toLowerCase().indexOf('schoolbalebale') != -1 && !isReal) {
         return "FAST CDN";
     }
-    if (url.toLowerCase().indexOf('loadshare') != -1) {
+    if (url.toLowerCase().indexOf('loadshare') != -1 && !isReal) {
         return "LOADSHARE CDN";
     }
-    if (url.toLowerCase().indexOf('dropbox') != -1) {
+    if (url.toLowerCase().indexOf('dropbox') != -1 && !isReal) {
         return "DROPBOX";
     }
     var hostName = url.match(/^:?\/\/|https?:\/\/([^/]*@)?(.+?)(:\d{2,5})?([/?].*)?$/i);

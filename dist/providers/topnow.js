@@ -283,7 +283,7 @@ source.topnow_getLink = function (linkIframe1, urlSearch) { return __awaiter(_th
     });
 }); };
 source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var urlSearch, headers, htmlSearch, parseSearch, urlWaiting, link, quality, htmlDetail, linkDownload, param1, param2, param3, linkIframe1, embed, fileSize, host;
+    var urlSearch, headers, htmlSearch, parseSearch, urlWaiting, link, quality, htmlDetail, linkDownload, param1, param2, param3, linkIframe1, embed, fileSize, host, hostReal;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -364,10 +364,11 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
             case 4:
                 fileSize = _a.sent();
                 host = libs.string_getHost(embed);
-                console.log(embed, fileSize, host, "embed--------------------");
-                if (fileSize == 0 || host.indexOf("docs.google") != -1) {
-                    if (hosts[host]) {
-                        hosts[host](embed, movieInfo, _.merge(config, { provider: "TOPNOW" }), callback);
+                hostReal = libs.string_getHost(embed, true);
+                console.log(embed, fileSize, host, hostReal, "embed--------------------");
+                if (fileSize == 0 || embed.indexOf("docs.google") != -1) {
+                    if (hosts[hostReal]) {
+                        hosts[hostReal](embed, movieInfo, _.merge(config, { provider: "TOPNOW" }), callback);
                     }
                 }
                 else {
