@@ -36,13 +36,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 hosts["vidcloud9"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var htmlVidcloud, parseVidcloud, sources, arrMap, vidCloudAjax, urlMatch, headers, json, _a, _b, _i, item, file, fileSize, _c, _d, _e, item, file, fileSize;
+    var htmlVidcloud, parseVidcloud, sources, arrMap, sources, sourceItem, source, parse, length_1, i, file;
     var _this = this;
-    return __generator(this, function (_f) {
-        switch (_f.label) {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0: return [4, libs.request_get(url)];
             case 1:
-                htmlVidcloud = _f.sent();
+                htmlVidcloud = _a.sent();
                 parseVidcloud = cheerio.load(htmlVidcloud);
                 sources = [];
                 console.log(parseVidcloud(".linkserver").length, "----------- VIDCLOUD9 SEARCH EMBED ----------");
@@ -81,66 +81,27 @@ hosts["vidcloud9"] = function (url, movieInfo, config, callback) { return __awai
                 }); });
                 return [4, Promise.all(arrMap)];
             case 2:
-                _f.sent();
-                vidCloudAjax = "https://vidcloud9.com/ajax.php";
-                urlMatch = url.replace("https://vidcloud9.com/load.php", vidCloudAjax);
-                urlMatch = url.replace("https://vidcloud9.com/streaming.php", vidCloudAjax);
-                headers = {
-                    "x-requested-with": "XMLHttpRequest"
-                };
-                return [4, libs.request_get(urlMatch, headers, "json")];
-            case 3:
-                json = _f.sent();
-                _a = [];
-                for (_b in json.source)
-                    _a.push(_b);
-                _i = 0;
-                _f.label = 4;
-            case 4:
-                if (!(_i < _a.length)) return [3, 7];
-                item = _a[_i];
-                file = json.source[item].file;
-                return [4, libs.request_getFileSize(file)];
-            case 5:
-                fileSize = _f.sent();
-                if (fileSize > 0) {
-                    callback({
-                        file: file,
-                        size: fileSize,
-                        host: "VIDCLOUD9",
-                        provider: config.provider
-                    });
+                _a.sent();
+                sources = htmlVidcloud.match(/sources *\: *([^\]]+)/im);
+                for (sourceItem = 1; sourceItem < sources.length; sourceItem++) {
+                    source = sources[sourceItem] ? sources[sourceItem] + "]" : "[]";
+                    parse = [];
+                    source = "parse = " + source;
+                    eval(source);
+                    console.log(parse, "------------ SOURCES VIDCLOUD9 -------------");
+                    length_1 = parse.length;
+                    for (i = 0; i < length_1; i++) {
+                        file = parse[i].file;
+                        console.log(parse[i], "------------ SOURCE DETAIL VIDCLOUD9 -------------");
+                        callback({
+                            file: file,
+                            host: "VIDCLOUD9" + ("" + (parse[i].type == 'hls' ? ' HLS' : '')),
+                            provider: config.provider,
+                            quality: parse[i].type
+                        });
+                    }
                 }
-                _f.label = 6;
-            case 6:
-                _i++;
-                return [3, 4];
-            case 7:
-                _c = [];
-                for (_d in json.source_bk)
-                    _c.push(_d);
-                _e = 0;
-                _f.label = 8;
-            case 8:
-                if (!(_e < _c.length)) return [3, 11];
-                item = _c[_e];
-                file = json.source_bk[item].file;
-                return [4, libs.request_getFileSize(file)];
-            case 9:
-                fileSize = _f.sent();
-                if (fileSize > 0) {
-                    callback({
-                        file: file,
-                        size: fileSize,
-                        host: "VIDCLOUD9",
-                        provider: config.provider
-                    });
-                }
-                _f.label = 10;
-            case 10:
-                _e++;
-                return [3, 8];
-            case 11: return [2];
+                return [2];
         }
     });
 }); };
