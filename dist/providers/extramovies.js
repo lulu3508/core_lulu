@@ -41,7 +41,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                url = "http://extramovies.casa/?s=" + slugify(movieInfo.title, { lower: true, replacement: '+' });
+                url = "http://extramovies.fit/?s=" + slugify(movieInfo.title, { lower: true, replacement: '+' });
                 return [4, libs.request_get(url, {})];
             case 1:
                 html = _a.sent();
@@ -78,7 +78,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 console.log(parseDetail_1(".ttdbox").length, "---------- EXTRAMOVIE PARSE EMBED ----------");
                 parseDetail_1(".ttdbox").each(function (keyDetail, itemDetail) {
                     parseDetail_1(itemDetail).find("a").each(function (keyA, itemA) {
-                        var href = "http://extramovies.casa" + parseDetail_1(itemA).attr("href");
+                        var href = "http://extramovies.fit" + parseDetail_1(itemA).attr("href");
                         if (href && href.indexOf("download.php") == -1) {
                             sources_1.push(href);
                         }
