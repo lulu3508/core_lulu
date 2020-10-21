@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 hosts["vidnode"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var htmlVidcloud, parseVidcloud, sources, arrMap, arrMap;
+    var htmlVidcloud, parseVidcloud, source, parse, length, i, file, fileSize, sourcesEmbed, arrMap, arrMap;
     var _this = this;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -44,16 +44,45 @@ hosts["vidnode"] = function (url, movieInfo, config, callback) { return __awaite
             case 1:
                 htmlVidcloud = _a.sent();
                 parseVidcloud = cheerio.load(htmlVidcloud);
-                sources = [];
+                source = htmlVidcloud.match(/sources *\: *([^\]]+)/i);
+                source = source ? source[1] + "]" : "[]";
+                parse = [];
+                source = "parse = " + source;
+                eval(source);
+                console.log(parse, "------------ SOURCES VIDNODE -------------");
+                length = parse.length;
+                i = 0;
+                _a.label = 2;
+            case 2:
+                if (!(i < length)) return [3, 5];
+                file = parse[i].file;
+                console.log(parse[i], "------------ SOURCE DETAIL VIDNODE -------------");
+                return [4, libs.request_getFileSize(file)];
+            case 3:
+                fileSize = _a.sent();
+                if (fileSize > 0) {
+                    callback({
+                        file: file,
+                        size: fileSize,
+                        host: "VIDNODE",
+                        provider: config.provider
+                    });
+                }
+                _a.label = 4;
+            case 4:
+                i++;
+                return [3, 2];
+            case 5:
                 console.log(parseVidcloud(".linkserver").length, "----------- VIDNODE SEARCH EMBED ----------");
+                sourcesEmbed = [];
                 parseVidcloud(".linkserver").each(function (keyLink, itemLink) {
                     var embed = parseVidcloud(itemLink).attr("data-video");
                     if (embed) {
-                        sources.push(embed);
+                        sourcesEmbed.push(embed);
                     }
                 });
-                console.log(sources, "----------- VIDNODE SOURCES EMBED ----------");
-                arrMap = sources.map(function (embed) { return __awaiter(_this, void 0, void 0, function () {
+                console.log(sourcesEmbed, "----------- VIDNODE SOURCES EMBED ----------");
+                arrMap = sourcesEmbed.map(function (embed) { return __awaiter(_this, void 0, void 0, function () {
                     var fileSize, host;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
@@ -80,17 +109,17 @@ hosts["vidnode"] = function (url, movieInfo, config, callback) { return __awaite
                     });
                 }); });
                 return [4, Promise.all(arrMap)];
-            case 2:
+            case 6:
                 _a.sent();
                 console.log(parseVidcloud(".linkserver").length, "----------- VIDNODE SEARCH EMBED ----------");
                 parseVidcloud(".linkserver").each(function (keyLink, itemLink) {
                     var embed = parseVidcloud(itemLink).attr("data-video");
                     if (embed && embed.indexOf("vidcloud9") == -1) {
-                        sources.push(embed);
+                        sourcesEmbed.push(embed);
                     }
                 });
-                console.log(sources, "----------- VIDNODE SOURCES EMBED ----------");
-                arrMap = sources.map(function (embed) { return __awaiter(_this, void 0, void 0, function () {
+                console.log(sourcesEmbed, "----------- VIDNODE SOURCES EMBED ----------");
+                arrMap = sourcesEmbed.map(function (embed) { return __awaiter(_this, void 0, void 0, function () {
                     var fileSize, host;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
@@ -117,7 +146,7 @@ hosts["vidnode"] = function (url, movieInfo, config, callback) { return __awaite
                     });
                 }); });
                 return [4, Promise.all(arrMap)];
-            case 3:
+            case 7:
                 _a.sent();
                 return [2];
         }

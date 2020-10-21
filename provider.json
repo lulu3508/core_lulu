@@ -23,6 +23,7 @@
 		"dist/providers/primewire.js",
 		"dist/providers/vikv.js",
 		"dist/providers/simplestream.js",
-		"dist/providers/putlocker123.js"
+		"dist/providers/putlocker123.js",
+		"dist/providers/watchserieshd.js"
 	]
 }

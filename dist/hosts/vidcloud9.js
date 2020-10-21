@@ -48,7 +48,10 @@ hosts["vidcloud9"] = function (url, movieInfo, config, callback) { return __awai
                 console.log(parseVidcloud(".linkserver").length, "----------- VIDCLOUD9 SEARCH EMBED ----------");
                 parseVidcloud(".linkserver").each(function (keyLink, itemLink) {
                     var embed = parseVidcloud(itemLink).attr("data-video");
-                    if (embed && embed.indexOf("vidcloud9") == -1) {
+                    if (embed) {
+                        if (_.startsWith(embed, "/")) {
+                            embed = "https:" + embed;
+                        }
                         sources.push(embed);
                     }
                 });
@@ -83,6 +86,7 @@ hosts["vidcloud9"] = function (url, movieInfo, config, callback) { return __awai
             case 2:
                 _a.sent();
                 sources = htmlVidcloud.match(/sources *\: *([^\]]+)/im);
+                sources = sources ? sources : [];
                 for (sourceItem = 1; sourceItem < sources.length; sourceItem++) {
                     source = sources[sourceItem] ? sources[sourceItem] + "]" : "[]";
                     parse = [];
