@@ -36,12 +36,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var urlSearch, resultSearch, parseSearch, link, ajaxUrl_1, linkTv, htmlDetail, parseDetail_1, tokens_1, token_1, headers_1, ajaxTv, idTv_1, bodyTv, htmlTv, parseTv_1, arrMap;
+    var domain, urlSearch, resultSearch, parseSearch, link, ajaxUrl_1, linkTv, htmlDetail, parseDetail_1, tokens_1, token_1, headers_1, ajaxTv, idTv_1, bodyTv, htmlTv, parseTv_1, arrMap;
     var _this = this;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                urlSearch = "http://m4ufree.fun/search/" + slugify(movieInfo.title, { lower: true, replacement: '-', remove: /[*+~.()'"!:@]/g }) + ".html";
+                domain = "http://m4ufree.tv";
+                urlSearch = domain + "/search/" + slugify(movieInfo.title, { lower: true, replacement: '-', remove: /[*+~.()'"!:@]/g }) + ".html";
                 return [4, libs.request_get(urlSearch, {})];
             case 1:
                 resultSearch = _a.sent();
@@ -50,24 +51,26 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 console.log(parseSearch("div.imagecover"), urlSearch, "--------- M4uFREE SEARCH ---------");
                 parseSearch("div.imagecover").each(function (keySearch, itemSearch) {
                     var title = parseSearch(itemSearch).find("a").attr("title");
-                    var year = title.match(/\( *([0-9]+)/i);
-                    year = year ? year[1] : 0;
-                    title = title.replace(/\( *[0-9]+ *\)/i, "").trim();
-                    var href = parseSearch(itemSearch).find("a").attr("href");
-                    console.log(title, year, href, "--------- M4uFREE SEARCH INFO ---------");
-                    if (slugify(movieInfo.title, { lower: true }) == slugify(title.trim(), { lower: true })) {
-                        if (movieInfo.type == "movie" && year == movieInfo.year) {
-                            link = href;
-                        }
-                        if (movieInfo.type == 'tv') {
-                            link = href;
+                    if (title) {
+                        var year = title.match(/\( *([0-9]+)/i);
+                        year = year ? year[1] : 0;
+                        title = title.replace(/\( *[0-9]+ *\)/i, "").trim();
+                        var href = parseSearch(itemSearch).find("a").attr("href");
+                        console.log(title, year, href, "--------- M4uFREE SEARCH INFO ---------");
+                        if (slugify(movieInfo.title, { lower: true }) == slugify(title.trim(), { lower: true })) {
+                            if (movieInfo.type == "movie" && year == movieInfo.year) {
+                                link = href;
+                            }
+                            if (movieInfo.type == 'tv') {
+                                link = href;
+                            }
                         }
                     }
                 });
                 console.log(link, "--------- M4uFREE LINK ---------");
                 if (!(link != "")) return [3, 8];
-                link = "http://m4ufree.fun/" + link;
-                ajaxUrl_1 = "http://m4ufree.fun/ajax";
+                link = domain + "/" + link;
+                ajaxUrl_1 = domain + "/ajax";
                 linkTv = '';
                 return [4, libs.request_get(link, {})];
             case 2:
@@ -80,7 +83,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                     "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
                 };
                 if (!(movieInfo.type == "tv")) return [3, 5];
-                ajaxTv = "http://m4ufree.fun/ajaxtv";
+                ajaxTv = domain + "/ajaxtv";
                 idTv_1 = "";
                 console.log(parseDetail_1(".episode").length, "--------- M4uFREE SEARCH EPISODE TV ---------");
                 parseDetail_1(".episode").each(function (keyTv, itemTv) {
