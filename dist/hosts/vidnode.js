@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 hosts["vidnode"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var htmlVidcloud, parseVidcloud, source, parse, length, i, file, fileSize, sourcesEmbed, arrMap, arrMap;
+    var htmlVidcloud, parseVidcloud, source, parse, length, i, file, headerFile, fileSize, typeFile, sourcesEmbed, arrMap, arrMap;
     var _this = this;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -57,14 +57,16 @@ hosts["vidnode"] = function (url, movieInfo, config, callback) { return __awaite
                 if (!(i < length)) return [3, 5];
                 file = parse[i].file;
                 console.log(parse[i], "------------ SOURCE DETAIL VIDNODE -------------");
-                return [4, libs.request_getFileSize(file)];
+                return [4, libs.request_head(file)];
             case 3:
-                fileSize = _a.sent();
+                headerFile = _a.sent();
+                fileSize = headerFile["Content-Length"] || headerFile["content-length"];
+                typeFile = headerFile["x-goog-storage-class"] || "";
                 if (fileSize > 0) {
                     callback({
                         file: file,
                         size: fileSize,
-                        host: "VIDNODE",
+                        host: typeFile ? "Google Video" : "VIDNODE",
                         provider: config.provider
                     });
                 }
@@ -83,13 +85,16 @@ hosts["vidnode"] = function (url, movieInfo, config, callback) { return __awaite
                 });
                 console.log(sourcesEmbed, "----------- VIDNODE SOURCES EMBED ----------");
                 arrMap = sourcesEmbed.map(function (embed) { return __awaiter(_this, void 0, void 0, function () {
-                    var fileSize, host;
+                    var host, headerFile, fileSize, typeFile;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
-                            case 0: return [4, libs.request_getFileSize(embed)];
-                            case 1:
-                                fileSize = _a.sent();
+                            case 0:
                                 host = libs.string_getHost(embed);
+                                return [4, libs.request_head(file)];
+                            case 1:
+                                headerFile = _a.sent();
+                                fileSize = headerFile["Content-Length"] || headerFile["content-length"];
+                                typeFile = headerFile["x-goog-storage-class"] || "";
                                 console.log(embed, fileSize, host, "vidnode embed--------------------");
                                 if (fileSize == 0) {
                                     if (hosts[host]) {
@@ -100,7 +105,7 @@ hosts["vidnode"] = function (url, movieInfo, config, callback) { return __awaite
                                     callback({
                                         file: embed,
                                         size: fileSize,
-                                        host: host.toUpperCase(),
+                                        host: typeFile ? "Google Video" : host.toUpperCase(),
                                         provider: config.provider
                                     });
                                 }

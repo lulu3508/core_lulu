@@ -73,6 +73,7 @@ hosts["vidsrc"] = function (url, movieInfo, config, callback) { return __awaiter
                                 embeds = result && result.data ? result.data : [];
                                 for (_i = 0, embeds_1 = embeds; _i < embeds_1.length; _i++) {
                                     embed = embeds_1[_i];
+                                    console.log(embed, '---------- DIRECT VIDSRC -------');
                                     callback({
                                         file: embed.file,
                                         size: 0,

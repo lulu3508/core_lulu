@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 hosts["vidcloud9"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var htmlVidcloud, parseVidcloud, sources, arrMap, sources, sourceItem, source, parse, length_1, i, file;
+    var htmlVidcloud, parseVidcloud, sources, arrMap, sources, sourceItem, source, parse, length_1, i, file, headerFile, fileSize, typeFile;
     var _this = this;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -57,12 +57,14 @@ hosts["vidcloud9"] = function (url, movieInfo, config, callback) { return __awai
                 });
                 console.log(sources, "----------- VIDCLOUD9 SOURCES EMBED ----------");
                 arrMap = sources.map(function (embed) { return __awaiter(_this, void 0, void 0, function () {
-                    var fileSize, host;
+                    var headerFile, fileSize, typeFile, host;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
-                            case 0: return [4, libs.request_getFileSize(embed)];
+                            case 0: return [4, libs.request_head(file)];
                             case 1:
-                                fileSize = _a.sent();
+                                headerFile = _a.sent();
+                                fileSize = headerFile["Content-Length"] || headerFile["content-length"];
+                                typeFile = headerFile["x-goog-storage-class"] || "";
                                 host = libs.string_getHost(embed);
                                 console.log(embed, fileSize, host, "embed--------------------");
                                 if (fileSize == 0) {
@@ -74,7 +76,7 @@ hosts["vidcloud9"] = function (url, movieInfo, config, callback) { return __awai
                                     callback({
                                         file: embed,
                                         size: fileSize,
-                                        host: host.toUpperCase(),
+                                        host: typeFile ? "Google Video" : host.toUpperCase(),
                                         provider: config.provider
                                     });
                                 }
@@ -87,25 +89,43 @@ hosts["vidcloud9"] = function (url, movieInfo, config, callback) { return __awai
                 _a.sent();
                 sources = htmlVidcloud.match(/sources *\: *([^\]]+)/im);
                 sources = sources ? sources : [];
-                for (sourceItem = 1; sourceItem < sources.length; sourceItem++) {
-                    source = sources[sourceItem] ? sources[sourceItem] + "]" : "[]";
-                    parse = [];
-                    source = "parse = " + source;
-                    eval(source);
-                    console.log(parse, "------------ SOURCES VIDCLOUD9 -------------");
-                    length_1 = parse.length;
-                    for (i = 0; i < length_1; i++) {
-                        file = parse[i].file;
-                        console.log(parse[i], "------------ SOURCE DETAIL VIDCLOUD9 -------------");
-                        callback({
-                            file: file,
-                            host: "VIDCLOUD9" + ("" + (parse[i].type == 'hls' ? ' HLS' : '')),
-                            provider: config.provider,
-                            quality: parse[i].type
-                        });
-                    }
+                sourceItem = 1;
+                _a.label = 3;
+            case 3:
+                if (!(sourceItem < sources.length)) return [3, 8];
+                source = sources[sourceItem] ? sources[sourceItem] + "]" : "[]";
+                parse = [];
+                source = "parse = " + source;
+                eval(source);
+                console.log(parse, "------------ SOURCES VIDCLOUD9 -------------");
+                length_1 = parse.length;
+                i = 0;
+                _a.label = 4;
+            case 4:
+                if (!(i < length_1)) return [3, 7];
+                file = parse[i].file;
+                console.log(parse[i], "------------ SOURCE DETAIL VIDCLOUD9 -------------");
+                return [4, libs.request_head(file)];
+            case 5:
+                headerFile = _a.sent();
+                fileSize = headerFile["Content-Length"] || headerFile["content-length"];
+                typeFile = headerFile["x-goog-storage-class"] || "";
+                if (fileSize > 0) {
+                    callback({
+                        file: file,
+                        size: fileSize,
+                        host: typeFile ? "Google Video" : "VIDCLOUD9" + ("" + (parse[i].type == 'hls' ? ' HLS' : '')),
+                        provider: config.provider,
+                    });
                 }
-                return [2];
+                _a.label = 6;
+            case 6:
+                i++;
+                return [3, 4];
+            case 7:
+                sourceItem++;
+                return [3, 3];
+            case 8: return [2];
         }
     });
 }); };
