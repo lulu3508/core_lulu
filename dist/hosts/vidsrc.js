@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 hosts["vidsrc"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var urlReal, htmlDetail, parseDetail, tokens, headers, urlEmbed, arrMap;
+    var urlReal, htmlDetail, parseDetail, tokens, headers, arrMap;
     var _this = this;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -56,9 +56,8 @@ hosts["vidsrc"] = function (url, movieInfo, config, callback) { return __awaiter
                 headers = {
                     'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
                 };
-                urlEmbed = "https://vidsrc.xyz/api/source/jlr1yid6e8pl2mx";
                 arrMap = tokens.map(function (token) { return __awaiter(_this, void 0, void 0, function () {
-                    var urlToken, body, result, embeds, _i, embeds_1, embed;
+                    var urlToken, body, headerData, urlEmbed, result, embeds, _i, embeds_1, embed, host;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
@@ -67,8 +66,27 @@ hosts["vidsrc"] = function (url, movieInfo, config, callback) { return __awaiter
                                     r: urlToken,
                                     d: 'vidsrc.xyz'
                                 });
-                                return [4, libs.request_post(urlEmbed, headers, body, 'json')];
+                                return [4, libs.request_head(urlToken, {
+                                        Host: 'v2.vidsrc.me',
+                                        'upgrade-insecure-requests': 1,
+                                        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36',
+                                        accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+                                        'sec-fetch-site': 'same-origin',
+                                        'sec-fetch-mode': 'navigate',
+                                        'sec-fetch-dest': 'iframe',
+                                        referer: "https://v2.vidsrc.me/source/" + token,
+                                        'accept-language': 'vi-VN,vi;q=0.9',
+                                    }, false)];
                             case 1:
+                                headerData = _a.sent();
+                                console.log(headerData, urlToken, '------------ HEADER EMBED VIDSRC -----------');
+                                urlEmbed = headerData.url;
+                                if (!urlEmbed) return [3, 4];
+                                if (!(urlEmbed.indexOf("vidsrc.xyz/v") != -1)) return [3, 3];
+                                urlEmbed = urlEmbed.replace("vidsrc.xyz/v", 'vidsrc.xyz/api/source');
+                                console.log(urlEmbed, '----------- urlEmbed VidSRC');
+                                return [4, libs.request_post(urlEmbed, headers, body, 'json')];
+                            case 2:
                                 result = _a.sent();
                                 embeds = result && result.data ? result.data : [];
                                 for (_i = 0, embeds_1 = embeds; _i < embeds_1.length; _i++) {
@@ -82,7 +100,15 @@ hosts["vidsrc"] = function (url, movieInfo, config, callback) { return __awaiter
                                         provider: config.provider
                                     });
                                 }
-                                return [2];
+                                return [3, 4];
+                            case 3:
+                                console.log(urlEmbed, '---------- urlEmbed VIDSRC ---------');
+                                host = libs.string_getHost(urlEmbed);
+                                if (hosts[host]) {
+                                    hosts[host](urlEmbed, movieInfo, _.merge(config, { provider: "PUTLOCKER" }), callback);
+                                }
+                                _a.label = 4;
+                            case 4: return [2];
                         }
                     });
                 }); });

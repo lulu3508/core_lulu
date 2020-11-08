@@ -145,9 +145,10 @@ libs.send_tracking = function (link, status, method) { return __awaiter(_this, v
         }
     });
 }); };
-libs.request_head = function (url, headers) {
+libs.request_head = function (url, headers, isMap) {
     if (url === void 0) { url = ""; }
     if (headers === void 0) { headers = {}; }
+    if (isMap === void 0) { isMap = true; }
     return __awaiter(_this, void 0, void 0, function () {
         var res, headerResponse, e_1;
         return __generator(this, function (_a) {
@@ -161,8 +162,11 @@ libs.request_head = function (url, headers) {
                         })];
                 case 1:
                     res = _a.sent();
-                    headerResponse = res.headers.map;
-                    return [2, headerResponse];
+                    if (isMap) {
+                        headerResponse = res.headers.map;
+                        return [2, headerResponse];
+                    }
+                    return [2, res];
                 case 2:
                     e_1 = _a.sent();
                     console.log("error_request_head", e_1);
