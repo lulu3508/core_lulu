@@ -36,27 +36,52 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 hosts["upstream"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var html, source, parse, length, i, file, fileSize;
+    var decode, html, parseHtml, scripts, matching, decodeScript, source, parse, length_1, i, file, fileSize;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4, libs.request_get(url, {
-                    "user-agent": libs.request_getRandomUserAgent()
-                }, "html")];
+            case 0:
+                decode = function (p, a, c, k, e, d) {
+                    while (c--) {
+                        if (k[c]) {
+                            p = p.replace(new RegExp('\\b' + c.toString(a) + '\\b', 'g'), k[c]);
+                        }
+                    }
+                    return p;
+                };
+                return [4, libs.request_get(url)];
             case 1:
                 html = _a.sent();
-                source = html.match(/sources *\: *([^\]]+)/i);
+                parseHtml = cheerio.load(html);
+                scripts = "";
+                parseHtml("script").each(function (key, item) {
+                    var script = parseHtml(item).text();
+                    if (_.startsWith(script.trim(), "eval")) {
+                        scripts = script;
+                    }
+                });
+                console.log(scripts, "--------------- Upstream SCRIPTs ---------");
+                if (!(scripts != "")) return [3, 5];
+                matching = scripts.match(/return *p *\} *(.*)/i);
+                matching = matching ? matching[1].replace(/.$/, "") : "";
+                console.log(matching, "--------------- Upstream MATCHING ---------");
+                if (!(matching != "")) return [3, 5];
+                decodeScript = "";
+                eval("decodeScript = decode" + matching);
+                console.log(decodeScript, "--------------- Upstream decodeScript ---------");
+                if (!(decodeScript != "")) return [3, 5];
+                source = decodeScript.match(/sources *\: *([^\]]+)/i);
                 source = source ? source[1] + "]" : "[]";
                 parse = [];
                 source = "parse = " + source;
                 eval(source);
-                console.log(parse, "------------ SOURCES UPSTREAM -------------");
-                length = parse.length;
+                console.log(parse, "--------------- Upstream parse ---------");
+                length_1 = parse.length;
                 i = 0;
                 _a.label = 2;
             case 2:
-                if (!(i < length)) return [3, 5];
+                if (!(i < length_1)) return [3, 5];
                 file = parse[i].file;
-                console.log(parse[i], "------------ SOURCE DETAIL UPSTREAM -------------");
+                console.log(parse[i], "------------ SOURCE DETAIL Upstream -------------");
                 return [4, libs.request_getFileSize(file)];
             case 3:
                 fileSize = _a.sent();
@@ -65,7 +90,6 @@ hosts["upstream"] = function (url, movieInfo, config, callback) { return __await
                         file: file,
                         size: fileSize,
                         host: "UPSTREAM",
-                        quality: "" + parse[i].label,
                         provider: config.provider
                     });
                 }

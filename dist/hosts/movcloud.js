@@ -51,23 +51,14 @@ hosts["movcloud"] = function (url, movieInfo, config, callback) { return __await
                 sources = parse.data ? parse.data ? parse.data.sources : [] : [];
                 console.log(sources, parse, urlApi, "----------- MOVCLOUD DATA -----------");
                 arrMap = sources.map(function (embed) { return __awaiter(_this, void 0, void 0, function () {
-                    var fileSize;
                     return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4, libs.request_getFileSize(embed.file)];
-                            case 1:
-                                fileSize = _a.sent();
-                                if (fileSize > 0) {
-                                    callback({
-                                        file: embed.file,
-                                        size: fileSize,
-                                        host: "MOVCLOUD",
-                                        quality: config.quality,
-                                        provider: config.provider
-                                    });
-                                }
-                                return [2];
-                        }
+                        callback({
+                            file: embed.file,
+                            host: "MOVCLOUD",
+                            quality: embed.height + 'p',
+                            provider: config.provider
+                        });
+                        return [2];
                     });
                 }); });
                 return [4, Promise.all(arrMap)];

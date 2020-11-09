@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var url, htmlSearch, parseSearch, links, htmlDetail, parseDetail_1, linkEmbed_1, htmlEmbed, parseEmbed_1, embeds_1, arrMap;
+    var url, htmlSearch, parseSearch, link, htmlDetail, parseDetail_1, linkEmbed_1, htmlEmbed, parseEmbed_1, embeds_1, arrMap;
     var _this = this;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -46,7 +46,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
             case 1:
                 htmlSearch = _a.sent();
                 parseSearch = cheerio.load(htmlSearch);
-                links = "";
+                link = "";
                 console.log(parseSearch(".item_1.items .item").length, "----------- MIRADETODO SEARCH LENGTH ----------");
                 parseSearch(".item_1.items .item").each(function (keySearch, itemSearch) {
                     var title = parseSearch(itemSearch).find(".boxinfo .tt").text();
