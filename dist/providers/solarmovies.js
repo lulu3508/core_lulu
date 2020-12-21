@@ -41,7 +41,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                urlSearch = "https://solarmovie.mom/search/?keyword=" + slugify(movieInfo.title, { lower: true, replacement: '-' });
+                urlSearch = "https://solarmovie.mom/search/?keyword=" + slugify(movieInfo.title, { lower: true, replacement: '+', remove: /[*+~.()'"!:@]/g });
                 console.log(urlSearch, "---------- SOLAR URL SEARCH --------");
                 return [4, libs.request_get(urlSearch)];
             case 1:
