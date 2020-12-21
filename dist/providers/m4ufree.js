@@ -138,6 +138,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 iframe = parseEmbed("iframe.video").attr("src");
                                 if (iframe) {
                                     host = libs.string_getHost(iframe);
+                                    console.log(ajaxUrl_1, host, headers_1, body, iframe, "--------- M4UFREE IFRAME AJAX ----------");
                                     if (hosts[host]) {
                                         hosts[host](iframe, movieInfo, _.merge(config, { provider: "MOVIESTREAM" }), callback);
                                     }
