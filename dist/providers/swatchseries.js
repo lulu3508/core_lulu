@@ -83,10 +83,9 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                     }
                 };
                 headers = {
-                    referer: "https://www1.swatchseries.to/"
+                    referer: "https://www1.watch-series.la/"
                 };
-                urlSearch = "https://www1.swatchseries.to/search/" + slugify(movieInfo.title, { lower: true, replacement: "-", remove: /[*+~.()'"!:@]/g });
-                urlSearch = urlSearch.replace("-", "%20");
+                urlSearch = "https://www1.watch-series.la/search/" + slugify(movieInfo.title, { lower: true, replacement: "-", remove: /[*+~.()'"!:@]/g });
                 return [4, libs.request_get(urlSearch, headers)];
             case 1:
                 htmlSearch = _a.sent();
