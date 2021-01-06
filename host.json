@@ -32,6 +32,9 @@
 		"dist/hosts/vivo.js",
 		"dist/hosts/streamtape.js",
 		"dist/hosts/vidoo.js",
-		"dist/hosts/vidcloudmsk.js"
+		"dist/hosts/vidcloudmsk.js",
+		"dist/hosts/ronemo.js",
+		"dist/hosts/vidlink.js",
+		"dist/hosts/vidnext.js"
 	]
 }

@@ -35,8 +35,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-hosts["vidlink"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var urlMatchId, id, urlAjaxEmbed, resultVidLink, embed, headerFile, fileSize, host;
+hosts["ronemo"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
+    var urlMatchId, id, urlAjaxEmbed, resultRonemo, embed;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -45,37 +45,24 @@ hosts["vidlink"] = function (url, movieInfo, config, callback) { return __awaite
                 if (!id) {
                     return [2];
                 }
-                urlAjaxEmbed = "https://vidlink.org/embed/info?postID=" + id;
+                urlAjaxEmbed = "https://ronemo.com/api/video/get-link?idVid=" + id;
                 return [4, libs.request_get(urlAjaxEmbed, {
                         "user-agent": libs.request_getRandomUserAgent()
                     }, "json")];
             case 1:
-                resultVidLink = _a.sent();
-                console.log(id, urlAjaxEmbed, resultVidLink, "------- RESULT VIDLINK --------");
-                if (!resultVidLink || !resultVidLink.embed_urls) {
+                resultRonemo = _a.sent();
+                console.log(resultRonemo, "------- result Ronemo");
+                if (!resultRonemo || !resultRonemo.success || !resultRonemo.link) {
                     return [2];
                 }
-                embed = resultVidLink.embed_urls;
-                console.log(embed, "------------- EMBED VIDLINK ---------");
-                return [4, libs.request_head(embed)];
-            case 2:
-                headerFile = _a.sent();
-                fileSize = headerFile["Content-Length"] || headerFile["content-length"];
-                host = libs.string_getHost(embed);
-                console.log(embed, fileSize, host, "embed size vidlink--------------------");
-                if (!fileSize) {
-                    if (hosts[host]) {
-                        hosts[host](embed, movieInfo, config, callback);
-                    }
-                }
-                else {
-                    callback({
-                        file: embed,
-                        size: fileSize,
-                        host: "VIDLINK",
-                        provider: config.provider
-                    });
-                }
+                embed = "https://hls.ronemo.com/" + resultRonemo.link;
+                console.log(embed, "---------- EMBED RONEMO -------");
+                callback({
+                    file: embed,
+                    host: "VIDLINK",
+                    provider: config.provider,
+                    quality: "HLS"
+                });
                 return [2];
         }
     });
