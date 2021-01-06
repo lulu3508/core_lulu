@@ -30,6 +30,8 @@
 		"dist/hosts/mightyupload.js",
 		"dist/hosts/vidsrc.js",
 		"dist/hosts/vivo.js",
-		"dist/hosts/streamtape.js"	
+		"dist/hosts/streamtape.js",
+		"dist/hosts/vidoo.js",
+		"dist/hosts/vidcloudmsk.js"
 	]
 }

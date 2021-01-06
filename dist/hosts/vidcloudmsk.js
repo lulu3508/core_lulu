@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-hosts["vidoo"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
+hosts["vidcloud.msk"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
     var html, source, _i, source_1, item;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -51,9 +51,9 @@ hosts["vidoo"] = function (url, movieInfo, config, callback) { return __awaiter(
                     item = source_1[_i];
                     callback({
                         file: item.file,
-                        host: "VIDOO",
+                        host: "Vidcloud",
                         provider: config.provider,
-                        label: item.label ? item.label : ""
+                        quality: item.type
                     });
                 }
                 return [2];
