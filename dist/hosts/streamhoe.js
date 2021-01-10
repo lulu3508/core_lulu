@@ -63,7 +63,7 @@ hosts["streamhoe"] = function (url, movieInfo, config, callback) { return __awai
                                     callback({
                                         file: embed.file,
                                         size: fileSize,
-                                        host: "STREAMHOE",
+                                        host: "StreamHoe",
                                         quality: embed.label,
                                         provider: config.provider
                                     });

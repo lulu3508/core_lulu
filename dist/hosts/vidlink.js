@@ -72,7 +72,7 @@ hosts["vidlink"] = function (url, movieInfo, config, callback) { return __awaite
                     callback({
                         file: embed,
                         size: fileSize,
-                        host: "VIDLINK",
+                        host: "VidLink",
                         provider: config.provider
                     });
                 }

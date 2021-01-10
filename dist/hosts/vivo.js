@@ -60,7 +60,7 @@ hosts["vivo"] = function (url, movieInfo, config, callback) { return __awaiter(_
                     callback({
                         file: file,
                         size: fileSize,
-                        host: "VIVO",
+                        host: "Vivo",
                         provider: config.provider
                     });
                 }

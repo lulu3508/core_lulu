@@ -89,7 +89,7 @@ hosts["cloudvideo"] = function (url, movieInfo, config, callback) { return __awa
                     callback({
                         file: file,
                         size: fileSize,
-                        host: "CLOUDVIDEO",
+                        host: "CloudVideo",
                         provider: config.provider
                     });
                 }

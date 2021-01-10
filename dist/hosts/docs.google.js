@@ -74,7 +74,7 @@ hosts["docs.google"] = function (url, movieInfo, config, callback) { return __aw
                             file: file,
                             size: "",
                             quality: "720p",
-                            host: "GOOGLE.VIDEO",
+                            host: "Google Video",
                             provider: config.provider
                         });
                     }
@@ -83,7 +83,7 @@ hosts["docs.google"] = function (url, movieInfo, config, callback) { return __aw
                             file: file,
                             size: "",
                             quality: "480p",
-                            host: "GOOGLE.VIDEO",
+                            host: "Google Video",
                             provider: config.provider
                         });
                     }
@@ -92,7 +92,7 @@ hosts["docs.google"] = function (url, movieInfo, config, callback) { return __aw
                             file: file,
                             size: "",
                             quality: "1080p",
-                            host: "GOOGLE.VIDEO",
+                            host: "Google Video",
                             provider: config.provider
                         });
                     }

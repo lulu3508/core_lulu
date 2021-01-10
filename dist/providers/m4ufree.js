@@ -140,7 +140,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                     host = libs.string_getHost(iframe);
                                     console.log(ajaxUrl_1, host, headers_1, body, iframe, "--------- M4UFREE IFRAME AJAX ----------");
                                     if (hosts[host]) {
-                                        hosts[host](iframe, movieInfo, _.merge(config, { provider: "MOVIESTREAM" }), callback);
+                                        hosts[host](iframe, movieInfo, _.merge(config, { provider: "M4uFree" }), callback);
                                     }
                                 }
                                 console.log(htmlEmbed, headers_1, body, ajaxUrl_1, "--------- M4uFREE htmlEmbed parse ---------");
@@ -166,7 +166,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                                         file: file,
                                                         size: fileSize,
                                                         host: host,
-                                                        provider: "MOVIESTREAM"
+                                                        provider: "M4uFree"
                                                     });
                                                 }
                                                 return [2];
@@ -195,7 +195,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                                         file: file,
                                                         size: fileSize,
                                                         host: host,
-                                                        provider: "MOVIESTREAM"
+                                                        provider: "M4uFree"
                                                     });
                                                 }
                                                 return [2];

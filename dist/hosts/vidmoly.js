@@ -64,7 +64,7 @@ hosts["vidmoly"] = function (url, movieInfo, config, callback) { return __awaite
                     callback({
                         file: file,
                         size: fileSize,
-                        host: "VIDMOLY",
+                        host: "Vidmoly",
                         quality: parse[i].label ? parse[i].label : "",
                         provider: config.provider
                     });

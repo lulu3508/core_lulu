@@ -104,7 +104,7 @@ hosts["gomostream"] = function (url, movieInfo, config, callback) { return __awa
                     callback({
                         file: embed,
                         size: fileSize,
-                        host: 'GOMOSTREAM',
+                        host: 'GomoStream',
                         provider: config.provider
                     });
                 }

@@ -66,7 +66,7 @@ hosts["embed.streamx"] = function (url, movieInfo, config, callback) { return __
                         file: file,
                         size: fileSize,
                         quality: parse[i].label,
-                        host: "DIRECT STREAMING",
+                        host: "DirectStreaming",
                         provider: config.provider
                     });
                 }

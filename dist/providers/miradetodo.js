@@ -142,7 +142,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                                 host = libs.string_getHost(embedL);
                                                 console.log(embedL, fileSize, host, "embedL--------------------");
                                                 if (hosts[host]) {
-                                                    hosts[host](embedL, movieInfo, _.merge(config, { provider: "MIRADETODO", urlDetail: link }), callback);
+                                                    hosts[host](embedL, movieInfo, _.merge(config, { provider: "Miradetodo", urlDetail: link }), callback);
                                                 }
                                                 _a.label = 3;
                                             case 3: return [2];
@@ -160,7 +160,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 console.log(embed, fileSize, host, "embed--------------------");
                                 if (fileSize == 0) {
                                     if (hosts[host]) {
-                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "MIRADETODO", urlDetail: link }), callback);
+                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "Miradetodo", urlDetail: link }), callback);
                                     }
                                 }
                                 else {
@@ -168,7 +168,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                         file: embed,
                                         size: fileSize,
                                         host: host.toUpperCase(),
-                                        provider: "MIRADETODO"
+                                        provider: "Miradetodo"
                                     });
                                 }
                                 _a.label = 5;

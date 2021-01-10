@@ -64,7 +64,7 @@ hosts["fastplay"] = function (url, movieInfo, config, callback) { return __await
                     callback({
                         file: file,
                         size: fileSize,
-                        host: "FASTPLAY",
+                        host: "FastPlay",
                         provider: config.provider
                     });
                 }

@@ -95,7 +95,7 @@ hosts["vidsrc"] = function (url, movieInfo, config, callback) { return __awaiter
                                     callback({
                                         file: embed.file,
                                         size: 0,
-                                        host: "VIDSRC",
+                                        host: "VidDirect",
                                         quality: embed.label,
                                         provider: config.provider
                                     });

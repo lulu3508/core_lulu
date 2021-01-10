@@ -69,7 +69,7 @@ hosts["fembed"] = function (url, movieInfo, config, callback) { return __awaiter
                     callback({
                         file: file,
                         size: fileSize,
-                        host: "FEMBED CDN",
+                        host: "Fembed",
                         provider: config.provider
                     });
                 }

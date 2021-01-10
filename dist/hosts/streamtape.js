@@ -62,7 +62,7 @@ hosts["streamtape"] = function (url, movieInfo, config, callback) { return __awa
                     callback({
                         file: file,
                         size: fileSize,
-                        host: "STREAMTAPE",
+                        host: "StreamTape",
                         provider: config.provider
                     });
                 }

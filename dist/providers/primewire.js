@@ -396,7 +396,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 console.log(embed, fileSize, host, "embed--------------------");
                                 if (fileSize == 0) {
                                     if (hosts[host]) {
-                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "WATCHPRIME" }), callback);
+                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "Primewire" }), callback);
                                     }
                                 }
                                 else {
@@ -404,7 +404,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                         file: embed,
                                         size: fileSize,
                                         host: host.toUpperCase(),
-                                        provider: "WATCHPRIME"
+                                        provider: "Primewire"
                                     });
                                 }
                                 _a.label = 3;

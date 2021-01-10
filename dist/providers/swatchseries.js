@@ -153,7 +153,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                             host = libs.string_getHost(embed);
                             console.log(embed, host, "embed--------------------");
                             if (hosts[host]) {
-                                hosts[host](embed, movieInfo, _.merge(config, { provider: "WATCHSERIES" }), callback);
+                                hosts[host](embed, movieInfo, _.merge(config, { provider: "WatchSeries" }), callback);
                             }
                         }
                         return [2];

@@ -66,7 +66,7 @@ hosts["vidnode"] = function (url, movieInfo, config, callback) { return __awaite
                     callback({
                         file: file,
                         size: fileSize,
-                        host: typeFile ? "Google Video" : "VIDNODE",
+                        host: typeFile ? "Google Video" : "Vidnode",
                         provider: config.provider
                     });
                 }

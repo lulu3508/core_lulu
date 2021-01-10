@@ -51,7 +51,7 @@ hosts["jawcloud"] = function (url, movieInfo, config, callback) { return __await
                 callback({
                     file: file,
                     size: fileSize,
-                    host: "JAWCLOUD",
+                    host: "JawCloud",
                     provider: config.provider,
                     quality: "HD"
                 });

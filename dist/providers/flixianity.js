@@ -124,7 +124,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 console.log(embed, fileSize, host, "embed--------------------");
                                 if (fileSize == 0) {
                                     if (hosts[host]) {
-                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "FLIXIANTIY HD" }), callback);
+                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "Flixianity" }), callback);
                                     }
                                 }
                                 else {
@@ -132,7 +132,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                         file: embed,
                                         size: fileSize,
                                         host: host.toUpperCase(),
-                                        provider: "FLIXIANTIY HD"
+                                        provider: "Flixianity"
                                     });
                                 }
                                 _a.label = 2;

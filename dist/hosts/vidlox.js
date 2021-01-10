@@ -52,7 +52,7 @@ hosts["vidlox"] = function (url, movieInfo, config, callback) { return __awaiter
                     file = item;
                     callback({
                         file: file,
-                        host: "VIDLOX",
+                        host: "Vidlox",
                         provider: config.provider
                     });
                 }

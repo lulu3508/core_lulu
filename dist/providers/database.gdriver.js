@@ -127,7 +127,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 console.log(embed, fileSize, host, "embed--------------------");
                                 if (fileSize == 0) {
                                     if (hosts[host]) {
-                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "MOVIE BLURAY" }), callback);
+                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "MovieBlueray" }), callback);
                                     }
                                 }
                                 else {
@@ -135,7 +135,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                         file: embed,
                                         size: fileSize,
                                         host: host.toUpperCase(),
-                                        provider: "MOVIE BLURAY"
+                                        provider: "MovieBlueray"
                                     });
                                 }
                                 _a.label = 2;

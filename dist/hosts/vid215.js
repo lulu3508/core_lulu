@@ -64,7 +64,7 @@ hosts["vid215"] = function (url, movieInfo, config, callback) { return __awaiter
                     callback({
                         file: file,
                         size: fileSize,
-                        host: "FAST-CDN",
+                        host: "VidStream",
                         provider: config.provider
                     });
                 }

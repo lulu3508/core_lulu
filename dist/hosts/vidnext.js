@@ -114,7 +114,7 @@ hosts["vidnext"] = function (url, movieInfo, config, callback) { return __awaite
                     callback({
                         file: file,
                         size: fileSize,
-                        host: typeFile ? "Google Video" : "vidnext" + ("" + (parse[i].type == 'hls' ? ' HLS' : '')),
+                        host: typeFile ? "Google Video" : "Vidnext" + ("" + (parse[i].type == 'hls' ? ' Hls' : '')),
                         provider: config.provider,
                     });
                 }

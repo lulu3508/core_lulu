@@ -155,7 +155,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                                     file: embed,
                                                     size: "",
                                                     host: host.toUpperCase(),
-                                                    provider: "COUCHTUNER",
+                                                    provider: "CouchTuner",
                                                     quality: "360p"
                                                 });
                                                 return [3, 3];
@@ -164,7 +164,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                                 fileSize = _a.sent();
                                                 if (fileSize == 0) {
                                                     if (hosts[host]) {
-                                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "COUCHTUNER", urlDetail: link }), callback);
+                                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "CouchTuner", urlDetail: link }), callback);
                                                     }
                                                 }
                                                 else {
@@ -172,7 +172,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                                         file: embed,
                                                         size: fileSize,
                                                         host: host.toUpperCase(),
-                                                        provider: "COUCHTUNER"
+                                                        provider: "CouchTuner"
                                                     });
                                                 }
                                                 _a.label = 3;

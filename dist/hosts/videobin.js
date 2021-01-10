@@ -60,7 +60,7 @@ hosts["videobin"] = function (url, movieInfo, config, callback) { return __await
                     callback({
                         file: file,
                         size: fileSize,
-                        host: "VIDEOBIN",
+                        host: "VideoBin",
                         provider: config.provider
                     });
                 }

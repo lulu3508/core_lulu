@@ -127,7 +127,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 console.log(decode, fileSize, host, "embed.u--------------------");
                                 if (fileSize == 0) {
                                     if (hosts[host]) {
-                                        hosts[host](decode, movieInfo, _.merge(config, { provider: "TOPMOVIES", urlDetail: link }), callback);
+                                        hosts[host](decode, movieInfo, _.merge(config, { provider: "TopMovies", urlDetail: link }), callback);
                                     }
                                 }
                                 else {
@@ -135,7 +135,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                         file: decode,
                                         size: fileSize,
                                         host: host.toUpperCase(),
-                                        provider: "TOPMOVIES"
+                                        provider: "TopMovies"
                                     });
                                 }
                                 _a.label = 3;

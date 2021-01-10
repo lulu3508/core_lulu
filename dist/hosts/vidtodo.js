@@ -91,7 +91,7 @@ hosts["vidtodo"] = function (url, movieInfo, config, callback) { return __awaite
                     callback({
                         file: file,
                         size: fileSize,
-                        host: "VIDTODO FAST",
+                        host: "Vidtodo",
                         quality: quality,
                         provider: config.provider
                     });

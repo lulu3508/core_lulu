@@ -161,7 +161,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 console.log(embed, fileSize, host, "embed--------------------");
                                 if (fileSize == 0) {
                                     if (hosts[host]) {
-                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "CINEBLOOM" }), callback);
+                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "CineBloom" }), callback);
                                     }
                                 }
                                 else {
@@ -169,7 +169,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                         file: embed,
                                         size: fileSize,
                                         host: host.toUpperCase(),
-                                        provider: "CINEBLOOM"
+                                        provider: "CineBloom"
                                     });
                                 }
                                 _a.label = 6;
@@ -270,7 +270,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 console.log(embed, fileSize, host, "embed--------------------");
                                 if (fileSize == 0) {
                                     if (hosts[host]) {
-                                        hosts[host](url, movieInfo, _.merge(config, { provider: "CINEBLOOM" }), callback);
+                                        hosts[host](url, movieInfo, _.merge(config, { provider: "CineBloom" }), callback);
                                     }
                                 }
                                 else {
@@ -278,7 +278,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                         file: embed,
                                         size: fileSize,
                                         host: host.toUpperCase(),
-                                        provider: "CINEBLOOM"
+                                        provider: "CineBloom"
                                     });
                                 }
                                 _a.label = 6;

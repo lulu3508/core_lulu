@@ -90,7 +90,7 @@ hosts["gounlimited"] = function (url, movieInfo, config, callback) { return __aw
                     callback({
                         file: file,
                         size: fileSize,
-                        host: "GOUNLIMITED",
+                        host: "GoUnlimited",
                         quality: quality + "p",
                         provider: config.provider
                     });

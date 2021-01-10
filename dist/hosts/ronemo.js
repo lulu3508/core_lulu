@@ -59,7 +59,7 @@ hosts["ronemo"] = function (url, movieInfo, config, callback) { return __awaiter
                 console.log(embed, "---------- EMBED RONEMO -------");
                 callback({
                     file: embed,
-                    host: "VIDLINK",
+                    host: "VidLink",
                     provider: config.provider,
                     quality: "HLS"
                 });

@@ -64,7 +64,7 @@ hosts["vidoza"] = function (url, movieInfo, config, callback) { return __awaiter
                     callback({
                         file: file,
                         size: fileSize,
-                        host: "VIDOZA",
+                        host: "Vidoza",
                         quality: parse[i].res + " - " + parse[i].label,
                         provider: config.provider
                     });

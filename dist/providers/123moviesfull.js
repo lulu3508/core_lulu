@@ -95,7 +95,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 if (!(result.status == 1)) return [3, 3];
                                 url = result.url;
                                 console.log(result, body, "----------- 123MOVIESFULL URL OLOAD -----------");
-                                return [4, libs.request_parseOload(url, movieInfo, _.merge(config, { provider: "MOVIESFULLHD" }), callback)];
+                                return [4, libs.request_parseOload(url, movieInfo, _.merge(config, { provider: "123MoviesFull" }), callback)];
                             case 2:
                                 _a.sent();
                                 _a.label = 3;
@@ -146,7 +146,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 console.log(result, body, "----------- MOVIESFULLHD TV SPIDER ---------");
                                 if (!(result.status == 1)) return [3, 3];
                                 url = result.url;
-                                return [4, libs.request_parseOload(url, movieInfo, _.merge(config, { provider: "MOVIESFULLHD" }), callback)];
+                                return [4, libs.request_parseOload(url, movieInfo, _.merge(config, { provider: "123MoviesFull" }), callback)];
                             case 2:
                                 _a.sent();
                                 _a.label = 3;

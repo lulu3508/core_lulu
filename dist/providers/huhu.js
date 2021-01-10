@@ -36,19 +36,26 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var pingSecretUrl, headerPing, resultPing, signed, urlSourcesTv, urlSourcesMovie, headerSource, sources, bodySourceMovie, bodySourceTv, bodySource, arrMap;
+    var pingSecretUrl, headerPing, bodyPing, resultPing, signed, urlSourcesTv, urlSourcesMovie, headerSource, sources, bodySourceMovie, bodySourceTv, bodySource, arrMap;
     var _this = this;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 pingSecretUrl = "https://www.watched.com/api/box/ping";
                 headerPing = {
-                    "User-Agent": libs.request_getRandomUserAgent(),
+                    'user-agent': 'Watched Play/0.18.8 (ios)',
+                    accept: 'application/json',
+                    'content-type': 'application/json',
+                    Cookie: "lng=en-US"
                 };
-                return [4, libs.request_get(pingSecretUrl, headerPing, 'json')];
+                bodyPing = {
+                    "x": "aW9zOuXdb1aqJs3fHiLKPJdg2Osadsf2OpTgjm7gSEQXTCUukHrECG0NaTh1vvhb4MX4/Xow64rKUSVFsFOjSL299EiNs/kTD/ag8+eHn3S3hYK4VMurnZ//jDxr3BL6RIpxHbKSadrv0SaQCCuCW2aID2mOhkeOvYakqzDgAsaMV+5kEcGbkTAU3hXQOotb3fDt8El3B5IOR52B6iuOpxSIMR7PMDKBgmnBX17De5WmUETWyL1UfgOi8ClMvly47qL489pFkc8wcHluiyhh7uVYclG8bdgD0+VV+D9XCvmdk6S2mn2dou4GH35izzZlAqhYCrf9qrWnnBSxDoEJ56NdAlHQsHAQ6MjhPH9X1wmj7oTuI1ZD0yVvjgeGYenfoH9MUBE/pMxm+OBBLx4jd1+IF4/8B5w6g8Yd1dgDOQ0jyVNBe2JqMpbd3hoGzhMXBEm/ULfbkOqlgwF/nmOWN9EUhZgvLub1SzrjFkzEh7GM8aUEptmlsO6JVASxtVTp/zITqkNeHKOVzvu5zh3KXIjuC/v6puspK51fMKLEQumsQcWKuqWaBHmdlnSfnvJtN9vZIAwAYrsGPrFY5SHztnaYNuH2Gbf9wYQi6X4MqEeAdd4HkdZqSLZ760gR7mNdPnShciVE4MW86JE3iXDU+70MXagWe/sOXk4PNWeHl1CKYRaqB92fbJ1SC3ARSxwsSv5at32u/7fAc4+ND4hcybE4frhA6W+Nw2bCqrppHymWDl5H0msBS6jTJfaA+UvNPkp3vMqh+8rs47nRH0yIstUb1hxME4Or+nhixObV2+Hp4vS/YlnYGe+/D2lWNWxlWGG9a5KXMGoOgSO3VRARWIof9fC4v5NM9FnhWddlFMnkT8o/4PMejVctP486e+XV75k2W5Gb0iypmgMRBsmWB92d/oqokeRFNxjyZoWwah1JrxLonsOZyJH4El7IXZY3Z6tUW3ZQE5w5woFp2jgQ+vaR2nwjQSmBHULY23uq1Mbr17RBvOrIz4zCv0kVWsdGRTWMBSRP0kP0oEpchPlXB84FtHzm1NxOwbxpxWqeAVRsgdQ3"
+                };
+                return [4, libs.request_post(pingSecretUrl, headerPing, bodyPing, 'json')];
             case 1:
                 resultPing = _a.sent();
-                signed = resultPing ? resultPing.response.signed : '';
+                console.log(resultPing, "--------- RESULT PING HUHU -----------");
+                signed = "eyJkYXRhIjoie1widGltZVwiOjE2MDg3Mzk1NzM0OTAsXCJ2YWxpZFVudGlsXCI6MTYwODc0MDc3MzQ5MCxcInVzZXJcIjpcIkdNaG9BNDdwSjJRZ2hEWllCR09TUGRwOEdqcnQrd2hldDV6bUFZM0hVb1k9XCIsXCJzdGF0dXNcIjpcImd1ZXN0XCIsXCJ2ZXJpZmllZFwiOmZhbHNlLFwiaXBzXCI6W1wiNTguMTg2LjYxLjE0OFwiXSxcImVycm9yXCI6bnVsbCxcImFwcFwiOntcInBsYXRmb3JtXCI6XCJpb3NcIixcInZlcnNpb25cIjpcIjAuMTguOFwiLFwib2tcIjp0cnVlfX0iLCJzaWduYXR1cmUiOiJxbm5BOUt0cE5HTko3UXlackZKVWx2SkM3NWZZRGJsU1pnOFJlWFdqMEw4cXRxRHRTMUorM2VVWG8yUnYwRkMzQStlZ3MxZUlFVnliVVhLOW9iN0FxSUZXNFdNdnNTUk9YUHhrbTVlckw5UTU3dnNOcWVGVHR5TmxvZmxuUXdpaW53RTFqYmx2aEFkc0J1QTlkYnR4djVKMnkyQ0I1UzNkWHBjb2tiRCs1RzQ9In0=";
                 console.log(movieInfo, headerPing, pingSecretUrl, resultPing, signed, '------------------- HUHU PING INFO --------------');
                 urlSourcesTv = [
                     'https://huhu.to/hot-series-de/item.watched',

@@ -103,7 +103,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                     file: embed,
                     size: fileSize,
                     host: host.toUpperCase(),
-                    provider: "123MOVIES"
+                    provider: "123Movies"
                 });
                 return [3, 7];
             case 6:

@@ -67,7 +67,7 @@ hosts["uptostream"] = function (url, movieInfo, config, callback) { return __awa
                                     callback({
                                         file: file.src,
                                         size: fileSize,
-                                        host: "STREAMING",
+                                        host: "UpToStream",
                                         quality: "" + file.res,
                                         provider: config.provider
                                     });

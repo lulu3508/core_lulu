@@ -368,7 +368,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 console.log(embed, fileSize, host, hostReal, "embed--------------------");
                 if (fileSize == 0 || embed.indexOf("docs.google") != -1) {
                     if (hosts[hostReal]) {
-                        hosts[hostReal](embed, movieInfo, _.merge(config, { provider: "TOPNOW" }), callback);
+                        hosts[hostReal](embed, movieInfo, _.merge(config, { provider: "TopNow" }), callback);
                     }
                 }
                 else {
@@ -376,7 +376,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                         file: embed,
                         size: fileSize,
                         host: host.toUpperCase(),
-                        provider: "TOPNOW"
+                        provider: "TopNow"
                     });
                 }
                 _a.label = 5;

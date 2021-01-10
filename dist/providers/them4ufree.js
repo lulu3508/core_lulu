@@ -161,7 +161,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                                         file: file,
                                                         size: fileSize,
                                                         host: host,
-                                                        provider: "THEM4UFREE"
+                                                        provider: "TheM4uFree"
                                                     });
                                                 }
                                                 return [2];
@@ -190,7 +190,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                                         file: file,
                                                         size: fileSize,
                                                         host: host,
-                                                        provider: "THEM4UFREE"
+                                                        provider: "TheM4uFree"
                                                     });
                                                 }
                                                 return [2];

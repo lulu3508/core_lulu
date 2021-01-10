@@ -70,7 +70,7 @@ hosts["mightyupload"] = function (url, movieInfo, config, callback) { return __a
                     callback({
                         file: source,
                         size: fileSize,
-                        host: "MIGHTYUPLOAD",
+                        host: "MightyUpload",
                         provider: config.provider
                     });
                 }

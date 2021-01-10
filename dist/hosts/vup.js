@@ -80,7 +80,7 @@ hosts["vup"] = function (url, movieInfo, config, callback) { return __awaiter(_t
                     callback({
                         file: file,
                         size: fileSize,
-                        host: "VUP",
+                        host: "Vup",
                         provider: config.provider
                     });
                 }

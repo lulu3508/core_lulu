@@ -89,7 +89,7 @@ hosts["mixdrop"] = function (url, movieInfo, config, callback) { return __awaite
                     callback({
                         file: file,
                         size: fileSize,
-                        host: "MIXDROP CDN",
+                        host: "MixDrop",
                         provider: config.provider
                     });
                 }

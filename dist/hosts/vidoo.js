@@ -51,7 +51,7 @@ hosts["vidoo"] = function (url, movieInfo, config, callback) { return __awaiter(
                     item = source_1[_i];
                     callback({
                         file: item.file,
-                        host: "VIDOO",
+                        host: "Vidoo",
                         provider: config.provider,
                         label: item.label ? item.label : ""
                     });

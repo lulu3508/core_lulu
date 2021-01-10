@@ -54,7 +54,7 @@ hosts["movcloud"] = function (url, movieInfo, config, callback) { return __await
                     return __generator(this, function (_a) {
                         callback({
                             file: embed.file,
-                            host: "MOVCLOUD",
+                            host: "MovCloud",
                             quality: embed.height + 'p',
                             provider: config.provider
                         });

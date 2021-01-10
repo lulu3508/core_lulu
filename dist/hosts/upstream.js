@@ -89,7 +89,7 @@ hosts["upstream"] = function (url, movieInfo, config, callback) { return __await
                     callback({
                         file: file,
                         size: fileSize,
-                        host: "UPSTREAM",
+                        host: "Upstream",
                         provider: config.provider
                     });
                 }

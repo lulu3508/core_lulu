@@ -139,7 +139,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 console.log(embed, fileSize, host, "embed--------------------");
                                 if (fileSize == 0) {
                                     if (hosts[host]) {
-                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "PUTLOCKER" }), callback);
+                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "Putlocker" }), callback);
                                     }
                                 }
                                 else {
@@ -147,7 +147,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                         file: embed,
                                         size: fileSize,
                                         host: host.toUpperCase(),
-                                        provider: "PUTLOCKER"
+                                        provider: "Putlocker"
                                     });
                                 }
                                 _a.label = 4;

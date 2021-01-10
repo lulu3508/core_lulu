@@ -65,7 +65,7 @@ hosts["bmoviesfree"] = function (url, movieInfo, config, callback) { return __aw
                                     callback({
                                         file: embed.file,
                                         size: fileSize,
-                                        host: "BMOVIESTREE",
+                                        host: "BMovieFree",
                                         quality: config.label,
                                         provider: config.provider
                                     });

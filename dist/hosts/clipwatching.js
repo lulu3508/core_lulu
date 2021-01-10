@@ -64,7 +64,7 @@ hosts["clipwatching"] = function (url, movieInfo, config, callback) { return __a
                     callback({
                         file: file,
                         size: fileSize,
-                        host: "CLIPWATCH CDN",
+                        host: "ClipWatching",
                         provider: config.provider
                     });
                 }

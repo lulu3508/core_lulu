@@ -144,7 +144,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                                 if (iframeLoadSource) {
                                                     host = libs.string_getHost(iframeLoadSource);
                                                     if (hosts[host]) {
-                                                        hosts[host](iframeLoadSource, movieInfo, _.merge(config, { provider: "EZWATCHFREE" }), callback);
+                                                        hosts[host](iframeLoadSource, movieInfo, _.merge(config, { provider: "EzWatchFree" }), callback);
                                                     }
                                                 }
                                                 return [2];
@@ -162,7 +162,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 console.log(embed, fileSize, host, "embed--------------------");
                                 if (fileSize == 0) {
                                     if (hosts[host]) {
-                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "EZWATCHFREE" }), callback);
+                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "EzWatchFree" }), callback);
                                     }
                                 }
                                 else {
@@ -170,7 +170,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                         file: embed,
                                         size: fileSize,
                                         host: host.toUpperCase(),
-                                        provider: "EZWATCHFREE"
+                                        provider: "EzWatchFree"
                                     });
                                 }
                                 _a.label = 6;
