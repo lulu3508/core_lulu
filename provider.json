@@ -1,5 +1,6 @@
 {
 	"providers": [
+		"dist/providers/ponytok.js",
 		"dist/providers/huhu.js",
 		"dist/providers/extramovies.js",
 		"dist/providers/novamovie.js",

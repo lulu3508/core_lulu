@@ -105,7 +105,7 @@ hosts["vidsrc"] = function (url, movieInfo, config, callback) { return __awaiter
                                 console.log(urlEmbed, '---------- urlEmbed VIDSRC ---------');
                                 host = libs.string_getHost(urlEmbed);
                                 if (hosts[host]) {
-                                    hosts[host](urlEmbed, movieInfo, _.merge(config, { provider: "PUTLOCKER" }), callback);
+                                    hosts[host](urlEmbed, movieInfo, _.merge(config, { provider: config.provider }), callback);
                                 }
                                 _a.label = 4;
                             case 4: return [2];

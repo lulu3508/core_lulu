@@ -67,10 +67,8 @@ hosts["vidnext"] = function (url, movieInfo, config, callback) { return __awaite
                                 typeFile = headerFile["x-goog-storage-class"] || "";
                                 host = libs.string_getHost(embed);
                                 console.log(embed, fileSize, host, "embed--------------------");
-                                if (fileSize == 0) {
-                                    if (hosts[host]) {
-                                        hosts[host](embed, movieInfo, config, callback);
-                                    }
+                                if (fileSize == 0 || hosts[host]) {
+                                    hosts[host](embed, movieInfo, config, callback);
                                 }
                                 else {
                                     callback({

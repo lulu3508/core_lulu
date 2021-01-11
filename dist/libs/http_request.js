@@ -200,6 +200,7 @@ libs.request_get = function (url, headers, type, redirect) {
                     _a.label = 5;
                 case 5:
                     if (type === "url") {
+                        console.log(res, "----------- RES ---------");
                         return [2, res.url];
                     }
                     return [4, res.json()];
