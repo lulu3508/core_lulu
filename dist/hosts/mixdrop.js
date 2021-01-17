@@ -73,6 +73,9 @@ hosts["mixdrop"] = function (url, movieInfo, config, callback) { return __awaite
                 number2 = decrypt ? decrypt[3] : 0;
                 decrypt2 = decrypt ? decrypt[4] : "";
                 iframe = as(token, number1, number2, decrypt2.split('|'), 0, {});
+                if (!token) {
+                    return [2];
+                }
                 console.log(token, number1, number2, "--------- MIDROP iframe ----------");
                 embed = iframe.match(/MDCore.wurl="([^\"]+)/i);
                 embed = embed ? embed[1].trim() : "";
