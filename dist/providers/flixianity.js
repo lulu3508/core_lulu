@@ -43,9 +43,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
             case 0:
                 url = "https://api.movieshd.tv/api/v1/cautare/nuxt?q=" + slugify(movieInfo.title.toLowerCase().trim(), { lower: true, replacement: "+" }) + "&limit=100&lo=0";
                 headers = {
-                    "content-type": "application/x-www-form-urlencoded",
                     'user-agent': libs.request_getRandomUserAgent(),
-                    "x-requested-with": "XMLHttpRequest"
                 };
                 return [4, libs.request_get(url, headers, "json")];
             case 1:
