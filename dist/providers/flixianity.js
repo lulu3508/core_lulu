@@ -36,24 +36,18 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var url, body, headers, resultSearch, link, item, title, year, href, type, urlDetail, htmlDetail, id, bodyDetail, resultDetail, embeds, item, html, parseEmbed, src, arrMap;
+    var url, headers, resultSearch, link, item, title, year, href, type, urlDetail, htmlDetail, id, bodyDetail, resultDetail, embeds, item, html, parseEmbed, src, arrMap;
     var _this = this;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                url = "https://api.flixanity.app/api/v1/0A6ru35yevokjaqbb3";
-                body = qs.stringify({
-                    q: movieInfo.title,
-                    sl: "9fc895fbb0b23f1c0fb8e5a5fe02f7b5"
-                });
+                url = "https://api.movieshd.tv/api/v1/cautare/nuxt?q=" + slugify(movieInfo.title.toLowerCase().trim(), { lower: true, replacement: "+" }) + "&limit=100&lo=0";
                 headers = {
                     "content-type": "application/x-www-form-urlencoded",
-                    referer: "https://flixanity.app/films",
-                    authorization: "Bearer false",
                     'user-agent': libs.request_getRandomUserAgent(),
                     "x-requested-with": "XMLHttpRequest"
                 };
-                return [4, libs.request_post(url, headers, body, "json")];
+                return [4, libs.request_get(url, headers, "json")];
             case 1:
                 resultSearch = _a.sent();
                 link = "";
