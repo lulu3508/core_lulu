@@ -3,9 +3,6 @@ libs.string_getHost = function (url, isReal) {
     if (url.toLowerCase().indexOf('google') != -1 && !isReal) {
         return "Google Video";
     }
-    if (url.toLowerCase().indexOf('schoolbalebale') != -1 && !isReal) {
-        return "FAST CDN";
-    }
     if (url.toLowerCase().indexOf('loadshare') != -1 && !isReal) {
         return "LOADSHARE CDN";
     }
