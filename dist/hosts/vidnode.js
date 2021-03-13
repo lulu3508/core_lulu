@@ -96,7 +96,7 @@ hosts["vidnode"] = function (url, movieInfo, config, callback) { return __awaite
                                 fileSize = headerFile["Content-Length"] || headerFile["content-length"];
                                 typeFile = headerFile["x-goog-storage-class"] || "";
                                 console.log(embed, fileSize, host, "vidnode embed--------------------");
-                                if (fileSize == 0 || hosts[host]) {
+                                if (!fileSize || hosts[host]) {
                                     hosts[host](embed, movieInfo, config, callback);
                                 }
                                 else if (fileSize > 0 && !hosts[host]) {
@@ -130,7 +130,7 @@ hosts["vidnode"] = function (url, movieInfo, config, callback) { return __awaite
                             case 1:
                                 fileSize = _a.sent();
                                 host = libs.string_getHost(embed);
-                                if (fileSize == 0 || hosts[host]) {
+                                if (!fileSize || hosts[host]) {
                                     console.log(embed, fileSize, host, "embed vidnode--------------------");
                                     hosts[host](embed, movieInfo, config, callback);
                                 }

@@ -162,7 +162,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                             case 1: return [4, libs.request_getFileSize(embed)];
                                             case 2:
                                                 fileSize = _a.sent();
-                                                if (fileSize == 0) {
+                                                if (!fileSize) {
                                                     if (hosts[host]) {
                                                         hosts[host](embed, movieInfo, _.merge(config, { provider: "CouchTuner", urlDetail: link }), callback);
                                                     }

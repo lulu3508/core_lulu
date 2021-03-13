@@ -366,7 +366,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 host = libs.string_getHost(embed);
                 hostReal = libs.string_getHost(embed, true);
                 console.log(embed, fileSize, host, hostReal, "embed--------------------");
-                if (fileSize == 0 || embed.indexOf("docs.google") != -1) {
+                if (!fileSize || embed.indexOf("docs.google") != -1) {
                     if (hosts[hostReal]) {
                         hosts[hostReal](embed, movieInfo, _.merge(config, { provider: "TopNow" }), callback);
                     }

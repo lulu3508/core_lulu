@@ -95,7 +95,7 @@ hosts["gomostream"] = function (url, movieInfo, config, callback) { return __awa
                 fileSize = _a.sent();
                 host = libs.string_getHost(embed);
                 console.log(embed, fileSize, host, "embed--------------------");
-                if (fileSize == 0) {
+                if (!fileSize) {
                     if (hosts[host]) {
                         hosts[host](embed, movieInfo, _.merge(config, { provider: config.provider }), callback);
                     }

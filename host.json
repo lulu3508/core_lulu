@@ -35,6 +35,7 @@
 		"dist/hosts/vidcloudmsk.js",
 		"dist/hosts/ronemo.js",
 		"dist/hosts/vidlink.js",
-		"dist/hosts/vidnext.js"
+		"dist/hosts/vidnext.js",
+		"dist/hosts/streamsb.js"
 	]
 }

@@ -64,7 +64,7 @@ hosts["video.moviedata"] = function (url, movieInfo, config, callback) { return 
                             case 1:
                                 fileSize = _a.sent();
                                 host = libs.string_getHost(embed);
-                                if (fileSize == 0) {
+                                if (!fileSize) {
                                     if (hosts[host]) {
                                         hosts[host](embed, movieInfo, _.merge(config, { provider: config.provider }), callback);
                                     }

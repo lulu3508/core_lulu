@@ -35,68 +35,69 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-hosts["streamapi"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    function encode(p, a, c, k, e, d) {
-        e = function (c) {
-            return (c < a ? '' : e(parseInt(c / a))) + ((c = c % a) > 35 ? String.fromCharCode(c + 29) : c.toString(36));
-        };
-        if (!''.replace(/^/, String)) {
-            while (c--) {
-                d[e(c)] = k[c] || e(c);
-            }
-            k = [function (e) {
-                    return d[e];
-                }];
-            e = function () {
-                return '\\w+';
-            };
-            c = 1;
-        }
-        ;
-        while (c--) {
-            if (k[c]) {
-                p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c]);
-            }
-        }
-        return p;
-    }
-    var htmlEmbed, parseEmbed, script, htmlEncode, embed, fileSize, host;
+hosts["streamsb"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
+    var decode, html, parseHtml, scripts, matching, decodeScript, source, parse, length_1, i, file, fileSize;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4, libs.request_get(url)];
-            case 1:
-                htmlEmbed = _a.sent();
-                parseEmbed = cheerio.load(htmlEmbed);
-                script = parseEmbed("script").first().next().text();
-                script = script.match(/return *p\}(.+)/i);
-                script = script ? script[1].trim().replace(/.$/, "") : "()";
-                htmlEncode = "";
-                console.log(script, "script streamapi--------------------");
-                eval("htmlEncode = encode" + script);
-                embed = htmlEncode.match(/var *link *= *\"([^\"]+)/i);
-                embed = embed ? embed[1] : "";
-                if (embed.indexOf("vidcloud9") != -1) {
-                    embed = "https:" + embed;
-                }
-                return [4, libs.request_getFileSize(embed)];
-            case 2:
-                fileSize = _a.sent();
-                host = libs.string_getHost(embed);
-                console.log(embed, fileSize, host, "embed streamapi--------------------");
-                if (!fileSize) {
-                    if (hosts[host]) {
-                        hosts[host](embed, movieInfo, config, callback);
+            case 0:
+                decode = function (p, a, c, k, e, d) {
+                    while (c--) {
+                        if (k[c]) {
+                            p = p.replace(new RegExp('\\b' + c.toString(a) + '\\b', 'g'), k[c]);
+                        }
                     }
-                }
-                else {
+                    return p;
+                };
+                return [4, libs.request_get(url)];
+            case 1:
+                html = _a.sent();
+                parseHtml = cheerio.load(html);
+                scripts = "";
+                parseHtml("script").each(function (key, item) {
+                    var script = parseHtml(item).text();
+                    if (_.startsWith(script.trim(), "eval")) {
+                        scripts = script;
+                    }
+                });
+                console.log(scripts, "--------------- streamsb SCRIPTs ---------");
+                if (!(scripts != "")) return [3, 5];
+                matching = scripts.match(/return *p *\} *(.*)/i);
+                matching = matching ? matching[1].replace(/.$/, "") : "";
+                console.log(matching, "--------------- streamsb MATCHING ---------");
+                if (!(matching != "")) return [3, 5];
+                decodeScript = "";
+                eval("decodeScript = decode" + matching);
+                console.log(decodeScript, "--------------- streamsb decodeScript ---------");
+                if (!(decodeScript != "")) return [3, 5];
+                source = decodeScript.match(/sources *\: *([^\]]+)/i);
+                source = source ? source[1] + "]" : "[]";
+                parse = [];
+                source = "parse = " + source;
+                eval(source);
+                console.log(parse, "--------------- streamsb parse ---------");
+                length_1 = parse.length;
+                i = 0;
+                _a.label = 2;
+            case 2:
+                if (!(i < length_1)) return [3, 5];
+                file = parse[i].file;
+                console.log(parse[i], "------------ SOURCE DETAIL streamsb -------------");
+                return [4, libs.request_getFileSize(file)];
+            case 3:
+                fileSize = _a.sent();
+                if (fileSize > 0) {
                     callback({
-                        file: embed,
+                        file: file,
                         size: fileSize,
-                        host: host.toUpperCase(),
+                        host: "Streamsb",
                         provider: config.provider
                     });
                 }
-                return [2];
+                _a.label = 4;
+            case 4:
+                i++;
+                return [3, 2];
+            case 5: return [2];
         }
     });
 }); };

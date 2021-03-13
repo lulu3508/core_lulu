@@ -67,7 +67,7 @@ hosts["vidcloud9"] = function (url, movieInfo, config, callback) { return __awai
                                 typeFile = headerFile["x-goog-storage-class"] || "";
                                 host = libs.string_getHost(embed);
                                 console.log(embed, fileSize, host, "embed--------------------");
-                                if (fileSize == 0) {
+                                if (!fileSize) {
                                     if (hosts[host]) {
                                         hosts[host](embed, movieInfo, config, callback);
                                     }
