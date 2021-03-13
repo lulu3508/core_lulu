@@ -36,6 +36,7 @@
 		"dist/hosts/ronemo.js",
 		"dist/hosts/vidlink.js",
 		"dist/hosts/vidnext.js",
-		"dist/hosts/streamsb.js"
+		"dist/hosts/streamsb.js",
+		"dist/hosts/streamm4u.js"
 	]
 }
