@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 hosts["clipwatching"] = function (url, movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var html, source, parse, length, i, file, fileSize;
+    var html, source, parse, length, i, file;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4, libs.request_get(url, {
@@ -51,28 +51,17 @@ hosts["clipwatching"] = function (url, movieInfo, config, callback) { return __a
                 eval(source);
                 console.log(parse, "------------ SOURCES CLIPWATCH -------------");
                 length = parse.length;
-                i = 0;
-                _a.label = 2;
-            case 2:
-                if (!(i < length)) return [3, 5];
-                file = parse[i].src;
-                console.log(parse[i], "------------ SOURCE DETAIL CLIPWATCH -------------");
-                return [4, libs.request_getFileSize(file)];
-            case 3:
-                fileSize = _a.sent();
-                if (fileSize > 0) {
+                for (i = 0; i < length; i++) {
+                    file = parse[i].file;
+                    console.log(parse[i], "------------ SOURCE DETAIL CLIPWATCH -------------");
                     callback({
                         file: file,
-                        size: fileSize,
                         host: "ClipWatching",
-                        provider: config.provider
+                        provider: config.provider,
+                        quality: parse[i].label
                     });
                 }
-                _a.label = 4;
-            case 4:
-                i++;
-                return [3, 2];
-            case 5: return [2];
+                return [2];
         }
     });
 }); };
