@@ -26,6 +26,7 @@
 		"dist/providers/simplestream.js",
 		"dist/providers/putlocker123.js",
 		"dist/providers/watchserieshd.js",
-		"dist/providers/5movies.js"
+		"dist/providers/5movies.js",
+		"dist/providers/123moviescc.js"
 	]
 }
