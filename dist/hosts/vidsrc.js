@@ -148,7 +148,7 @@ hosts["vidsrc"] = function (url, movieInfo, config, callback) { return __awaiter
                                     callback({
                                         file: file,
                                         quality: 'HLS',
-                                        host: "VideStream",
+                                        host: "VidStream",
                                         provider: config.provider
                                     });
                                 }
