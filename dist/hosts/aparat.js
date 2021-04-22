@@ -58,7 +58,7 @@ hosts["aparat"] = function (url, movieInfo, config, callback) { return __awaiter
                     console.log(parse[i], "------------ SOURCE DETAIL APARAT -------------");
                     callback({
                         file: file,
-                        size: 'HLS',
+                        quality: 'HLS',
                         host: "Aparat",
                         provider: config.provider
                     });

@@ -57,7 +57,7 @@ hosts["vidsrc"] = function (url, movieInfo, config, callback) { return __awaiter
                     'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
                 };
                 arrMap = tokens.map(function (token) { return __awaiter(_this, void 0, void 0, function () {
-                    var urlToken, body, headerData, urlEmbed, result, embeds, _i, embeds_1, embed, host;
+                    var urlToken, body, headerEmbed, urlSource, sourceData, urlLoc, sourceLoc, urlSrc, headerData, urlEmbed, result, embeds, _i, embeds_1, embed, dataVidStream, source, parse, length_1, i, file, host;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
@@ -66,27 +66,53 @@ hosts["vidsrc"] = function (url, movieInfo, config, callback) { return __awaiter
                                     r: urlToken,
                                     d: 'vidsrc.xyz'
                                 });
-                                return [4, libs.request_head(urlToken, {
-                                        Host: 'v2.vidsrc.me',
-                                        'upgrade-insecure-requests': 1,
-                                        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36',
-                                        accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-                                        'sec-fetch-site': 'same-origin',
-                                        'sec-fetch-mode': 'navigate',
-                                        'sec-fetch-dest': 'iframe',
-                                        referer: "https://v2.vidsrc.me/source/" + token,
-                                        'accept-language': 'vi-VN,vi;q=0.9',
-                                    }, false)];
+                                headerEmbed = {
+                                    Host: 'v2.vidsrc.me',
+                                    'upgrade-insecure-requests': 1,
+                                    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36',
+                                    accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+                                    'sec-fetch-site': 'same-origin',
+                                    'sec-fetch-mode': 'navigate',
+                                    'sec-fetch-dest': 'iframe',
+                                    'accept-language': 'vi-VN,vi;q=0.9',
+                                };
+                                urlSource = "https://v2.vidsrc.me/source/" + token;
+                                headerEmbed.referer = urlSource;
+                                return [4, libs.request_get(urlSource, headerEmbed)];
                             case 1:
-                                headerData = _a.sent();
-                                console.log(headerData, urlToken, '------------ HEADER EMBED VIDSRC -----------');
-                                urlEmbed = headerData.url;
-                                if (!urlEmbed) return [3, 4];
-                                if (!(urlEmbed.indexOf("vidsrc.xyz/v") != -1)) return [3, 3];
-                                urlEmbed = urlEmbed.replace("vidsrc.xyz/v", 'vidsrc.xyz/api/source');
-                                console.log(urlEmbed, '----------- urlEmbed VidSRC');
-                                return [4, libs.request_post(urlEmbed, headers, body, 'json')];
+                                sourceData = _a.sent();
+                                urlLoc = sourceData.match(/src *\: *\'([^\']+)/i);
+                                urlLoc = urlLoc ? urlLoc[1] : '';
+                                if (!urlLoc) {
+                                    return [2];
+                                }
+                                if (_.startsWith(urlLoc, '/')) {
+                                    urlLoc = "https://v2.vidsrc.me" + urlLoc;
+                                }
+                                console.log(urlLoc, "------- VIDSRC URL LOC ------");
+                                return [4, libs.request_get(urlLoc, headerEmbed)];
                             case 2:
+                                sourceLoc = _a.sent();
+                                urlSrc = sourceLoc.match(/src *\: *\'([^\']+)/i);
+                                urlSrc = urlSrc ? urlSrc[1] : '';
+                                if (!urlSrc) {
+                                    return [2];
+                                }
+                                if (_.startsWith(urlSrc, '/')) {
+                                    urlSrc = "https://v2.vidsrc.me" + urlSrc;
+                                }
+                                console.log(urlSrc, "------- VIDSRC URL urlSrc ------");
+                                return [4, libs.request_head(urlSrc, headerEmbed, false)];
+                            case 3:
+                                headerData = _a.sent();
+                                urlEmbed = headerData.url;
+                                console.log(headerData, urlEmbed, urlSrc, '------------ HEADER EMBED VIDSRC -----------');
+                                if (!urlEmbed) return [3, 8];
+                                if (!(urlEmbed.indexOf("vidsrc.xyz/v") != -1)) return [3, 5];
+                                urlEmbed = urlEmbed.replace("vidsrc.xyz/v", 'vidsrc.xyz/api/source');
+                                console.log(urlEmbed, '----------- urlEmbed VidSRC.xyz');
+                                return [4, libs.request_post(urlEmbed, headers, body, 'json')];
+                            case 4:
                                 result = _a.sent();
                                 embeds = result && result.data ? result.data : [];
                                 for (_i = 0, embeds_1 = embeds; _i < embeds_1.length; _i++) {
@@ -100,15 +126,41 @@ hosts["vidsrc"] = function (url, movieInfo, config, callback) { return __awaiter
                                         provider: config.provider
                                     });
                                 }
-                                return [3, 4];
-                            case 3:
+                                return [3, 8];
+                            case 5:
+                                if (!(urlEmbed.indexOf("vidsrc.stream") != -1)) return [3, 7];
+                                headerEmbed.referer = 'https://v2.vidsrc.me/';
+                                return [4, libs.request_get(urlEmbed, {
+                                        referer: 'https://v2.vidsrc.me/'
+                                    })];
+                            case 6:
+                                dataVidStream = _a.sent();
+                                source = dataVidStream.match(/sources *\: *([^\]]+)/i);
+                                source = source ? source[1] + "]" : "[]";
+                                parse = [];
+                                source = "parse = " + source;
+                                eval(source);
+                                console.log(parse, "------------ SOURCES VidStream -------------");
+                                length_1 = parse.length;
+                                for (i = 0; i < length_1; i++) {
+                                    file = parse[i].file;
+                                    console.log(parse[i], "------------ SOURCE DETAIL VidStream -------------");
+                                    callback({
+                                        file: file,
+                                        quality: 'HLS',
+                                        host: "VideStream",
+                                        provider: config.provider
+                                    });
+                                }
+                                return [3, 8];
+                            case 7:
                                 console.log(urlEmbed, '---------- urlEmbed VIDSRC ---------');
                                 host = libs.string_getHost(urlEmbed);
                                 if (hosts[host]) {
                                     hosts[host](urlEmbed, movieInfo, _.merge(config, { provider: config.provider }), callback);
                                 }
-                                _a.label = 4;
-                            case 4: return [2];
+                                _a.label = 8;
+                            case 8: return [2];
                         }
                     });
                 }); });

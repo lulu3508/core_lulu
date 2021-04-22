@@ -136,7 +136,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 console.log(embed, fileSize, host, "embed--------------------");
                                 if (!fileSize) {
                                     if (hosts[host]) {
-                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "PonyTV" }), callback);
+                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "123Movies" }), callback);
                                     }
                                 }
                                 else {
