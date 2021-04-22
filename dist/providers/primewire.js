@@ -366,27 +366,28 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 parseEpisode = cheerio.load(htmlEpisode);
                 sources = [];
                 userData = parseEpisode("#user-data").attr("v");
-                sliceUserData = userData.slice(0, 8);
-                sliceTermData = userData.slice(8);
+                sliceUserData = userData.slice(0, 9);
+                sliceTermData = userData.slice(9);
                 decodeGsk(sliceUserData, "e");
                 token = decode.d(decode.bd(sliceTermData));
                 resolve = token.match(/.{1,5}/g);
                 if (resolve) {
                     for (_i = 0, resolve_1 = resolve; _i < resolve_1.length; _i++) {
                         item = resolve_1[_i];
-                        sources.push("https://www.primewire.li/links/go/" + item);
+                        sources.push("https://www.primewire.li/links/go/" + item + "?embed=true");
                     }
                 }
-                console.log(sources, "------------ primewire SOURCES");
+                console.log(sources, resolve, userData, "------------ primewire SOURCES");
                 arrMap = sources.map(function (item) { return __awaiter(_this, void 0, void 0, function () {
                     var embed, fileSize, host;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0: return [4, libs.request_get(item, {
                                     "User-Agent": libs.request_getRandomUserAgent(),
-                                }, "url", "manual")];
+                                }, 'json')];
                             case 1:
                                 embed = _a.sent();
+                                embed = embed.link ? embed.link : '';
                                 if (!embed) return [3, 3];
                                 console.log(embed, "------------ primewire PROPER DIRECT EMBED");
                                 return [4, libs.request_getFileSize(embed)];
