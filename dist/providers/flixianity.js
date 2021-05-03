@@ -43,8 +43,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
             case 0:
                 url = "https://api.movieshd.tv/api/v1/cautare/nuxt?q=" + slugify(movieInfo.title.toLowerCase().trim(), { lower: true, replacement: "+" }) + "&limit=100&lo=0";
                 headers = {
-                    "content-type": "application/x-www-form-urlencoded",
-                    referer: "https://flixanity.app/films",
+                    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
                     authorization: "Bearer false",
                     'user-agent': libs.request_getRandomUserAgent(),
                     "x-requested-with": "XMLHttpRequest"
@@ -75,7 +74,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 }
                 console.log(link, "------------ FLIXIANTIY link ----------");
                 if (!(link != "")) return [3, 5];
-                urlDetail = "https://flixanity.app/ajax/vsozrflxcw.php";
+                urlDetail = "https://flixanity.org/ajax/vsozrflxcw.php";
                 if (movieInfo.type == "tv") {
                     link = link + "/season/" + movieInfo.season + "/episode/" + movieInfo.episode;
                 }
