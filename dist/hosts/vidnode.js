@@ -79,6 +79,9 @@ hosts["vidnode"] = function (url, movieInfo, config, callback) { return __awaite
                 sourcesEmbed = [];
                 parseVidcloud(".linkserver").each(function (keyLink, itemLink) {
                     var embed = parseVidcloud(itemLink).attr("data-video");
+                    if (_.startsWith(embed, '/')) {
+                        embed = "https:" + embed;
+                    }
                     if (embed) {
                         sourcesEmbed.push(embed);
                     }
