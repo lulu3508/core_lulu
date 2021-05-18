@@ -36,110 +36,113 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var url, resultSearch, link, _i, resultSearch_1, item, title, year, type, htmlDetail, parseDetail, iframe, htmlIframe, parseIframe_1, lengthServer, linkIframeRedirect, sourceToken_1, urlSource_1, headers_1, linkEmbeds, arrMap;
+    var domain, url, htmlSearch, parseSearch, link, searchInfos, arrMovieMap, detailHtml, parseDetailHtml, embeds, appMapEmbed;
     var _this = this;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                url = "https://putlocker123.me/typeahead/" + slugify(movieInfo.title, { lower: true, replacement: '%20', remove: /[*+~.()'"!:@]/g });
-                return [4, libs.request_get(url, {}, 'json')];
+                domain = "https://www.putlockers.cr";
+                url = domain + "/search/" + slugify(movieInfo.title, { lower: true, replacement: '%20', remove: /[*+~.()'"!:@]/g });
+                return [4, libs.request_get(url)];
             case 1:
-                resultSearch = _a.sent();
-                resultSearch = resultSearch ? resultSearch : [];
+                htmlSearch = _a.sent();
+                parseSearch = cheerio.load(htmlSearch);
                 link = "";
-                console.log(url, resultSearch, "----------- PUTLOCKER SEARCH RESULT ----------");
-                for (_i = 0, resultSearch_1 = resultSearch; _i < resultSearch_1.length; _i++) {
-                    item = resultSearch_1[_i];
-                    title = item.title;
-                    year = item.release_date;
-                    year = year.match(/([0-9]+)/i);
-                    year = year ? year[0] : 0;
-                    type = item.type;
-                    console.log(title, year, type, "----------- PUTLOCKER SEARCH INFO ----------");
-                    if (slugify(movieInfo.title, { lower: true, replacement: '+', remove: /[*+~.()'"!:@]/g }) == slugify(title, { lower: true, replacement: '+', remove: /[*+~.()'"!:@]/g })) {
-                        if (type && type.toLowerCase() == 'movie' && movieInfo.type == "movie" && year == movieInfo.year) {
-                            link = item.link;
-                            break;
-                        }
-                        if (type && type.toLowerCase() == 'series' && movieInfo.type == 'tv') {
-                            link = item.link;
-                            break;
-                        }
+                searchInfos = [];
+                console.log(url, parseSearch('.ml-mask').length, '------ PUTLOCKER-CR Search INfo ------');
+                parseSearch('.ml-mask').each(function (keySearch, itemSearch) {
+                    var title = parseSearch(itemSearch).find('.mli-info h2').text();
+                    var season = title.match(/\- *season *([0-9]+)/i);
+                    season = season ? season[1] : 0;
+                    if (season) {
+                        title = title.replace(/\- *season *[0-9]+/i, '').trim();
                     }
-                }
-                console.log(link, "----------- PUTLOCKER LINK ----------");
-                if (!link) return [3, 7];
-                if (movieInfo.type == 'tv') {
-                    link += "/seasons/" + movieInfo.season + "/episodes/" + movieInfo.episode;
-                }
-                return [4, libs.request_get(link)];
-            case 2:
-                htmlDetail = _a.sent();
-                parseDetail = cheerio.load(htmlDetail);
-                iframe = parseDetail("iframe").attr("src");
-                console.log(iframe, "----------- PUTLOCKER IFRAME DETAIL ----------");
-                if (!iframe) return [3, 7];
-                return [4, libs.request_get(iframe)];
-            case 3:
-                htmlIframe = _a.sent();
-                parseIframe_1 = cheerio.load(htmlIframe);
-                lengthServer = parseIframe_1(".server .btnt").length;
-                if (!(lengthServer === 0)) return [3, 5];
-                linkIframeRedirect = parseIframe_1("iframe").attr("src");
-                return [4, libs.request_get(linkIframeRedirect)];
-            case 4:
-                htmlIframe = _a.sent();
-                parseIframe_1 = cheerio.load(htmlIframe);
-                _a.label = 5;
-            case 5:
-                sourceToken_1 = [];
-                console.log(parseIframe_1(".server .btnt").length, "----------- PUTLOCKER SERVER LENGTH ----------");
-                parseIframe_1(".server .btnt").each(function (keyIframe, itemIframe) {
-                    var dataId = parseIframe_1(itemIframe).attr("data-id");
-                    var dataServer = parseIframe_1(itemIframe).attr("data-server");
-                    if (dataId && dataServer) {
-                        sourceToken_1.push({
-                            id: dataId,
-                            server: dataServer
-                        });
+                    var movieId = parseSearch(itemSearch).attr('data-id');
+                    console.log(title, season, movieId, '------ PUTLOCKER-CR Movie Info');
+                    if (movieId) {
+                        if (slugify(movieInfo.title, { lower: true }) == slugify(title.trim(), { lower: true })) {
+                            if (movieInfo.type == 'tv' && season == movieInfo.season) {
+                                searchInfos.push(movieId);
+                            }
+                            else {
+                                searchInfos.push(movieId);
+                            }
+                        }
                     }
                 });
-                console.log(sourceToken_1, "----------- PUTLOCKER SOURCE TOKEN ----------");
-                urlSource_1 = "https://putlocker123.me/playerv1/result.php";
-                headers_1 = {
-                    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                };
-                linkEmbeds = [];
-                arrMap = sourceToken_1.map(function (item) { return __awaiter(_this, void 0, void 0, function () {
-                    var body, resultSource, parseSource, embedSource, htmlEmbed, parseEmbed, embed, fileSize, host;
+                console.log(searchInfos, '------- PUTLOCKER_CR Search Info ------');
+                arrMovieMap = searchInfos.map(function (id) { return __awaiter(_this, void 0, void 0, function () {
+                    var urlSearchInfo, dataSearchResponse, year, href;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
-                                body = qs.stringify({
-                                    id: item.id,
-                                    server: item.server
-                                });
-                                return [4, libs.request_post(urlSource_1, headers_1, body)];
+                                urlSearchInfo = domain + "/movie_get_info/" + id;
+                                return [4, libs.request_get(urlSearchInfo, {}, 'json')];
                             case 1:
-                                resultSource = _a.sent();
-                                parseSource = cheerio.load(resultSource);
-                                embedSource = parseSource('iframe').attr('src');
-                                console.log(url, headers_1, body, embedSource, "----------- PUTLOCKER EMBED SOURCE ----------");
-                                if (!embedSource) return [3, 4];
-                                return [4, libs.request_get(embedSource)];
-                            case 2:
-                                htmlEmbed = _a.sent();
-                                parseEmbed = cheerio.load(htmlEmbed);
-                                embed = parseEmbed("iframe").attr("src");
-                                if (!embed) return [3, 4];
-                                return [4, libs.request_getFileSize(embed)];
-                            case 3:
+                                dataSearchResponse = _a.sent();
+                                year = dataSearchResponse.data ? dataSearchResponse.data.release : '';
+                                href = dataSearchResponse.data ? dataSearchResponse.data.link_url : '';
+                                console.log(dataSearchResponse, '----- PUTLOCKER DATA SEARCH RESPONSE ----');
+                                console.log(urlSearchInfo, year, href, '------- PUTLOCKER MOVIE ------');
+                                if (movieInfo.type == 'movie' && year == movieInfo.year) {
+                                    link = href;
+                                }
+                                else {
+                                    link = href;
+                                }
+                                return [2];
+                        }
+                    });
+                }); });
+                return [4, Promise.all(arrMovieMap)];
+            case 2:
+                _a.sent();
+                console.log(link, '----- PUTLOCKER-CR LINK');
+                if (!link) {
+                    return [2];
+                }
+                link = "" + domain + link;
+                return [4, libs.request_get(link)];
+            case 3:
+                detailHtml = _a.sent();
+                parseDetailHtml = cheerio.load(detailHtml);
+                embeds = [];
+                if (movieInfo.type == 'movie') {
+                    console.log(parseDetailHtml('.btn-eps').length, '----- PUTLOCKER-CR BTN EPS----- ');
+                    parseDetailHtml('.btn-eps').each(function (keyDetail, itemDetail) {
+                        var urlEmbed = parseDetailHtml(itemDetail).attr('data-file');
+                        console.log(urlEmbed, '------- PUTLOCKER-CR EMBEDS ----- ');
+                        if (urlEmbed) {
+                            embeds.push(urlEmbed);
+                        }
+                    });
+                }
+                else {
+                    console.log(parseDetailHtml('.btn-eps').length, '----- PUTLOCKER-CR BTN EPS----- ');
+                    parseDetailHtml('.btn-eps').each(function (keyDetail, itemDetail) {
+                        var episode = parseDetailHtml(itemDetail).text();
+                        episode = episode.match(/episode *([0-9]+)/i);
+                        episode = episode ? episode[1] : 0;
+                        var urlEmbed = parseDetailHtml(itemDetail).attr('data-file');
+                        console.log(episode, urlEmbed, '----- PUTLOCKER-CR EMBEDS----- ');
+                        if (urlEmbed && episode == movieInfo.episode) {
+                            embeds.push(urlEmbed);
+                        }
+                    });
+                }
+                ;
+                appMapEmbed = embeds.map(function (embed) { return __awaiter(_this, void 0, void 0, function () {
+                    var fileSize, host;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4, libs.request_getFileSize(embed)];
+                            case 1:
                                 fileSize = _a.sent();
                                 host = libs.string_getHost(embed);
                                 console.log(embed, fileSize, host, "embed--------------------");
-                                if (fileSize == 0) {
+                                if (!fileSize) {
                                     if (hosts[host]) {
-                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "Putlocker" }), callback);
+                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "PUTLOCKER-CR" }), callback);
                                     }
                                 }
                                 else {
@@ -147,19 +150,17 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                         file: embed,
                                         size: fileSize,
                                         host: host.toUpperCase(),
-                                        provider: "Putlocker"
+                                        provider: "PUTLOCKER-CR"
                                     });
                                 }
-                                _a.label = 4;
-                            case 4: return [2];
+                                return [2];
                         }
                     });
                 }); });
-                return [4, Promise.all(arrMap)];
-            case 6:
+                return [4, Promise.all(appMapEmbed)];
+            case 4:
                 _a.sent();
-                _a.label = 7;
-            case 7: return [2];
+                return [2];
         }
     });
 }); };
