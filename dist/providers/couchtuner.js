@@ -41,6 +41,16 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                String.prototype.asdqew = function (key) {
+                    if (key === void 0) { key = 123; }
+                    var b = "";
+                    for (var i = 0; i < this.length;) {
+                        for (var j = 0; (j < key.toString().length && i < this.length); j++, i++) {
+                            b += String.fromCharCode(this[i].charCodeAt(0) ^ key.toString()[j].charCodeAt(0));
+                        }
+                    }
+                    return b;
+                };
                 urlSearch = "";
                 if (movieInfo.type == "movie") {
                     urlSearch = "https://ww1.couchtuner.space/search/" + slugify(movieInfo.title, { lower: true, replacement: '+', remove: /[*+~.()'"!:@]/g }) + "/movies";
@@ -137,9 +147,10 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                         switch (_a.label) {
                             case 0:
                                 urlAjaxServer = linkDetail_1 + "?server=" + server;
-                                return [4, libs.request_get(urlAjaxServer, headers, 'json')];
+                                return [4, libs.request_get(urlAjaxServer, headers)];
                             case 1:
                                 resultSearch = _a.sent();
+                                resultSearch = JSON.parse(atob(resultSearch).asdqew());
                                 console.log(resultSearch, "------------ COUCHTUNER AJAX RESULT SERVER -------");
                                 arrMapSource = resultSearch.map(function (itemSource) { return __awaiter(_this, void 0, void 0, function () {
                                     var embed, host, fileSize;
