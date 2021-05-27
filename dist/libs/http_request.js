@@ -158,7 +158,7 @@ libs.request_head = function (url, headers, isMap) {
                     return [4, fetch(url, {
                             credentials: 'same-origin',
                             headers: headers,
-                            method: "HEAD"
+                            method: "HEAD",
                         })];
                 case 1:
                     res = _a.sent();
@@ -181,35 +181,31 @@ libs.request_get = function (url, headers, type, redirect) {
     if (type === void 0) { type = ""; }
     if (redirect === void 0) { redirect = "follow"; }
     return __awaiter(_this, void 0, void 0, function () {
-        var res, e_2;
+        var headerCustomize, res, e_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 7, , 8]);
-                    return [4, fetch(url, { headers: headers, redirect: redirect })];
+                    _a.trys.push([0, 5, , 6]);
+                    headerCustomize = headers;
+                    headerCustomize['user-agent'] = libs.request_getRandomUserAgent();
+                    return [4, fetch(url, { headers: headerCustomize, redirect: redirect })];
                 case 1:
                     res = _a.sent();
                     if (!(type === "" || type === "html")) return [3, 3];
                     return [4, res.text()];
                 case 2: return [2, _a.sent()];
                 case 3:
-                    if (!(res.status !== 200)) return [3, 5];
-                    return [4, libs.send_tracking(url, res.status, 'GET')];
-                case 4:
-                    _a.sent();
-                    _a.label = 5;
-                case 5:
                     if (type === "url") {
                         console.log(res, "----------- RES ---------");
                         return [2, res.url];
                     }
                     return [4, res.json()];
-                case 6: return [2, _a.sent()];
-                case 7:
+                case 4: return [2, _a.sent()];
+                case 5:
                     e_2 = _a.sent();
                     console.log("error_request_get", e_2);
                     return [2, ""];
-                case 8: return [2];
+                case 6: return [2];
             }
         });
     });
@@ -254,13 +250,15 @@ libs.request_post = function (url, headers, body, type) {
     if (headers === void 0) { headers = {}; }
     if (type === void 0) { type = ""; }
     return __awaiter(_this, void 0, void 0, function () {
-        var res, e_4;
+        var headerCustomize, res, e_4;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 7, , 8]);
+                    headerCustomize = headers;
+                    headerCustomize['user-agent'] = libs.request_getRandomUserAgent();
                     return [4, fetch(url, {
-                            headers: headers,
+                            headers: headerCustomize,
                             method: "POST",
                             body: body
                         })];
