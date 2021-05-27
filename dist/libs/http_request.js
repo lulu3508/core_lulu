@@ -150,14 +150,16 @@ libs.request_head = function (url, headers, isMap) {
     if (headers === void 0) { headers = {}; }
     if (isMap === void 0) { isMap = true; }
     return __awaiter(_this, void 0, void 0, function () {
-        var res, headerResponse, e_1;
+        var headerCustomize, res, headerResponse, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
+                    headerCustomize = headers;
+                    headerCustomize['user-agent'] = libs.request_getRandomUserAgent();
                     return [4, fetch(url, {
                             credentials: 'same-origin',
-                            headers: headers,
+                            headers: headerCustomize,
                             method: "HEAD",
                         })];
                 case 1:
@@ -397,13 +399,15 @@ libs.request_getFileSize = function (url, headers) {
     if (url === void 0) { url = ""; }
     if (headers === void 0) { headers = {}; }
     return __awaiter(_this, void 0, void 0, function () {
-        var res, headerResponse, contentLength, e_5;
+        var headerCustomize, res, headerResponse, contentLength, e_5;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
+                    headerCustomize = headers;
+                    headerCustomize['user-agent'] = libs.request_getRandomUserAgent();
                     return [4, fetch(url, {
-                            headers: headers,
+                            headers: headerCustomize,
                             method: "HEAD"
                         })];
                 case 1:
