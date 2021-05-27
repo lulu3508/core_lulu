@@ -220,7 +220,7 @@ libs.request_put = function (url, headers, body, type) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 7, , 8]);
+                    _a.trys.push([0, 5, , 6]);
                     return [4, fetch(url, {
                             headers: headers,
                             method: "PUT",
@@ -228,22 +228,16 @@ libs.request_put = function (url, headers, body, type) {
                         })];
                 case 1:
                     res = _a.sent();
-                    if (!(res.status !== 200)) return [3, 3];
-                    return [4, libs.send_tracking(url, res.status, 'PUT')];
-                case 2:
-                    _a.sent();
-                    _a.label = 3;
-                case 3:
-                    if (!(type === "" || type === "html")) return [3, 5];
+                    if (!(type === "" || type === "html")) return [3, 3];
                     return [4, res.text()];
+                case 2: return [2, _a.sent()];
+                case 3: return [4, res.json()];
                 case 4: return [2, _a.sent()];
-                case 5: return [4, res.json()];
-                case 6: return [2, _a.sent()];
-                case 7:
+                case 5:
                     e_3 = _a.sent();
                     console.log("error_request_post", e_3);
                     return [2, ""];
-                case 8: return [2];
+                case 6: return [2];
             }
         });
     });
@@ -256,7 +250,7 @@ libs.request_post = function (url, headers, body, type) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 7, , 8]);
+                    _a.trys.push([0, 5, , 6]);
                     headerCustomize = headers;
                     headerCustomize['user-agent'] = libs.request_getRandomUserAgent();
                     return [4, fetch(url, {
@@ -266,22 +260,16 @@ libs.request_post = function (url, headers, body, type) {
                         })];
                 case 1:
                     res = _a.sent();
-                    if (!(res.status !== 200)) return [3, 3];
-                    return [4, libs.send_tracking(url, res.status, 'POST')];
-                case 2:
-                    _a.sent();
-                    _a.label = 3;
-                case 3:
-                    if (!(type === "" || type === "html")) return [3, 5];
+                    if (!(type === "" || type === "html")) return [3, 3];
                     return [4, res.text()];
+                case 2: return [2, _a.sent()];
+                case 3: return [4, res.json()];
                 case 4: return [2, _a.sent()];
-                case 5: return [4, res.json()];
-                case 6: return [2, _a.sent()];
-                case 7:
+                case 5:
                     e_4 = _a.sent();
                     console.log("error_request_post", e_4);
                     return [2, ""];
-                case 8: return [2];
+                case 6: return [2];
             }
         });
     });
