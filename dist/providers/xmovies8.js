@@ -36,78 +36,132 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 source.getResource = function (movieInfo, config, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var url, parseSearch, link, parseDetail_1, linkServers_1, episodeId_1, arrMap;
+    var domain, htmlHome, siteHash, domainSearch, resultSearch, link, hash, _i, _a, searchItem, title, season, year, hashMovie, href, detailTv, parseDetail_1, detailHtml, episodeHash, embeds, urlEmbed, resultEmbeds, arrMap, arrMapEmbed;
     var _this = this;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                url = "https://xmovies8.si/movie/search/" + slugify(movieInfo.title, { lower: true, replacement: "+" });
-                return [4, libs.request_getcaptcha(url, {}, "cheerio", "sources_clouflare")];
+                domain = "https://xmovies8.pw";
+                return [4, libs.request_get(domain)];
             case 1:
-                parseSearch = _a.sent();
-                link = "";
-                console.log(parseSearch(".ml-item").length, '---------- XMOVIES8 LENGTH SEARCH ----------');
-                parseSearch(".ml-item").each(function (keySearch, itemSearch) {
-                    var title = parseSearch(itemSearch).find(".movie_item_title").text();
-                    var href = parseSearch(itemSearch).find(".ml-mask.jt").attr("href");
-                    var year = title.match(/\( *([0-9]+)/i);
-                    year = year ? year[1] : 0;
-                    title = title.replace(/\( *[0-9]+ *\)/i, "").trim();
-                    var season = title.toLowerCase().match(/\- *season *([0-9]+)/i);
-                    season = season ? season[1] : 0;
-                    title = title.replacement().replace(/\- *season *[0-9]+/i, "").trim();
-                    var episode = parseSearch(itemSearch).find(".mli-eps i").text();
-                    console.log(title, href, year, season, episode, "----------- XMOVIES8 INFO SEARCH -----------");
-                    if (slugify(movieInfo.title, { lower: true }) == slugify(title.trim(), { lower: true })) {
-                        if (movieInfo.type == "movie" && year == movieInfo.year) {
-                            link = href;
-                        }
-                        if (movieInfo.type == "tv" && season == movieInfo.season && episode == movieInfo.episode) {
-                            link = href;
-                        }
-                    }
-                });
-                console.log(link, "--------------- XMOVIES8 LINK ----------");
-                if (!(link != "")) return [3, 4];
-                link = link.replace(".html", "/watching.html");
-                return [4, libs.request_getcaptcha(link, {}, "cheerio", "sources_clouflare")];
+                htmlHome = _b.sent();
+                siteHash = htmlHome.match(/siteHash *\" *\: *\"([^\"]+)/i);
+                siteHash = siteHash ? siteHash[1] : '';
+                console.log(siteHash, '--------------- XMOVIES8 Sitehash');
+                if (!siteHash) {
+                    return [2];
+                }
+                domainSearch = "https://api-v2.xmovies8.pw/search-suggest?keyword=" + slugify(movieInfo.title, { lower: true, replacement: '%20', remove: /[*+~.()'"!:@]/g }) + "&site=" + siteHash;
+                return [4, libs.request_get(domainSearch, {}, 'json')];
             case 2:
-                parseDetail_1 = _a.sent();
-                linkServers_1 = [];
-                episodeId_1 = parseDetail_1("input[name=episode_id]").val();
-                console.log(episodeId_1, parseDetail_1(".player_option_container select option").length, "--------- XMOVIES8 LENGTH EMBED ----------");
-                parseDetail_1(".player_option_container select option").each(function (keyDetail, itemDetail) {
-                    var nameServer = parseDetail_1(itemDetail).text();
-                    if (nameServer) {
-                        linkServers_1.push(nameServer.toLowerCase());
+                resultSearch = _b.sent();
+                console.log(domainSearch, resultSearch, '--------------- XMOVIES8 Search Info');
+                if (!resultSearch || resultSearch.status != 'ok' || !resultSearch.contents) {
+                    return [2];
+                }
+                link = "";
+                hash = "";
+                for (_i = 0, _a = resultSearch.contents; _i < _a.length; _i++) {
+                    searchItem = _a[_i];
+                    title = searchItem.name;
+                    season = title.match(/\- *season *([0-9]+)/i);
+                    season = season ? season[1] : 0;
+                    title = title.replace(/\- *season *[0-9]+/i, '');
+                    year = searchItem.released;
+                    year = year.match(/([0-9]+)/i);
+                    year = year ? year[1] : 0;
+                    hashMovie = searchItem.hash;
+                    href = domain + "/watch/" + hashMovie + "/" + searchItem.slug + "/watch-free.html";
+                    console.log(title, season, title, year, hashMovie, href, '--------------- XMOVIES8 MovieInfo');
+                    if (slugify(movieInfo.title, { lower: true }) == slugify(title.trim(), { lower: true })) {
+                        if (!season && movieInfo.type == 'movie' && year == movieInfo.year) {
+                            link = href;
+                            hash = hashMovie;
+                            break;
+                        }
+                        else if (season && movieInfo.type == 'tv' && season == movieInfo.season) {
+                            link = href;
+                            hash = hashMovie;
+                            break;
+                        }
+                    }
+                }
+                console.log(link, '--------------- XMOVIES8 link');
+                if (!link) {
+                    return [2];
+                }
+                if (!(movieInfo.type == 'tv')) return [3, 4];
+                return [4, libs.request_get(link)];
+            case 3:
+                detailTv = _b.sent();
+                parseDetail_1 = cheerio.load(detailTv);
+                console.log(parseDetail_1(".MuiButtonBase-root.MuiButton-root.MuiButton-outlined").length, "------------ XMOVIES8 TV LENGTH");
+                parseDetail_1(".MuiButtonBase-root.MuiButton-root.MuiButton-outlined").each(function (keyItem, valueItem) {
+                    var titleTv = parseDetail_1(valueItem).attr("title");
+                    if (titleTv) {
+                        var episode = titleTv.match(/episode *([0-9]+)/i);
+                        var linkTv = parseDetail_1(valueItem).attr("href");
+                        console.log(titleTv, episode, linkTv, '--------------- XMOVIES8 TvInfo');
+                        if (episode == movieInfo.episode && linkTv) {
+                            link = "" + domain + linkTv;
+                        }
                     }
                 });
-                console.log(linkServers_1, "--------- XMOVIES8 LINK SERVER ----------");
-                arrMap = linkServers_1.map(function (server) { return __awaiter(_this, void 0, void 0, function () {
-                    var urlAjax, result, embed, fileSize, host;
+                _b.label = 4;
+            case 4:
+                console.log(link, '--------------- XMOVIES8 linkEnd');
+                return [4, libs.request_get(link)];
+            case 5:
+                detailHtml = _b.sent();
+                episodeHash = detailHtml.match(/episode_hash *\" *\: *\"([^\"]+)/i);
+                episodeHash = episodeHash ? episodeHash[1] : '';
+                console.log(episodeHash, '--------------- XMOVIES8 episodeHash');
+                if (!episodeHash) {
+                    return [2];
+                }
+                embeds = [];
+                urlEmbed = "https://api-v2.xmovies8.pw/contents/" + hash + "/episodes/" + episodeHash + "/embeds?site=" + siteHash;
+                return [4, libs.request_get(urlEmbed, {}, 'json')];
+            case 6:
+                resultEmbeds = _b.sent();
+                console.log(urlEmbed, resultEmbeds, '--------------- XMOVIES8 ResultEmbed');
+                if (!resultEmbeds || resultEmbeds.status != 'ok' || !resultEmbeds.embeds) {
+                    return [2];
+                }
+                arrMap = resultEmbeds.embeds.map(function (embedItem) { return __awaiter(_this, void 0, void 0, function () {
+                    var hashEmbed, urlDetailEmbed, resultDetailEmbed;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
-                                urlAjax = "https://xmovies8.si/ajax/v4_get_sources?s=" + server + "&id=" + episodeId_1;
-                                return [4, libs.request_get(urlAjax, {
-                                        referer: link,
-                                        "user-agent": libs.request_getRandomUserAgent()
-                                    }, "json")];
+                                hashEmbed = embedItem.hash;
+                                urlDetailEmbed = "https://api-v2.xmovies8.pw/contents/" + hash + "/episodes/" + episodeHash + "/embeds/" + hashEmbed + "?site=" + siteHash;
+                                return [4, libs.request_get(urlDetailEmbed, {}, 'json')];
                             case 1:
-                                result = _a.sent();
-                                embed = result.value;
-                                if (!embed) return [3, 3];
-                                if (embed.indexOf("https://") == -1 && embed.indexOf("http://") == -1) {
-                                    embed = embed.replace("//", "https://");
+                                resultDetailEmbed = _a.sent();
+                                console.log(urlDetailEmbed, resultDetailEmbed, '--------------- XMOVIES8 EmbedFilm');
+                                if (resultDetailEmbed.url) {
+                                    embeds.push(resultDetailEmbed.url);
                                 }
-                                return [4, libs.request_getFileSize(embed)];
-                            case 2:
+                                return [2];
+                        }
+                    });
+                }); });
+                return [4, Promise.all(arrMap)];
+            case 7:
+                _b.sent();
+                console.log(embeds, '--------------- XMOVIES8 Embeds');
+                arrMapEmbed = embeds.map(function (embed) { return __awaiter(_this, void 0, void 0, function () {
+                    var fileSize, host;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4, libs.request_getFileSize(embed)];
+                            case 1:
                                 fileSize = _a.sent();
                                 host = libs.string_getHost(embed);
                                 console.log(embed, fileSize, host, "embed--------------------");
-                                if (fileSize == 0) {
+                                if (!fileSize) {
                                     if (hosts[host]) {
-                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "XMovies", urlDetail: link }), callback);
+                                        hosts[host](embed, movieInfo, _.merge(config, { provider: "XMovies" }), callback);
                                     }
                                 }
                                 else {
@@ -118,16 +172,14 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                         provider: "XMovies"
                                     });
                                 }
-                                _a.label = 3;
-                            case 3: return [2];
+                                return [2];
                         }
                     });
                 }); });
-                return [4, Promise.all(arrMap)];
-            case 3:
-                _a.sent();
-                _a.label = 4;
-            case 4: return [2];
+                return [4, Promise.all(arrMapEmbed)];
+            case 8:
+                _b.sent();
+                return [2];
         }
     });
 }); };
