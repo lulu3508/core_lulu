@@ -41,7 +41,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                domain = "https://ww1.putlocker.vip";
+                domain = "https://ww4.putlocker.vip";
                 urlSearch = domain + "/movie/search/" + slugify(movieInfo.title, { lower: true, replacement: '+' });
                 console.log(urlSearch, "-------- PUTLOCKER URLSEARCH ---------");
                 return [4, libs.request_get(urlSearch)];
