@@ -1,8 +1,6 @@
 {
 	"providers": [
         "dist/providers/xmovies8.js",
-		"dist/providers/them4ufree.js",
-        "dist/providers/topnow.js",
         "dist/providers/123moviesfull.js",
         "dist/providers/openloadmovies.js",
         "dist/providers/top123movieslive.js",
@@ -11,7 +9,6 @@
         "dist/providers/solarmovies.js",
         "dist/providers/srsone.js",
         "dist/providers/miradetodo.js",
-        "dist/providers/flixianity.js",
         "dist/providers/couchtuner.js",
         "dist/providers/watchepisodes4.js",
         "dist/providers/primewire.js",
