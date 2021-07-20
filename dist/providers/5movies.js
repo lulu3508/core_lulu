@@ -51,6 +51,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 console.log(parseSearch(".ml-item").length, "-------- 5MOVIES SEARCH INFO -------");
                 parseSearch(".ml-item").each(function (keySearch, itemSearch) {
                     var title = parseSearch(itemSearch).find(".mli-info h2").text();
+                    title = title.replace(/\( *[0-9]+ *\)/i, '').trim();
                     var season = title.toLowerCase().match(/\- *season *([0-9]+)/i);
                     season = season ? season[1] : 0;
                     title = title.toLowerCase().replace(/\- *season [0-9]+/i, "").trim();
@@ -130,7 +131,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                 _a.sent();
                 console.log(embeds, "-------- 5MOVIES EMBEDS -------");
                 arrHost = embeds.map(function (urlHost) { return __awaiter(_this, void 0, void 0, function () {
-                    var fileSize, host, html, source, parse, length_1, i, file, fileSize_1;
+                    var fileSize, host, html, source, parse, length_1, i, file, quality;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0: return [4, libs.request_getFileSize(urlHost)];
@@ -138,7 +139,7 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 fileSize = _a.sent();
                                 host = libs.string_getHost(urlHost);
                                 console.log(urlHost, fileSize, host, "embed.u--------------------");
-                                if (!(host.indexOf('stream365') != -1)) return [3, 6];
+                                if (!(host.indexOf('stream365') != -1)) return [3, 3];
                                 return [4, libs.request_get(urlHost, {
                                         Referer: domain
                                     }, "html")];
@@ -149,30 +150,21 @@ source.getResource = function (movieInfo, config, callback) { return __awaiter(_
                                 parse = [];
                                 source = "parse = " + source;
                                 eval(source);
-                                console.log(parse, "------------ SOURCES STREAM 5MOVIES -------------");
+                                console.log(parse, urlHost, "------------ SOURCES STREAM 5MOVIES -------------");
                                 length_1 = parse.length;
-                                i = 0;
-                                _a.label = 3;
-                            case 3:
-                                if (!(i < length_1)) return [3, 6];
-                                file = parse[i].file;
-                                console.log(parse[i], "------------ SOURCE DETAIL STREAM 5MOVIES -------------");
-                                return [4, libs.request_getFileSize(file)];
-                            case 4:
-                                fileSize_1 = _a.sent();
-                                if (fileSize_1 > 0) {
+                                for (i = 0; i < length_1; i++) {
+                                    file = parse[i].file;
+                                    quality = parse[i].label;
+                                    console.log(parse[i], "------------ SOURCE DETAIL STREAM 5MOVIES -------------");
                                     callback({
                                         file: file,
-                                        size: fileSize_1,
-                                        host: libs.string_getHost(file),
-                                        provider: "5Movies"
+                                        host: 'Stream365',
+                                        provider: "5Movies",
+                                        quality: quality,
                                     });
                                 }
-                                _a.label = 5;
-                            case 5:
-                                i++;
-                                return [3, 3];
-                            case 6:
+                                _a.label = 3;
+                            case 3:
                                 if (fileSize == 0) {
                                     if (hosts[host]) {
                                         hosts[host](urlHost, movieInfo, _.merge(config, { provider: "5Movies", urlDetail: link }), callback);
