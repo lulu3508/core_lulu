@@ -1,6 +1,7 @@
 {
 	"providers": [
-        "dist/providers/xmovies8.js",
+        "dist/providers/losmovie.js",
+		"dist/providers/xmovies8.js",
         "dist/providers/123moviesfull.js",
         "dist/providers/openloadmovies.js",
         "dist/providers/top123movieslive.js",
