@@ -1,5 +1,6 @@
 {
 	"providers": [
+		"dist/providers/ronemo.js",
         "dist/providers/losmovie.js",
 		"dist/providers/xmovies8.js",
         "dist/providers/123moviesfull.js",
